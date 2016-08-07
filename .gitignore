@@ -6,6 +6,8 @@
 *.user
 /obj
 /bin
+/pkg
+/pkgobj
 /packages
 /Scripts/App.js
 /Scripts/App.js.map

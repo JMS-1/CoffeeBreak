@@ -12,13 +12,14 @@ module CoffeeBreak {
         }
 
         private startup(): void {
-            var context = SP.ClientContext.get_current();
-            var user = context.get_web().get_currentUser();
+            var context = JMS.SharePoint.Context;
 
-            context.load(user);
-            context.executeQueryAsync(
-                () => $('#message').text('Hello ' + user.get_title()),
-                (s, a) => alert('Failed to get user name. Error:' + a.get_message()));
+            context
+                .loadUser()
+                .success(user => $('#message').text(`Hello ${user.get_title()}`))
+                .failure(msg => alert(`Failed to get user name. Error: ${msg}`));
+
+            context.execute();
         }
     }
 
