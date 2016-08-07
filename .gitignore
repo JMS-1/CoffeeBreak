@@ -9,5 +9,5 @@
 /packages
 /Scripts/App.js
 /Scripts/App.js.map
-/src/**.js
+/src/**/*.js
 /CoffeeBreak.sln.openAsAdmin
