@@ -3,3 +3,11 @@
 ################################################################################
 
 *.suo
+*.user
+/obj
+/bin
+/packages
+/Scripts/App.js
+/Scripts/App.js.map
+/src/**.js
+/CoffeeBreak.sln.openAsAdmin

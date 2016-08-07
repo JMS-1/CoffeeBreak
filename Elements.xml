@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <Module Name="RootModule">
+    <File Path="src\App.ts" Url="src/App.ts" ReplaceContent="TRUE" />
+    <File Path="src\sp\Context.ts" Url="src/sp/Context.ts" ReplaceContent="TRUE" />
+  </Module>
+</Elements>
