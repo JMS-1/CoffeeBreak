@@ -150,7 +150,7 @@
     <TypeScriptCompile Include="src\App.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
-    <TypeScriptCompile Include="src\sp\Context.ts" />
+    <TypeScriptCompile Include="src\sp\ExecutionContext.ts" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

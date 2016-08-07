@@ -1,19 +1,19 @@
 ﻿'use strict';
 
 module JMS.SharePoint {
-    export interface IPromise<TResponseType> {
-        success(callback: (response: TResponseType) => void): IPromise<TResponseType>;
+    export interface IExecutionResult<TResponseType> {
+        success(callback: (response: TResponseType) => void): IExecutionResult<TResponseType>;
 
-        failure(callback: (message: string) => void): IPromise<TResponseType>;
+        failure(callback: (message: string) => void): IExecutionResult<TResponseType>;
     }
 
-    export interface IContext {
-        loadUser(): IPromise<SP.User>;
+    export interface IExecutionContext {
+        user(): IExecutionResult<SP.User>;
 
-        execute(): void;
+        startAsync(): void;
     }
 
-    class SomePromise<TResponseType> implements IPromise<TResponseType> {
+    class ExecutionResult<TResponseType> implements IExecutionResult<TResponseType> {
         private _success: (response: TResponseType) => void;
 
         private _failure: (message: string) => void;
@@ -21,13 +21,13 @@ module JMS.SharePoint {
         constructor(private _response: TResponseType) {
         }
 
-        success(callback: (response: TResponseType) => void): IPromise<TResponseType> {
+        success(callback: (response: TResponseType) => void): IExecutionResult<TResponseType> {
             this._success = callback;
 
             return this;
         }
 
-        failure(callback: (message: string) => void): IPromise<TResponseType> {
+        failure(callback: (message: string) => void): IExecutionResult<TResponseType> {
             this._failure = callback;
 
             return this;
@@ -44,25 +44,25 @@ module JMS.SharePoint {
         }
     }
 
-    class TheContext implements IContext {
-        private promises: SomePromise<any>[] = [];
+    class ExecutionContext implements IExecutionContext {
+        private promises: ExecutionResult<any>[] = [];
 
-        loadUser(): IPromise<SP.User> {
+        user(): IExecutionResult<SP.User> {
             var context = SP.ClientContext.get_current();
             var user = context.get_web().get_currentUser();
 
             context.load(user);
 
-            return this.addPromise(new SomePromise<SP.User>(user));
+            return this.addPromise(new ExecutionResult<SP.User>(user));
         }
 
-        private addPromise<TResponseType>(promise: SomePromise<TResponseType>): SomePromise<TResponseType> {
+        private addPromise<TResponseType>(promise: ExecutionResult<TResponseType>): ExecutionResult<TResponseType> {
             this.promises.push(promise);
 
             return promise;
         }
 
-        execute(): void {
+        startAsync(): void {
             var context = SP.ClientContext.get_current();
 
             context.executeQueryAsync((s, a) => this.onSuccess(a), (s, a) => this.onFailure(a));
@@ -79,5 +79,7 @@ module JMS.SharePoint {
         }
     }
 
-    export var Context: IContext = new TheContext();
+    export function newExecutor(): IExecutionContext {
+        return new ExecutionContext();
+    }
 }

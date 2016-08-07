@@ -12,14 +12,14 @@ module CoffeeBreak {
         }
 
         private startup(): void {
-            var context = JMS.SharePoint.Context;
+            var executor = JMS.SharePoint.newExecutor();
 
-            context
-                .loadUser()
+            executor
+                .user()
                 .success(user => $('#message').text(`Hello ${user.get_title()}`))
                 .failure(msg => alert(`Failed to get user name. Error: ${msg}`));
 
-            context.execute();
+            executor.startAsync();
         }
     }
 
