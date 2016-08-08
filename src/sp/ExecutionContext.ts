@@ -24,10 +24,6 @@ module JMS.SharePoint {
     }
 
     export interface ISerializable {
-        listName: string;
-
-        contentTypeId: string;
-
         saveTo(item: SP.ListItem): void;
     }
 
@@ -96,9 +92,10 @@ module JMS.SharePoint {
         }
 
         createItem<TModelType extends ISerializable>(data: TModelType): IExecutionResult<SP.ListItem> {
-            var newItem = ExecutionContext.web().get_lists().getByTitle(data.listName).addItem(new SP.ListItemCreationInformation());
+            var dataStatic = Object.getPrototypeOf(data).constructor;                   
+            var newItem = ExecutionContext.web().get_lists().getByTitle(dataStatic.listName).addItem(new SP.ListItemCreationInformation());
 
-            newItem.set_item('ContentTypeId', data.contentTypeId);
+            newItem.set_item('ContentTypeId', dataStatic.contentTypeId);
 
             data.saveTo(newItem);
 

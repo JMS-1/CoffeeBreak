@@ -1,9 +1,11 @@
-﻿module CoffeeBreak {
+﻿/// <reference path="Constants.ts" />
+
+module CoffeeBreak {
 
     export class CoffeeType implements JMS.SharePoint.ISerializable {
-        listName = Constants.listNames.coffeeTypes;
+        static listName = Constants.listNames.coffeeTypes;
 
-        contentTypeId = Constants.contentTypeIds.coffeeTypes;
+        static contentTypeId = Constants.contentTypeIds.coffeeTypes;
 
         company: string;
 
