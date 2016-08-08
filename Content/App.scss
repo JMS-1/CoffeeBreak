@@ -1,5 +1,10 @@
-﻿.theApplication{
-    background: beige;   
-    color:black;
+﻿.coffeeBreakApp {
+    background: beige;
+    color: black;
     padding: 10px;
+
+    label > span:first-child {
+        display: inline-block;
+        width: 6rem;
+    }
 }
