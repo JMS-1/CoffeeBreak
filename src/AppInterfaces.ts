@@ -4,6 +4,12 @@ module CoffeeBreak {
 
     export interface IView {
         viewName(): string;
+
+        connect(html: JQuery): void;
+    }
+
+    export interface IController {
+        onConnect(): void;
     }
 
     export interface IViewFactory {

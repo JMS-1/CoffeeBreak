@@ -209,9 +209,10 @@
     <TypeScriptCompile Include="src\CoffeeType.ts" />
     <TypeScriptCompile Include="src\Constants.ts" />
     <TypeScriptCompile Include="src\controller\Controller.ts" />
-    <TypeScriptCompile Include="src\controller\CreateViewController.ts" />
+    <TypeScriptCompile Include="src\controller\CreateTypeController.ts" />
     <TypeScriptCompile Include="src\views\CreateTypeView.ts" />
     <TypeScriptCompile Include="src\sp\ExecutionContext.ts" />
+    <TypeScriptCompile Include="src\views\View.ts" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

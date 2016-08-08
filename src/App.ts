@@ -19,7 +19,7 @@ module CoffeeBreak {
             var view = new factory();
 
             $.get(`../views/${view.viewName()}.html`, (html: string) => {
-                var ui = this._spa.html(html);
+                view.connect(this._spa.html(html));
             });
         }
     }

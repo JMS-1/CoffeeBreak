@@ -2,10 +2,10 @@
 
 module CoffeeBreak {
 
-    export abstract class Controller<TViewType extends IView> {
-        private _model = new CoffeeType();
-
-        constructor(protected view: TViewType) {
+    export abstract class Controller<TViewInterface> implements IController {
+        constructor(protected view: TViewInterface) {
         }
+
+        abstract onConnect(): void;
     }
 }
