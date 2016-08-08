@@ -13,9 +13,8 @@ module CoffeeBreak {
             var executor = JMS.SharePoint.newExecutor();
 
             executor
-                .user()
-                .success(r => $('#message').text(`Loaded`))
-                .failure(msg => alert(`Failed to get user name. Error: ${msg}`));
+                .list(Constants.listNameTypes)
+                .success(r => $('#message').text(`Loaded`));
 
             executor.startAsync();
         }

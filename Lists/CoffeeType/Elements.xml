@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <!-- Parent ContentType: Picture (0x010102) -->
+  <ContentType ID="0x01010200A2400A551B854B8D997D4D06F8B7DA16" Name="CoffeeType" Group="Custom Content Types" Description="Eine Art von Kaffee" Inherits="TRUE" Version="0">
+    <FieldRefs>
+      <FieldRef ID="{ac07c5a7-68fa-4b97-aec9-3e8b9160aa84}" DisplayName="With Coffein" Required="TRUE" Name="WithCoffein" />
+      <FieldRef ID="{475c2610-c157-4b91-9e2d-6855031b3538}" DisplayName="$Resources:core,Full_Name;" Required="TRUE" Name="FullName" />
+    </FieldRefs>
+  </ContentType>
+</Elements>
