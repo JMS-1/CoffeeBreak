@@ -69,6 +69,7 @@
     <TypeScriptSourceRoot />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="views\createType.html" />
     <None Include="Lists\CoffeeTypes\CoffeeTypesInstance\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{b6c10629-5990-484e-86b7-6041a464888b}</SharePointProjectItemId>
     </None>
@@ -158,8 +159,10 @@
     <TypeScriptCompile Include="src\App.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\AppInterfaces.ts" />
     <TypeScriptCompile Include="src\CoffeeType.ts" />
     <TypeScriptCompile Include="src\Constants.ts" />
+    <TypeScriptCompile Include="src\CreateTypeView.ts" />
     <TypeScriptCompile Include="src\sp\ExecutionContext.ts" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

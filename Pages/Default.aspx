@@ -29,11 +29,8 @@
 
     <a href="../Lists/CoffeeTypes" target="_blank">Arten</a>
 
-    <div>
-        <p id="message">
-            <!-- The following content will be replaced with the user name when you run the app - see App.js -->
-            initializing...
-        </p>
+    <div id="spaContainer">
+        (Bitte einen Moment Geduld)
     </div>
 
 </asp:Content>

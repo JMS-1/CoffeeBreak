@@ -1,5 +1,7 @@
 ﻿/// <reference path="Constants.ts" />
 
+'use strict';
+
 module CoffeeBreak {
 
     export class CoffeeType implements JMS.SharePoint.ISerializable {

@@ -1,29 +1,29 @@
 ﻿'use strict';
 
 module CoffeeBreak {
-    export interface IApplication {
-    }
 
     class TheApplication implements IApplication {
         constructor() {
             ExecuteOrDelayUntilScriptLoaded(() => $(() => this.startup()), "sp.js");
         }
 
+        private _spa: JQuery;
+
         private startup(): void {
-            var executor = JMS.SharePoint.newExecutor();
+            this._spa = $(`#spaContainer`);
 
-            var type = new CoffeeType();
-            type.company = 'Senseo';
-            type.name = 'Guten Morgen';
-            type.coffein = true;
+            this.loadView(CreateTypeView);
+        }
 
-            executor
-                .createItem(type)
-                .success(r => $('#message').text(`Loaded`));
+        loadView<TViewType>(factory: IViewFactory): void {
+            var view = new factory();
 
-            executor.startAsync();
+            $.get(`../views/${view.viewName()}.html`, (html: string) => {
+                var ui = this._spa.html(html);
+            });
         }
     }
 
     export var App: IApplication = new TheApplication();
+
 }
