@@ -4,63 +4,94 @@
     <ContentTypes>
 
 
-      
-      
-      
-      
-    <ContentType ID="0x01010200A2400A551B854B8D997D4D06F8B7DA16" Name="CoffeeType" Group="Custom Content Types" Description="Eine Art von Kaffee" Inherits="TRUE" Version="0">
-        <FieldRefs><FieldRef ID="{ac07c5a7-68fa-4b97-aec9-3e8b9160aa84}" DisplayName="With Coffein" Required="TRUE" Name="WithCoffein" /><FieldRef ID="{475c2610-c157-4b91-9e2d-6855031b3538}" DisplayName="$Resources:core,Full_Name;" Required="TRUE" Name="FullName" /></FieldRefs>
-      </ContentType><ContentType ID="0x0100befa86d12ef84ca88153ba41d6450eeb" Name="ListFieldsContentType">
+
+
+
+
+      <ContentType ID="0x01010200A2400A551B854B8D997D4D06F8B7DA16" Name="CoffeeType" Group="Custom Content Types" Description="Eine Art von Kaffee" Inherits="TRUE" Version="0">
         <FieldRefs>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-        <FieldRef ID="{ac07c5a7-68fa-4b97-aec9-3e8b9160aa84}" Name="WithCoffein" /><FieldRef ID="{5f47e085-2150-41dc-b661-442f3027f552}" Name="SelectFilename" /><FieldRef ID="{822c78e3-1ea9-4943-b449-57863ad33ca9}" Name="Modified_x0020_By" /><FieldRef ID="{4dd7e525-8d6b-4cb4-9d3e-44ee25f973eb}" Name="Created_x0020_By" /><FieldRef ID="{8C0D0AAC-9B76-4951-927A-2490ABE13C0B}" Name="PreviewOnForm" /><FieldRef ID="{C53A03F3-F930-4ef2-B166-E0F2210C13C0}" Name="FileType" /><FieldRef ID="{922551B8-C7E0-46a6-B7E3-3CF02917F68A}" Name="ImageSize" /><FieldRef ID="{7E68A0F9-AF76-404c-9613-6F82BC6DC28C}" Name="ImageWidth" /><FieldRef ID="{1944C034-D61B-42af-AA84-647F2E74CA70}" Name="ImageHeight" /><FieldRef ID="{A5D2F824-BC53-422e-87FD-765939D863A5}" Name="ImageCreateDate" /><FieldRef ID="{9da97a8a-1da5-4a77-98d3-4bc10456e700}" Name="Comments" /><FieldRef ID="{B9E6F3AE-5632-4b13-B636-9D1A2BD67120}" Name="EncodedAbsThumbnailUrl" /><FieldRef ID="{A1CA0063-779F-49f9-999C-A4A2E3645B07}" Name="EncodedAbsWebImgUrl" /><FieldRef ID="{7EBF72CA-A307-4c18-9E5B-9D89E1DAE74F}" Name="SelectedFlag" /><FieldRef ID="{76D1CC87-56DE-432c-8A2A-16E5BA5331B3}" Name="NameOrTitle" /><FieldRef ID="{DE1BAA4B-2117-473b-AA0C-4D824034142D}" Name="RequiredField" /><FieldRef ID="{B66E9B50-A28E-469b-B1A0-AF0E45486874}" Name="Keywords" /><FieldRef ID="{AC7BB138-02DC-40eb-B07A-84C15575B6E9}" Name="Thumbnail" /><FieldRef ID="{BD716B26-546D-43f2-B229-62699581FA9F}" Name="Preview" /><FieldRef ID="{1F43CD21-53C5-44c5-8675-B8BB86083244}" Name="ThumbnailExists" /><FieldRef ID="{3CA8EFCD-96E8-414f-BA90-4C8C4A8BFEF8}" Name="PreviewExists" /><FieldRef ID="{F39D44AF-D3F3-4ae6-B43F-AC7330B5E9BD}" Name="AlternateThumbnailUrl" /><FieldRef ID="{475c2610-c157-4b91-9e2d-6855031b3538}" Name="FullName" /></FieldRefs>
-      </ContentType><ContentTypeRef ID="0x01">
+          <FieldRef ID="{ac07c5a7-68fa-4b97-aec9-3e8b9160aa84}" DisplayName="With Coffein" Required="TRUE" Name="WithCoffein" />
+          <FieldRef ID="{475c2610-c157-4b91-9e2d-6855031b3538}" DisplayName="$Resources:core,Full_Name;" Required="TRUE" Name="FullName" />
+        </FieldRefs>
+      </ContentType>
+      <ContentType ID="0x0100befa86d12ef84ca88153ba41d6450eeb" Name="ListFieldsContentType">
+        <FieldRefs>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <FieldRef ID="{ac07c5a7-68fa-4b97-aec9-3e8b9160aa84}" Name="WithCoffein" />
+          <FieldRef ID="{5f47e085-2150-41dc-b661-442f3027f552}" Name="SelectFilename" />
+          <FieldRef ID="{822c78e3-1ea9-4943-b449-57863ad33ca9}" Name="Modified_x0020_By" />
+          <FieldRef ID="{4dd7e525-8d6b-4cb4-9d3e-44ee25f973eb}" Name="Created_x0020_By" />
+          <FieldRef ID="{8C0D0AAC-9B76-4951-927A-2490ABE13C0B}" Name="PreviewOnForm" />
+          <FieldRef ID="{C53A03F3-F930-4ef2-B166-E0F2210C13C0}" Name="FileType" />
+          <FieldRef ID="{922551B8-C7E0-46a6-B7E3-3CF02917F68A}" Name="ImageSize" />
+          <FieldRef ID="{7E68A0F9-AF76-404c-9613-6F82BC6DC28C}" Name="ImageWidth" />
+          <FieldRef ID="{1944C034-D61B-42af-AA84-647F2E74CA70}" Name="ImageHeight" />
+          <FieldRef ID="{A5D2F824-BC53-422e-87FD-765939D863A5}" Name="ImageCreateDate" />
+          <FieldRef ID="{9da97a8a-1da5-4a77-98d3-4bc10456e700}" Name="Comments" />
+          <FieldRef ID="{B9E6F3AE-5632-4b13-B636-9D1A2BD67120}" Name="EncodedAbsThumbnailUrl" />
+          <FieldRef ID="{A1CA0063-779F-49f9-999C-A4A2E3645B07}" Name="EncodedAbsWebImgUrl" />
+          <FieldRef ID="{7EBF72CA-A307-4c18-9E5B-9D89E1DAE74F}" Name="SelectedFlag" />
+          <FieldRef ID="{76D1CC87-56DE-432c-8A2A-16E5BA5331B3}" Name="NameOrTitle" />
+          <FieldRef ID="{DE1BAA4B-2117-473b-AA0C-4D824034142D}" Name="RequiredField" />
+          <FieldRef ID="{B66E9B50-A28E-469b-B1A0-AF0E45486874}" Name="Keywords" />
+          <FieldRef ID="{AC7BB138-02DC-40eb-B07A-84C15575B6E9}" Name="Thumbnail" />
+          <FieldRef ID="{BD716B26-546D-43f2-B229-62699581FA9F}" Name="Preview" />
+          <FieldRef ID="{1F43CD21-53C5-44c5-8675-B8BB86083244}" Name="ThumbnailExists" />
+          <FieldRef ID="{3CA8EFCD-96E8-414f-BA90-4C8C4A8BFEF8}" Name="PreviewExists" />
+          <FieldRef ID="{F39D44AF-D3F3-4ae6-B43F-AC7330B5E9BD}" Name="AlternateThumbnailUrl" />
+          <FieldRef ID="{475c2610-c157-4b91-9e2d-6855031b3538}" Name="FullName" />
+        </FieldRefs>
+      </ContentType>
+      <ContentTypeRef ID="0x01">
         <Folder TargetName="Item" />
-      </ContentTypeRef><ContentTypeRef ID="0x0120" /></ContentTypes>
+      </ContentTypeRef>
+      <ContentTypeRef ID="0x0120" />
+    </ContentTypes>
     <Fields>
 
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-    <Field ID="{ac07c5a7-68fa-4b97-aec9-3e8b9160aa84}" Name="WithCoffein" DisplayName="With Coffein" Type="Boolean" Required="TRUE" Group="Custom Site Columns"></Field><Field ID="{5f47e085-2150-41dc-b661-442f3027f552}" Name="SelectFilename" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="SelectFilename" Group="_Hidden" ReadOnly="TRUE" Type="Computed" DisplayName="$Resources:core,Select;" Hidden="TRUE" CanToggleHidden="TRUE" Filterable="FALSE" AuthoringInfo="$Resources:core,web_part_connection;" HeaderImage="blank.gif" Sortable="FALSE">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <Field ID="{ac07c5a7-68fa-4b97-aec9-3e8b9160aa84}" Name="WithCoffein" DisplayName="With Coffein" Type="Boolean" Required="TRUE" Group="Custom Site Columns"></Field>
+      <Field ID="{5f47e085-2150-41dc-b661-442f3027f552}" Name="SelectFilename" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="SelectFilename" Group="_Hidden" ReadOnly="TRUE" Type="Computed" DisplayName="$Resources:core,Select;" Hidden="TRUE" CanToggleHidden="TRUE" Filterable="FALSE" AuthoringInfo="$Resources:core,web_part_connection;" HeaderImage="blank.gif" Sortable="FALSE">
         <FieldRefs>
           <FieldRef ID="{1d22ea11-1e32-424e-89ab-9fedbadb6ce1}" Name="ID" />
         </FieldRefs>
@@ -98,7 +129,10 @@
             </Else>
           </IfEqual>
         </DisplayPattern>
-      </Field><Field ID="{822c78e3-1ea9-4943-b449-57863ad33ca9}" Name="Modified_x0020_By" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Modified_x0020_By" Group="_Hidden" ReadOnly="TRUE" Hidden="FALSE" Type="Text" DisplayName="$Resources:core,Document_Modified_By;" /><Field ID="{4dd7e525-8d6b-4cb4-9d3e-44ee25f973eb}" Name="Created_x0020_By" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created_x0020_By" Group="_Hidden" ReadOnly="TRUE" Hidden="FALSE" Type="Text" DisplayName="$Resources:core,Document_Created_By;" /><Field ID="{8C0D0AAC-9B76-4951-927A-2490ABE13C0B}" Type="Computed" Name="PreviewOnForm" Group="_Hidden" ShowInEditForm="FALSE" ShowInNewForm="FALSE" ShowInFileDlg="FALSE" DisplayName="$Resources:core,Preview;" Sealed="TRUE" Sortable="FALSE" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="PreviewOnForm">
+      </Field>
+      <Field ID="{822c78e3-1ea9-4943-b449-57863ad33ca9}" Name="Modified_x0020_By" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Modified_x0020_By" Group="_Hidden" ReadOnly="TRUE" Hidden="FALSE" Type="Text" DisplayName="$Resources:core,Document_Modified_By;" />
+      <Field ID="{4dd7e525-8d6b-4cb4-9d3e-44ee25f973eb}" Name="Created_x0020_By" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Created_x0020_By" Group="_Hidden" ReadOnly="TRUE" Hidden="FALSE" Type="Text" DisplayName="$Resources:core,Document_Created_By;" />
+      <Field ID="{8C0D0AAC-9B76-4951-927A-2490ABE13C0B}" Type="Computed" Name="PreviewOnForm" Group="_Hidden" ShowInEditForm="FALSE" ShowInNewForm="FALSE" ShowInFileDlg="FALSE" DisplayName="$Resources:core,Preview;" Sealed="TRUE" Sortable="FALSE" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="PreviewOnForm">
         <FieldRefs>
           <FieldRef ID="{30BB605F-5BAE-48fe-B4E3-1F81D9772AF9}" Name="FSObjType" />
           <FieldRef ID="{A1CA0063-779F-49f9-999C-A4A2E3645B07}" Name="EncodedAbsWebImgUrl" />
@@ -125,14 +159,16 @@
           <Field Name="EncodedAbsWebImgUrl" />
           <HTML><![CDATA['></a>]]></HTML>
         </DisplayPattern>
-      </Field><Field ID="{C53A03F3-F930-4ef2-B166-E0F2210C13C0}" Type="Computed" Group="$Resources:core,Document_Columns;" Name="FileType" DisplayName="$Resources:core,File_Type;" ShowInNewForm="FALSE" ShowInFileDlg="FALSE" ShowInEditForm="FALSE" Filterable="TRUE" Sortable="TRUE" AuthoringInfo="$Resources:core,file_extension;" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="FileType">
+      </Field>
+      <Field ID="{C53A03F3-F930-4ef2-B166-E0F2210C13C0}" Type="Computed" Group="$Resources:core,Document_Columns;" Name="FileType" DisplayName="$Resources:core,File_Type;" ShowInNewForm="FALSE" ShowInFileDlg="FALSE" ShowInEditForm="FALSE" Filterable="TRUE" Sortable="TRUE" AuthoringInfo="$Resources:core,file_extension;" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="FileType">
         <FieldRefs>
           <FieldRef ID="{39360F11-34CF-4356-9945-25C44E68DADE}" Name="File_x0020_Type" />
         </FieldRefs>
         <DisplayPattern>
           <Column Name="File_x0020_Type" HTMLEncode="TRUE" />
         </DisplayPattern>
-      </Field><Field ID="{922551B8-C7E0-46a6-B7E3-3CF02917F68A}" Type="Computed" Group="_Hidden" Name="ImageSize" DisplayName="$Resources:core,Picture_Size;" ShowInNewForm="FALSE" ShowInFileDlg="FALSE" ShowInEditForm="FALSE" Filterable="FALSE" Sortable="FALSE" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="ImageSize">
+      </Field>
+      <Field ID="{922551B8-C7E0-46a6-B7E3-3CF02917F68A}" Type="Computed" Group="_Hidden" Name="ImageSize" DisplayName="$Resources:core,Picture_Size;" ShowInNewForm="FALSE" ShowInFileDlg="FALSE" ShowInEditForm="FALSE" Filterable="FALSE" Sortable="FALSE" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="ImageSize">
         <FieldRefs>
           <FieldRef ID="{7E68A0F9-AF76-404c-9613-6F82BC6DC28C}" Name="ImageWidth" />
           <FieldRef ID="{1944C034-D61B-42af-AA84-647F2E74CA70}" Name="ImageHeight" />
@@ -175,7 +211,12 @@
             </Then>
           </IfEqual>
         </DisplayPattern>
-      </Field><Field ID="{7E68A0F9-AF76-404c-9613-6F82BC6DC28C}" ReadOnly="TRUE" Type="Integer" Group="$Resources:core,Document_Columns;" Name="ImageWidth" DisplayName="$Resources:core,Picture_Width;" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="ImageWidth" /><Field ID="{1944C034-D61B-42af-AA84-647F2E74CA70}" ReadOnly="TRUE" Type="Integer" Group="$Resources:core,Document_Columns;" Name="ImageHeight" DisplayName="$Resources:core,Picture_Height;" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="ImageHeight" /><Field ID="{A5D2F824-BC53-422e-87FD-765939D863A5}" Type="DateTime" Group="$Resources:core,Document_Columns;" ShowInNewForm="FALSE" ShowInFileDlg="FALSE" Name="ImageCreateDate" DisplayName="$Resources:core,Date_Picture_Taken;" Format="DateTime" Sealed="TRUE" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" AllowDeletion="TRUE" StaticName="ImageCreateDate" /><Field ID="{9da97a8a-1da5-4a77-98d3-4bc10456e700}" Type="Note" RichText="TRUE" Name="Comments" Group="_Hidden" DisplayName="$Resources:core,Comments;" Sortable="FALSE" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Comments" ShowInNewForm="FALSE" /><Field ID="{B9E6F3AE-5632-4b13-B636-9D1A2BD67120}" ReadOnly="TRUE" Type="Computed" Group="_Hidden" Name="EncodedAbsThumbnailUrl" DisplayName="$Resources:core,Thumbnail_URL;" DisplayNameSrcField="FileLeafRef" Filterable="FALSE" Sortable="FALSE" RenderXMLUsingPattern="TRUE" Hidden="TRUE" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="EncodedAbsThumbnailUrl">
+      </Field>
+      <Field ID="{7E68A0F9-AF76-404c-9613-6F82BC6DC28C}" ReadOnly="TRUE" Type="Integer" Group="$Resources:core,Document_Columns;" Name="ImageWidth" DisplayName="$Resources:core,Picture_Width;" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="ImageWidth" />
+      <Field ID="{1944C034-D61B-42af-AA84-647F2E74CA70}" ReadOnly="TRUE" Type="Integer" Group="$Resources:core,Document_Columns;" Name="ImageHeight" DisplayName="$Resources:core,Picture_Height;" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="ImageHeight" />
+      <Field ID="{A5D2F824-BC53-422e-87FD-765939D863A5}" Type="DateTime" Group="$Resources:core,Document_Columns;" ShowInNewForm="FALSE" ShowInFileDlg="FALSE" Name="ImageCreateDate" DisplayName="$Resources:core,Date_Picture_Taken;" Format="DateTime" Sealed="TRUE" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" AllowDeletion="TRUE" StaticName="ImageCreateDate" />
+      <Field ID="{9da97a8a-1da5-4a77-98d3-4bc10456e700}" Type="Note" RichText="TRUE" Name="Comments" Group="_Hidden" DisplayName="$Resources:core,Comments;" Sortable="FALSE" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Comments" ShowInNewForm="FALSE" />
+      <Field ID="{B9E6F3AE-5632-4b13-B636-9D1A2BD67120}" ReadOnly="TRUE" Type="Computed" Group="_Hidden" Name="EncodedAbsThumbnailUrl" DisplayName="$Resources:core,Thumbnail_URL;" DisplayNameSrcField="FileLeafRef" Filterable="FALSE" Sortable="FALSE" RenderXMLUsingPattern="TRUE" Hidden="TRUE" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="EncodedAbsThumbnailUrl">
         <FieldRefs>
           <FieldRef ID="{7E68A0F9-AF76-404c-9613-6F82BC6DC28C}" Name="ImageWidth" />
           <FieldRef ID="{7177CFC7-F399-4d4d-905D-37DD51BC90BF}" Name="EncodedAbsUrl" />
@@ -268,7 +309,8 @@
             </Else>
           </IfEqual>
         </DisplayPattern>
-      </Field><Field ID="{A1CA0063-779F-49f9-999C-A4A2E3645B07}" ReadOnly="TRUE" Type="Computed" Group="_Hidden" Name="EncodedAbsWebImgUrl" DisplayName="$Resources:core,Web_Image_URL;" DisplayNameSrcField="FileLeafRef" Filterable="FALSE" Sortable="FALSE" RenderXMLUsingPattern="TRUE" Hidden="TRUE" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="EncodedAbsWebImgUrl">
+      </Field>
+      <Field ID="{A1CA0063-779F-49f9-999C-A4A2E3645B07}" ReadOnly="TRUE" Type="Computed" Group="_Hidden" Name="EncodedAbsWebImgUrl" DisplayName="$Resources:core,Web_Image_URL;" DisplayNameSrcField="FileLeafRef" Filterable="FALSE" Sortable="FALSE" RenderXMLUsingPattern="TRUE" Hidden="TRUE" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="EncodedAbsWebImgUrl">
         <FieldRefs>
           <FieldRef ID="{7E68A0F9-AF76-404c-9613-6F82BC6DC28C}" Name="ImageWidth" />
           <FieldRef ID="{7177CFC7-F399-4d4d-905D-37DD51BC90BF}" Name="EncodedAbsUrl" />
@@ -361,7 +403,8 @@
             </Else>
           </IfEqual>
         </DisplayPattern>
-      </Field><Field ID="{7EBF72CA-A307-4c18-9E5B-9D89E1DAE74F}" ReadOnly="TRUE" Type="Computed" Group="_Hidden" Name="SelectedFlag" DisplayName="$Resources:core,Selection_Checkbox;" Filterable="FALSE" Sortable="FALSE" HeaderImage="blank.gif" AuthoringInfo="$Resources:core,select_picture;" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="SelectedFlag">
+      </Field>
+      <Field ID="{7EBF72CA-A307-4c18-9E5B-9D89E1DAE74F}" ReadOnly="TRUE" Type="Computed" Group="_Hidden" Name="SelectedFlag" DisplayName="$Resources:core,Selection_Checkbox;" Filterable="FALSE" Sortable="FALSE" HeaderImage="blank.gif" AuthoringInfo="$Resources:core,select_picture;" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="SelectedFlag">
         <FieldRefs>
           <FieldRef ID="{30BB605F-5BAE-48fe-B4E3-1F81D9772AF9}" Name="FSObjType" />
         </FieldRefs>
@@ -390,7 +433,8 @@
             </Then>
           </IfEqual>
         </DisplayPattern>
-      </Field><Field ID="{76D1CC87-56DE-432c-8A2A-16E5BA5331B3}" ReadOnly="TRUE" Type="Computed" Group="_Hidden" Name="NameOrTitle" ClassInfo="Menu" DisplayName="$Resources:core,Name;" DisplayNameSrcField="FileLeafRef" Filterable="FALSE" AuthoringInfo="$Resources:core,linked_to_display_items;" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="NameOrTitle">
+      </Field>
+      <Field ID="{76D1CC87-56DE-432c-8A2A-16E5BA5331B3}" ReadOnly="TRUE" Type="Computed" Group="_Hidden" Name="NameOrTitle" ClassInfo="Menu" DisplayName="$Resources:core,Name;" DisplayNameSrcField="FileLeafRef" Filterable="FALSE" AuthoringInfo="$Resources:core,linked_to_display_items;" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="NameOrTitle">
         <FieldRefs>
           <FieldRef ID="{687C7F94-686A-42d3-9B67-2782EAC4B4F8}" Name="FileLeafRef" />
           <FieldRef ID="{56605DF6-8FA1-47e4-A04C-5B384D59609F}" Name="FileDirRef" />
@@ -541,7 +585,8 @@
             ]]>
           </HTML>
         </DisplayPattern>
-      </Field><Field ID="{DE1BAA4B-2117-473b-AA0C-4D824034142D}" ReadOnly="TRUE" Type="Computed" Group="_Hidden" Name="RequiredField" DisplayName="$Resources:core,RequiredField;" AuthoringInfo="$Resources:core,select_for_piclib_details_view;" Sortable="FALSE" Filterable="FALSE" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="RequiredField">
+      </Field>
+      <Field ID="{DE1BAA4B-2117-473b-AA0C-4D824034142D}" ReadOnly="TRUE" Type="Computed" Group="_Hidden" Name="RequiredField" DisplayName="$Resources:core,RequiredField;" AuthoringInfo="$Resources:core,select_for_piclib_details_view;" Sortable="FALSE" Filterable="FALSE" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="RequiredField">
         <FieldRefs>
           <FieldRef ID="{94F89715-E097-4e8b-BA79-EA02AA8B7ADB}" Name="FileRef" />
           <FieldRef ID="{687C7F94-686A-42d3-9B67-2782EAC4B4F8}" Name="FileLeafRef" />
@@ -551,7 +596,9 @@
           <FieldRef ID="{081C6E4C-5C14-4f20-B23E-1A71CEB6A67C}" Name="DocIcon" />
         </FieldRefs>
         <DisplayPattern />
-      </Field><Field ID="{B66E9B50-A28E-469b-B1A0-AF0E45486874}" Type="Note" Group="$Resources:core,Document_Columns;" Name="Keywords" DisplayName="$Resources:core,Keywords;" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="Keywords" Sealed="TRUE" NumLines="1" UnlimitedLengthInDocumentLibrary="TRUE" AllowDeletion="TRUE" ShowInFileDlg="FALSE" ShowInNewForm="FALSE" /><Field ID="{AC7BB138-02DC-40eb-B07A-84C15575B6E9}" ReadOnly="TRUE" Type="Computed" Group="_Hidden" Name="Thumbnail" ShowInNewForm="FALSE" ShowInFileDlg="FALSE" ShowInEditForm="FALSE" DisplayName="$Resources:core,Thumbnail;" Sealed="TRUE" Sortable="FALSE" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="Thumbnail">
+      </Field>
+      <Field ID="{B66E9B50-A28E-469b-B1A0-AF0E45486874}" Type="Note" Group="$Resources:core,Document_Columns;" Name="Keywords" DisplayName="$Resources:core,Keywords;" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="Keywords" Sealed="TRUE" NumLines="1" UnlimitedLengthInDocumentLibrary="TRUE" AllowDeletion="TRUE" ShowInFileDlg="FALSE" ShowInNewForm="FALSE" />
+      <Field ID="{AC7BB138-02DC-40eb-B07A-84C15575B6E9}" ReadOnly="TRUE" Type="Computed" Group="_Hidden" Name="Thumbnail" ShowInNewForm="FALSE" ShowInFileDlg="FALSE" ShowInEditForm="FALSE" DisplayName="$Resources:core,Thumbnail;" Sealed="TRUE" Sortable="FALSE" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="Thumbnail">
         <FieldRefs>
           <FieldRef ID="{7E68A0F9-AF76-404c-9613-6F82BC6DC28C}" Name="ImageWidth" />
           <FieldRef ID="{1944C034-D61B-42af-AA84-647F2E74CA70}" Name="ImageHeight" />
@@ -597,7 +644,8 @@
             </Then>
           </IfEqual>
         </DisplayPattern>
-      </Field><Field ID="{BD716B26-546D-43f2-B229-62699581FA9F}" ReadOnly="TRUE" Type="Computed" Group="_Hidden" Name="Preview" ShowInNewForm="FALSE" ShowInFileDlg="FALSE" ShowInEditForm="FALSE" DisplayName="$Resources:core,Web_Preview;" Sealed="TRUE" Sortable="FALSE" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="Preview">
+      </Field>
+      <Field ID="{BD716B26-546D-43f2-B229-62699581FA9F}" ReadOnly="TRUE" Type="Computed" Group="_Hidden" Name="Preview" ShowInNewForm="FALSE" ShowInFileDlg="FALSE" ShowInEditForm="FALSE" DisplayName="$Resources:core,Web_Preview;" Sealed="TRUE" Sortable="FALSE" SourceID="http://schemas.microsoft.com/sharepoint/v3/fields" StaticName="Preview">
         <FieldRefs>
           <FieldRef ID="{7E68A0F9-AF76-404c-9613-6F82BC6DC28C}" Name="ImageWidth" />
           <FieldRef ID="{1944C034-D61B-42af-AA84-647F2E74CA70}" Name="ImageHeight" />
@@ -643,71 +691,84 @@
             </Then>
           </IfEqual>
         </DisplayPattern>
-      </Field><Field ID="{1F43CD21-53C5-44c5-8675-B8BB86083244}" Name="ThumbnailExists" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="ThumbnailExists" Group="_Hidden" ReadOnly="TRUE" Type="Boolean" DisplayName="$Resources:core,ThumbnailExists;" Hidden="TRUE" Required="FALSE">
+      </Field>
+      <Field ID="{1F43CD21-53C5-44c5-8675-B8BB86083244}" Name="ThumbnailExists" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="ThumbnailExists" Group="_Hidden" ReadOnly="TRUE" Type="Boolean" DisplayName="$Resources:core,ThumbnailExists;" Hidden="TRUE" Required="FALSE">
         <Default>FALSE</Default>
-      </Field><Field ID="{3CA8EFCD-96E8-414f-BA90-4C8C4A8BFEF8}" Name="PreviewExists" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="PreviewExists" Group="_Hidden" ReadOnly="TRUE" Type="Boolean" DisplayName="$Resources:core,PreviewExists;" Hidden="TRUE" Required="FALSE">
+      </Field>
+      <Field ID="{3CA8EFCD-96E8-414f-BA90-4C8C4A8BFEF8}" Name="PreviewExists" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="PreviewExists" Group="_Hidden" ReadOnly="TRUE" Type="Boolean" DisplayName="$Resources:core,PreviewExists;" Hidden="TRUE" Required="FALSE">
         <Default>FALSE</Default>
-      </Field><Field ID="{F39D44AF-D3F3-4ae6-B43F-AC7330B5E9BD}" SourceID="http://schemas.microsoft.com/sharepoint/v4" Name="AlternateThumbnailUrl" DisplayName="$Resources:core,AlternateThumbnailUrl;" Group="_Hidden" Type="URL" Format="Image" Sealed="TRUE" /><Field ID="{475c2610-c157-4b91-9e2d-6855031b3538}" Name="FullName" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="FullName" Group="$Resources:core,Person_Event_Columns;" DisplayName="$Resources:core,Full_Name;" Type="Text" Required="TRUE" /></Fields>
+      </Field>
+      <Field ID="{F39D44AF-D3F3-4ae6-B43F-AC7330B5E9BD}" SourceID="http://schemas.microsoft.com/sharepoint/v4" Name="AlternateThumbnailUrl" DisplayName="$Resources:core,AlternateThumbnailUrl;" Group="_Hidden" Type="URL" Format="Image" Sealed="TRUE" />
+      <Field ID="{475c2610-c157-4b91-9e2d-6855031b3538}" Name="FullName" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="FullName" Group="$Resources:core,Person_Event_Columns;" DisplayName="$Resources:core,Full_Name;" Type="Text" Required="TRUE" />
+    </Fields>
     <Views>
 
 
-      
-      
-    <View BaseViewID="0" Type="HTML" MobileView="TRUE" TabularView="FALSE">
+
+
+      <View BaseViewID="0" Type="HTML" MobileView="TRUE" TabularView="FALSE">
         <Toolbar Type="Standard" />
         <XslLink Default="TRUE">main.xsl</XslLink>
         <RowLimit Paged="TRUE">30</RowLimit>
         <ViewFields>
 
-          
-        <FieldRef Name="LinkTitleNoMenu"></FieldRef></ViewFields>
+
+          <FieldRef Name="LinkTitleNoMenu"></FieldRef>
+        </ViewFields>
         <Query>
           <OrderBy>
 
-            
-          <FieldRef Name="Modified" Ascending="FALSE"></FieldRef></OrderBy>
+
+            <FieldRef Name="Modified" Ascending="FALSE"></FieldRef>
+          </OrderBy>
         </Query>
         <ParameterBindings>
           <ParameterBinding Name="AddNewAnnouncement" Location="Resource(wss,addnewitem)" />
           <ParameterBinding Name="NoAnnouncements" Location="Resource(wss,noXinviewofY_LIST)" />
           <ParameterBinding Name="NoAnnouncementsHowTo" Location="Resource(wss,noXinviewofY_ONET_HOME)" />
         </ParameterBindings>
-      </View><View BaseViewID="1" Type="HTML" WebPartZoneID="Main" DisplayName="$Resources:core,objectiv_schema_mwsidcamlidC24;" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" SetupPath="pages\viewpage.aspx" ImageUrl="/_layouts/15/images/generic.png?rev=23" Url="AllItems.aspx">
+      </View>
+      <View BaseViewID="1" Type="HTML" WebPartZoneID="Main" DisplayName="$Resources:core,objectiv_schema_mwsidcamlidC24;" DefaultView="TRUE" MobileView="TRUE" MobileDefaultView="TRUE" SetupPath="pages\viewpage.aspx" ImageUrl="/_layouts/15/images/generic.png?rev=23" Url="AllItems.aspx">
         <Toolbar Type="Standard" />
         <XslLink Default="TRUE">main.xsl</XslLink>
         <JSLink>clienttemplates.js</JSLink>
         <RowLimit Paged="TRUE">30</RowLimit>
         <ViewFields>
 
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-        <FieldRef Name="LinkTitle"></FieldRef><FieldRef Name="FullName" /><FieldRef Name="WithCoffein" /></ViewFields>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          <FieldRef Name="LinkTitle"></FieldRef>
+          <FieldRef Name="FullName" />
+          <FieldRef Name="WithCoffein" />
+        </ViewFields>
         <Query>
           <OrderBy>
 
-            
-          <FieldRef Name="ID"></FieldRef></OrderBy>
+
+            <FieldRef Name="ID"></FieldRef>
+          </OrderBy>
         </Query>
         <ParameterBindings>
           <ParameterBinding Name="NoAnnouncements" Location="Resource(wss,noXinviewofY_LIST)" />
           <ParameterBinding Name="NoAnnouncementsHowTo" Location="Resource(wss,noXinviewofY_DEFAULT)" />
         </ParameterBindings>
-      </View></Views>
+      </View>
+    </Views>
     <Forms>
       <Form Type="DisplayForm" Url="DispForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />
       <Form Type="EditForm" Url="EditForm.aspx" SetupPath="pages\form.aspx" WebPartZoneID="Main" />

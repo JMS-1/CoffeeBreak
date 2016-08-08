@@ -158,6 +158,7 @@
     <TypeScriptCompile Include="src\App.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="src\CoffeeType.ts" />
     <TypeScriptCompile Include="src\Constants.ts" />
     <TypeScriptCompile Include="src\sp\ExecutionContext.ts" />
   </ItemGroup>

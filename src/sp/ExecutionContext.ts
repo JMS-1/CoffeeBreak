@@ -18,7 +18,17 @@ module JMS.SharePoint {
 
         items(listName: string, query?: SP.CamlQuery): IExecutionResult<SP.ListItemCollection>;
 
+        createItem<TModelType extends ISerializable>(data: TModelType): IExecutionResult<SP.ListItem>;
+
         startAsync(): void;
+    }
+
+    export interface ISerializable {
+        listName: string;
+
+        contentTypeId: string;
+
+        saveTo(item: SP.ListItem): void;
     }
 
     class ExecutionResult<TResponseType extends SP.ClientObject> implements IExecutionResult<TResponseType> {
@@ -70,22 +80,36 @@ module JMS.SharePoint {
         }
 
         user(): IExecutionResult<SP.User> {
-            return this.addPromise(new ExecutionResult<SP.User>(ExecutionContext.web().get_currentUser()));
+            return this.addPromise(ExecutionContext.web().get_currentUser());
         }
 
         lists(): IExecutionResult<SP.ListCollection> {
-            return this.addPromise(new ExecutionResult<SP.ListCollection>(ExecutionContext.web().get_lists()));
+            return this.addPromise(ExecutionContext.web().get_lists());
         }
 
         list(listName: string): IExecutionResult<SP.List> {
-            return this.addPromise(new ExecutionResult<SP.List>(ExecutionContext.web().get_lists().getByTitle(listName)));
+            return this.addPromise(ExecutionContext.web().get_lists().getByTitle(listName));
         }
 
         items(listName: string, query: SP.CamlQuery = new SP.CamlQuery()): IExecutionResult<SP.ListItemCollection> {
-            return this.addPromise(new ExecutionResult<SP.ListItemCollection>(ExecutionContext.web().get_lists().getByTitle(listName).getItems(query)));
+            return this.addPromise(ExecutionContext.web().get_lists().getByTitle(listName).getItems(query));
         }
 
-        private addPromise<TResponseType extends SP.ClientObject>(promise: ExecutionResult<TResponseType>): ExecutionResult<TResponseType> {
+        createItem<TModelType extends ISerializable>(data: TModelType): IExecutionResult<SP.ListItem> {
+            var newItem = ExecutionContext.web().get_lists().getByTitle(data.listName).addItem(new SP.ListItemCreationInformation());
+
+            newItem.set_item('ContentTypeId', data.contentTypeId);
+
+            data.saveTo(newItem);
+
+            newItem.update();
+
+            return this.addPromise(newItem);
+        }
+
+        private addPromise<TResponseType extends SP.ClientObject>(request: TResponseType): ExecutionResult<TResponseType> {
+            var promise = new ExecutionResult<TResponseType>(request);
+
             this.promises.push(promise);
 
             return promise;
@@ -101,7 +125,11 @@ module JMS.SharePoint {
         }
 
         private onFailure(info: SP.ClientRequestFailedEventArgs): void {
-            this.promises.forEach(p => p.fireFailure(info.get_message()));
+            var message = info.get_message();
+
+            console.log(message);
+
+            this.promises.forEach(p => p.fireFailure(message));
             this.promises = [];
         }
     }

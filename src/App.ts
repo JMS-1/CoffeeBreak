@@ -12,8 +12,13 @@ module CoffeeBreak {
         private startup(): void {
             var executor = JMS.SharePoint.newExecutor();
 
+            var type = new CoffeeType();
+            type.company = 'Senseo';
+            type.name = 'Guten Morgen';
+            type.coffein = true;
+
             executor
-                .list(Constants.listNameTypes)
+                .createItem(type)
                 .success(r => $('#message').text(`Loaded`));
 
             executor.startAsync();
