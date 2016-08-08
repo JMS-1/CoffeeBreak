@@ -71,6 +71,7 @@
   <ItemGroup>
     <None Include="Content\App.scss" />
     <None Include="gulpfile.js" />
+    <Content Include="Content\App.css" />
     <Content Include="views\createType.html" />
     <None Include="Lists\CoffeeTypes\CoffeeTypesInstance\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{b6c10629-5990-484e-86b7-6041a464888b}</SharePointProjectItemId>
@@ -174,4 +175,13 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\SharePointTools\Microsoft.VisualStudio.SharePoint.targets" Condition="'$(VSToolsPath)' != ''" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" />
+  <PropertyGroup>
+    <CompileDependsOn>
+      $(CompileDependsOn);
+      GulpBuild;
+    </CompileDependsOn>
+  </PropertyGroup>
+  <Target Name="GulpBuild" DependsOnTargets="CompileTypeScript">
+    <Exec Command="node_modules\.bin\gulp build" WorkingDirectory="$(ProjectDir)" />
+  </Target>
 </Project>

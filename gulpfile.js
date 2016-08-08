@@ -1,21 +1,17 @@
-﻿/// <binding BeforeBuild='sass' />
-"use strict";
+﻿var gulp = require('gulp');
+var sass = require('gulp-sass');
+var del = require('del');
 
-var gulp = require("gulp");
-var sass = require("gulp-sass");
+gulp.task('clean', function () {
+    return del(["Content/App.css"]);
+});
 
-var paths = { webroot: "./" };
-
-paths.sassSource = paths.webroot + "Content/**/*.scss";
-
-paths.cssOutput = paths.webroot + "Content";
-
-gulp.task('sass', function () {
-    gulp.src(paths.sassSource)
+gulp.task('build', ['clean'], function () {
+    gulp.src(["Content/App.scss"])
         .pipe(sass().on('error', sass.logError))
-        .pipe(gulp.dest(paths.cssOutput));
+        .pipe(gulp.dest('Content/.'));
 });
 
 gulp.task('sass:watch', function () {
-    gulp.watch(paths.sassSource, ['sass']);
+    gulp.watch(["Content/*.scss"], ['build']);
 });
