@@ -752,8 +752,7 @@
 
 
 
-          <FieldRef Name="LinkTitle"></FieldRef>
-          <FieldRef Name="FullName" />
+          <FieldRef Name="FullName" linkToItem="true" />
           <FieldRef Name="WithCoffein" />
         </ViewFields>
         <Query>
