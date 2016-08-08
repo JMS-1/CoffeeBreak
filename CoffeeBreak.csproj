@@ -69,6 +69,9 @@
     <TypeScriptSourceRoot />
   </PropertyGroup>
   <ItemGroup>
+    <None Include="Content\App.scss" />
+    <None Include="gulpfile.js" />
+    <Content Include="Content\App.css" />
     <Content Include="views\createType.html" />
     <None Include="Lists\CoffeeTypes\CoffeeTypesInstance\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{b6c10629-5990-484e-86b7-6041a464888b}</SharePointProjectItemId>
@@ -82,6 +85,7 @@
     <None Include="Lists\WithCoffein\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{c94a0a67-3300-428e-84fc-81572f0759a8}</SharePointProjectItemId>
     </None>
+    <None Include="package.json" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -121,7 +125,6 @@
       <SharePointProjectItemId>{67b142ba-f0ab-4133-ba59-b4b026dfef2b}</SharePointProjectItemId>
     </None>
     <Content Include="Content\Elements.xml" />
-    <Content Include="Content\App.css" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\AppIcon.png">

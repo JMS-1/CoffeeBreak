@@ -29,7 +29,7 @@
 
     <a href="../Lists/CoffeeTypes" target="_blank">Arten</a>
 
-    <div id="spaContainer">
+    <div id="spaContainer" class="theApplication">
         (Bitte einen Moment Geduld)
     </div>
 

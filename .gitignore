@@ -11,5 +11,7 @@
 /packages
 /Scripts/App.js
 /Scripts/App.js.map
+/Content/App.css
 /src/**/*.js
 /CoffeeBreak.sln.openAsAdmin
+/node_modules
