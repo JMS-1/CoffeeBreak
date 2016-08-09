@@ -29,7 +29,7 @@ module CoffeeBreak {
 
         private _companies: { [company: string]: string[] };
 
-        private _existing: CoffeeType[];
+        private _existing: string[];
 
         onConnect(): void {
             this.validate();
@@ -66,7 +66,8 @@ module CoffeeBreak {
             var query = JMS.SharePoint.newExecutor();
 
             query.items(CoffeeType).success(items => {
-                this._existing = items;
+                this._existing = items.map(item => item.fullName().toLocaleLowerCase());
+
                 this._companies = {};
 
                 var companyNames: string[] = [];
@@ -104,7 +105,17 @@ module CoffeeBreak {
             var isValid = this._model.validate(error => this.view.setCompanyError(error), error => this.view.setNameError(error));
 
             if (isValid)
-                if (this._companies) {
+                if (this._existing) {
+                    var fullName = this._model.fullName().toLocaleLowerCase();
+
+                    for (var item of this._existing)
+                        if (item === fullName) {
+                            this.view.setNameError(Constants.validation.duplicateType);
+
+                            isValid = false;
+
+                            break;
+                        }
                 }
                 else
                     isValid = false;

@@ -21,6 +21,12 @@ module CoffeeBreak {
 
         protected abstract onConnect(): void;
 
+        protected connectDialog(selector: string): JQuery {
+            var dialog = this._view.find(selector);
+
+            return dialog;
+        }
+
         protected connectText(selector: string, onChange: (newValue: string) => void): JQuery {
             var input = this._view.find(selector);
 
