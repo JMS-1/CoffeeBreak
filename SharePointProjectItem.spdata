@@ -4,5 +4,6 @@
     <ProjectItemFile Source="Elements.xml" Type="ElementManifest" />
     <ProjectItemFile Source="views\createType.html" Target="views\" Type="ElementFile" />
     <ProjectItemFile Source="views\dashboard.html" Target="views\" Type="ElementFile" />
+    <ProjectItemFile Source="views\createDonation.html" Target="views\" Type="ElementFile" />
   </Files>
 </ProjectItem>

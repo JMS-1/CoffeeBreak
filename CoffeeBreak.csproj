@@ -69,6 +69,7 @@
     <TypeScriptSourceRoot />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="views\createDonation.html" />
     <Content Include="views\dashboard.html" />
     <None Include="Content\App.scss" />
     <None Include="gulpfile.js" />
@@ -210,8 +211,10 @@
     <TypeScriptCompile Include="src\CoffeeType.ts" />
     <TypeScriptCompile Include="src\Constants.ts" />
     <TypeScriptCompile Include="src\controller\Controller.ts" />
+    <TypeScriptCompile Include="src\controller\CreateDonationController.ts" />
     <TypeScriptCompile Include="src\controller\CreateTypeController.ts" />
     <TypeScriptCompile Include="src\controller\DashboardController.ts" />
+    <TypeScriptCompile Include="src\views\CreateDonationView.ts" />
     <TypeScriptCompile Include="src\views\CreateTypeView.ts" />
     <TypeScriptCompile Include="src\sp\ExecutionContext.ts" />
     <TypeScriptCompile Include="src\views\DashboardView.ts" />
