@@ -45,5 +45,8 @@ module CoffeeBreak {
 
             return button;
         }
+
+        protected close(): void {
+        }
     }
 }

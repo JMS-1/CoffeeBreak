@@ -12,10 +12,23 @@ module CoffeeBreak {
         private startup(): void {
             this._spa = $(`#spaContainer`);
 
-            this.loadSampleData();
+            this.checkSampleData(CreateTypeView);
         }
 
-        private loadSampleData(): void {
+        private checkSampleData<TViewType extends IView>(firstView: IViewFactory<TViewType>): void {
+            var context = JMS.SharePoint.newExecutor();
+
+            context.items(CoffeeType).success(types => {
+                if (types.length > 0)
+                    this.loadView(firstView)
+                else
+                    this.loadSampleData(firstView);
+            });
+
+            context.startAsync();
+        }
+
+        private loadSampleData<TViewType extends IView>(firstView: IViewFactory<TViewType>): void {
             var context = JMS.SharePoint.newExecutor();
 
             var type1 = new CoffeeType();
@@ -30,7 +43,7 @@ module CoffeeBreak {
             type2.name = "Krönung Light";
             type2.coffein = false;
 
-            context.createItem(type2).success(item => this.loadView(CreateTypeView));
+            context.createItem(type2).success(item => this.loadView(firstView));
 
             context.startAsync();
         }

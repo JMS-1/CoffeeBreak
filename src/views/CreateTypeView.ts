@@ -29,6 +29,8 @@ module CoffeeBreak {
 
         private _onCoffeinChanged: (newValue: boolean) => void;
 
+        private _onSave: (done: (success: boolean) => void) => void;
+
         viewName(): string {
             return 'createType';
         }
@@ -46,18 +48,25 @@ module CoffeeBreak {
 
             this._withCoffein = super.connectFlag(`.coffeeBreakCoffein > input[type="CHECKBOX"]`, newValue => this._onCoffeinChanged && this._onCoffeinChanged(newValue));
 
-            this._save = super.connectAction(`a.coffeeBreakSave`, () => { });
-            this._cancel = super.connectAction(`a.coffeeBreakCancel`, () => { });
+            this._cancel = super.connectAction(`a.coffeeBreakCancel`, () => super.close());
+            this._save = super.connectAction(`a.coffeeBreakSave`, () => this._onSave && this._onSave(success => {
+                if (success)
+                    super.close();
+            }));
 
             this._companySelector.button();
             this._nameSelector.button();
 
             this.setCompanies();
             this.setNames();
-            this.setSave(false);
+            this.setAllowSave(false);
         }
 
-        setSave(enable: boolean): void {
+        setSave(save: (done: (success: boolean) => void) => void): void {
+            this._onSave = save;
+        }
+
+        setAllowSave(enable: boolean): void {
             if (enable)
                 this._save.button('enable');
             else

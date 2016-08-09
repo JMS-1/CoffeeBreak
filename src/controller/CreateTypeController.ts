@@ -5,9 +5,13 @@
 module CoffeeBreak {
 
     export interface ICreateType {
+        setCompanies(companies: string[]): void;
+
         setCompany(company: string, onChange?: (newValue: string) => void): void;
 
         setCompanyError(error?: string): void;
+
+        setNames(names: string[]): void;
 
         setName(name: string, onChange?: (newValue: string) => void): void;
 
@@ -15,11 +19,9 @@ module CoffeeBreak {
 
         setCoffein(withCoffein: boolean, onChange?: (newValue: boolean) => void): void;
 
-        setSave(enable: boolean): void;
+        setAllowSave(enable: boolean): void;
 
-        setCompanies(companies: string[]): void;
-
-        setNames(names: string[]): void;
+        setSave(save: (done: (success: boolean) => void) => void): void;
     }
 
     export class CreateTypeController extends Controller<ICreateType> {
@@ -46,6 +48,19 @@ module CoffeeBreak {
             this.view.setCoffein(this._model.coffein, withCoffein => {
                 this._model.coffein = withCoffein;
                 this.validate();
+            });
+
+            this.view.setSave(done => {
+                this.view.setAllowSave(false);
+
+                var executor = JMS.SharePoint.newExecutor();
+
+                executor
+                    .createItem(this._model)
+                    .success(m => done(true))
+                    .failure(m => done(false));
+
+                executor.startAsync();
             });
 
             var query = JMS.SharePoint.newExecutor();
@@ -94,7 +109,7 @@ module CoffeeBreak {
                 else
                     isValid = false;
 
-            this.view.setSave(isValid);
+            this.view.setAllowSave(isValid);
         }
     }
 }
