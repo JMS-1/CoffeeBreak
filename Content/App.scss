@@ -8,12 +8,16 @@
         width: 6rem;
     }
 
+    label.coffeeBreakInvalid > span:first-child {
+        color: red;
+    }
+
     .coffeeBreakActions {
         margin-top: 10px;
     }
 
-    .coffeeBreakSectorButton{
+    .coffeeBreakSectorButton {
         padding: 2px 6px;
-        min-width: 2rem;   
+        min-width: 2rem;
     }
 }

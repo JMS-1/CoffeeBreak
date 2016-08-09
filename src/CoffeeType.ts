@@ -21,13 +21,18 @@ module CoffeeBreak {
 
         coffein: boolean = true;
 
-        saveTo(item: SP.ListItem): void {
+        fullName(): string {
             var company = (this.company || '').trim();
             var name = (this.name || '').trim();
 
             if ((company.length > 0) || (name.length > 0))
-                item.set_item(CoffeeType._FullNameProperty, `${company}: ${name}`);
+                return `${company}: ${name}`;
 
+            return undefined;
+        }
+
+        saveTo(item: SP.ListItem): void {
+            item.set_item(CoffeeType._FullNameProperty, this.fullName());
             item.set_item(CoffeeType._CoffeinProperty, this.coffein === true);
         }
 
@@ -47,6 +52,28 @@ module CoffeeBreak {
             var coffein: boolean = item.get_item(CoffeeType._CoffeinProperty);
             if (typeof coffein === "boolean")
                 this.coffein = coffein;
+        }
+
+        validate(setCompany: (error?: string) => void, setName: (error?: string) => void): boolean {
+            var isValid = true;
+
+            if ((this.company || '').trim().length < 1) {
+                setCompany(Constants.validation.required);
+
+                isValid = false;
+            }
+            else
+                setCompany();
+
+            if ((this.name || '').trim().length < 1) {
+                setName(Constants.validation.required);
+
+                isValid = false;
+            }
+            else
+                setName();
+
+            return isValid;
         }
     }
 

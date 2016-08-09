@@ -4,22 +4,16 @@
 
 module CoffeeBreak {
 
-    export interface ICreateTypeView {
-        setCompany(company: string, onChange?: (newValue: string) => void): void;
-
-        setName(name: string, onChange?: (newValue: string) => void): void;
-
-        setCoffein(withCoffein: boolean, onChange?: (newValue: boolean) => void): void;
-
-        setSave(enable: boolean): void;
-    }
-
-    export class CreateTypeView extends View<ICreateTypeView, CreateTypeView, CreateTypeController> implements ICreateTypeView {
+    export class CreateTypeView extends View<ICreateType, CreateTypeView, CreateTypeController> implements ICreateType {
         private _company: JQuery;
+
+        private _companies: string[];
 
         private _companySelector: JQuery;
 
         private _name: JQuery;
+
+        private _names: string[];
 
         private _nameSelector: JQuery;
 
@@ -58,6 +52,8 @@ module CoffeeBreak {
             this._companySelector.button();
             this._nameSelector.button();
 
+            this.setCompanies();
+            this.setNames();
             this.setSave(false);
         }
 
@@ -73,6 +69,43 @@ module CoffeeBreak {
                 this._onCompanyChanged = onChange;
 
             this._company.val(company);
+        }
+
+        setCompanies(companies: string[] = []): void {
+            this._companies = companies;
+
+            if (companies.length > 0)
+                this._companySelector.button('enable');
+            else
+                this._companySelector.button('disable');
+        }
+
+        setNames(names: string[] = []): void {
+            this._names = names;
+
+            if (names.length > 0)
+                this._nameSelector.button('enable');
+            else
+                this._nameSelector.button('disable');
+        }
+
+        private static setError(input: JQuery, error: string) {
+            if (error.length > 0) {
+                input.parent().addClass(Constants.validation.css);
+                input.attr('title', error);
+            }
+            else {
+                input.parent().removeClass(Constants.validation.css);
+                input.removeAttr('title');
+            }
+        }
+
+        setNameError(error: string = ''): void {
+            CreateTypeView.setError(this._name, error);
+        }
+
+        setCompanyError(error: string = ''): void {
+            CreateTypeView.setError(this._company, error);
         }
 
         setName(name: string, onChange?: (newValue: string) => void): void {
