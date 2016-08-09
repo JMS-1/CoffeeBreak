@@ -21,6 +21,8 @@ module CoffeeBreak {
 
         coffein: boolean = true;
 
+        id: number;
+
         fullName(): string {
             var company = (this.company || '').trim();
             var name = (this.name || '').trim();
@@ -32,14 +34,19 @@ module CoffeeBreak {
         }
 
         saveTo(item: SP.ListItem): void {
+            if (this.id !== undefined)
+                item.set_item("ID", this.id);
+
             item.set_item(CoffeeType._FullNameProperty, this.fullName());
             item.set_item(CoffeeType._CoffeinProperty, this.coffein === true);
         }
 
         constructor(item?: SP.ListItem) {
-            if (!item)
-                return;
+            if (item)
+                this.loadFrom(item);
+        }
 
+        loadFrom(item: SP.ListItem) {
             var fullName: string = item.get_item(CoffeeType._FullNameProperty);
             if (typeof fullName === "string") {
                 var split = fullName.indexOf(':');
@@ -52,6 +59,10 @@ module CoffeeBreak {
             var coffein: boolean = item.get_item(CoffeeType._CoffeinProperty);
             if (typeof coffein === "boolean")
                 this.coffein = coffein;
+
+            var id: number = item.get_item("ID");
+            if (typeof id === "number")
+                this.id = id;
         }
 
         validate(setCompany: (error?: string) => void, setName: (error?: string) => void): boolean {

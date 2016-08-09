@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <!-- Parent ContentType: Item (0x01) -->
+  <ContentType ID="0x01000ACCEA4070694F2D9626A6668ED27E1C" Name="DonationType" Group="Custom Content Types" Description="Eine einzelne Spende" Inherits="TRUE" Version="0">
+    <FieldRefs>
+      <FieldRef ID="{82642ec8-ef9b-478f-acf9-31f7d45fbc31}" DisplayName="$Resources:core,Title;" Required="TRUE" Name="LinkTitle" ReadOnly="TRUE" />
+      <FieldRef ID="{2ff9d955-1b09-4796-87fe-6c0efd310e73}" DisplayName="Weight" Required="TRUE" Name="Weight" />
+      <FieldRef ID="{feda7925-fc94-4b9e-8b79-afe4b8c95f5b}" DisplayName="Coffee Type Relation" Required="TRUE" Name="CoffeeTypeRelation" />
+    </FieldRefs>
+  </ContentType>
+</Elements>

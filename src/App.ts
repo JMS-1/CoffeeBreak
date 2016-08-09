@@ -34,18 +34,20 @@ module CoffeeBreak {
             var context = JMS.SharePoint.newExecutor();
 
             var type1 = new CoffeeType();
+            var type1Id: number;
             type1.company = "Senseo";
             type1.name = "Guten Morgen";
             type1.coffein = true;
 
-            context.createItem(type1);
+            context.createItem(type1).success(item => type1Id = item.id);
 
             var type2 = new CoffeeType();
+            var type2Id: number;
             type2.company = "Jakobs";
             type2.name = "Krönung Light";
             type2.coffein = false;
 
-            context.createItem(type2).success(item => this.loadView(DashboardView));
+            context.createItem(type2).success(item => type2Id = item.id).success(item => this.loadView(DashboardView));
 
             context.startAsync();
         }
