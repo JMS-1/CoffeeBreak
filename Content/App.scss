@@ -25,3 +25,16 @@
         display: none;
     }
 }
+
+.coffeeBreakSelectionDialog {
+    li {
+        margin: 2px 4px;
+        padding: 2px 4px;
+        border: 1px solid black;
+        list-style: none;
+    }
+
+    li:hover {
+        background: deepskyblue;
+    }
+}

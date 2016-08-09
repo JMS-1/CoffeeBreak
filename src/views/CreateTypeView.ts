@@ -67,6 +67,25 @@ module CoffeeBreak {
         }
 
         private openSelector(list: string[], input: JQuery): void {
+            var outer = this._dialog.html(`<ul />`);
+            var parent = outer.children().first();
+
+            list.forEach(n => $(`<li />`, { text: n }).on('click', () => {
+                input.val(n);
+                input.trigger('input');
+
+                this._dialog.dialog('close');
+            }).appendTo(parent));
+
+            this._dialog.dialog(<JQueryUI.DialogOptions>{
+                closeText: Constants.text.cancelButton,
+                title: Constants.text.selectFromList,
+                closeOnEscape: true,
+                resizable: false,
+                draggable: true,
+                autoOpen: true,
+                modal: true
+            });
         }
 
         setSave(save: (done: (success: boolean) => void) => void): void {

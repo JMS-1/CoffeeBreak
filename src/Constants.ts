@@ -18,6 +18,12 @@ module CoffeeBreak {
 
             duplicateType: 'Die Art von Kaffee existiert bereits'
         }
+
+        static text = {
+            cancelButton: 'Abbrechen',
+
+            selectFromList: 'Bitte auswählen'
+        }
     }
 
 }
