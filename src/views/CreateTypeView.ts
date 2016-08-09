@@ -17,7 +17,11 @@ module CoffeeBreak {
     export class CreateTypeView extends View<ICreateTypeView, CreateTypeView, CreateTypeController> implements ICreateTypeView {
         private _company: JQuery;
 
+        private _companySelector: JQuery;
+
         private _name: JQuery;
+
+        private _nameSelector: JQuery;
 
         private _withCoffein: JQuery;
 
@@ -40,11 +44,19 @@ module CoffeeBreak {
         }
 
         protected onConnect(): void {
-            this._company = super.connectText(`.coffeeBreakCompany > input`, newValue => this._onCompanyChanged && this._onCompanyChanged(newValue));
-            this._name = super.connectText(`.coffeeBreakName > input`, newValue => this._onNameChanged && this._onNameChanged(newValue));
-            this._withCoffein = super.connectFlag(`.coffeeBreakCoffein > input`, newValue => this._onCoffeinChanged && this._onCoffeinChanged(newValue));
-            this._cancel = super.connectAction(`a.coffeeBreakCancel`, () => { });
+            this._company = super.connectText(`.coffeeBreakCompany > input[type="TEXT"]`, newValue => this._onCompanyChanged && this._onCompanyChanged(newValue));
+            this._companySelector = super.connectAction(`.coffeeBreakCompany > input[type="BUTTON"]`, () => { });
+
+            this._name = super.connectText(`.coffeeBreakName > input[type="TEXT"]`, newValue => this._onNameChanged && this._onNameChanged(newValue));
+            this._nameSelector = super.connectAction(`.coffeeBreakName > input[type="BUTTON"]`, () => { });
+
+            this._withCoffein = super.connectFlag(`.coffeeBreakCoffein > input[type="CHECKBOX"]`, newValue => this._onCoffeinChanged && this._onCoffeinChanged(newValue));
+
             this._save = super.connectAction(`a.coffeeBreakSave`, () => { });
+            this._cancel = super.connectAction(`a.coffeeBreakCancel`, () => { });
+
+            this._companySelector.button();
+            this._nameSelector.button();
 
             this.setSave(false);
         }
