@@ -113,20 +113,25 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Lists\CoffeeTypes\CoffeeTypesInstance\Elements.xml" />
+    <Content Include="Lists\CoffeeTypes\Elements.xml" />
+    <Content Include="Lists\CoffeeTypes\Schema.xml" />
+    <Content Include="Lists\CoffeeType\Elements.xml" />
+    <Content Include="Lists\WithCoffein\Elements.xml" />
     <Content Include="Scripts\jquery-ui-1.12.0.js" />
     <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
     <Content Include="views\createType.html" />
     <None Include="Lists\CoffeeTypes\CoffeeTypesInstance\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{b6c10629-5990-484e-86b7-6041a464888b}</SharePointProjectItemId>
+      <SharePointProjectItemId>{05310c16-b7ae-4b5f-a11f-a4def41d54d6}</SharePointProjectItemId>
     </None>
     <None Include="Lists\CoffeeTypes\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{1c0e458b-2d83-400c-be09-f534340c4ad9}</SharePointProjectItemId>
+      <SharePointProjectItemId>{62069766-20fa-414e-9d71-80f75e6a054c}</SharePointProjectItemId>
     </None>
     <None Include="Lists\CoffeeType\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{da7977fe-45ce-4a57-a7c9-4616059f97a6}</SharePointProjectItemId>
+      <SharePointProjectItemId>{c785893c-ebb4-4636-a1b5-7100be60c6fb}</SharePointProjectItemId>
     </None>
     <None Include="Lists\WithCoffein\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{c94a0a67-3300-428e-84fc-81572f0759a8}</SharePointProjectItemId>
+      <SharePointProjectItemId>{993ac06f-d8d1-4039-8ac1-a0e0fa2076d9}</SharePointProjectItemId>
     </None>
     <None Include="package.json" />
     <None Include="packages.config">
@@ -136,11 +141,6 @@
       <SharePointProjectItemId>{32e76132-f11d-4a6c-9eac-c188742d274d}</SharePointProjectItemId>
     </None>
     <Content Include="Elements.xml" />
-    <Content Include="Lists\CoffeeTypes\CoffeeTypesInstance\Elements.xml" />
-    <Content Include="Lists\CoffeeTypes\Elements.xml" />
-    <Content Include="Lists\CoffeeTypes\Schema.xml" />
-    <Content Include="Lists\CoffeeType\Elements.xml" />
-    <Content Include="Lists\WithCoffein\Elements.xml" />
     <Content Include="Pages\Elements.xml" />
     <Content Include="Pages\Default.aspx" />
     <None Include="Scripts\App.js.map" />

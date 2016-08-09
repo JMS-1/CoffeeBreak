@@ -9,6 +9,6 @@
         SecurityBits="11"
         Sequence="410"
         DisplayName="CoffeeTypes"
-        Description="Arten von Kaffee"
+        Description="Alle Arten von Kaffee"
         Image="/_layouts/15/images/itgen.png"/>
 </Elements>

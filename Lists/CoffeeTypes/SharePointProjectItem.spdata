@@ -5,6 +5,6 @@
     <ProjectItemFile Source="Schema.xml" Target="CoffeeTypes\" Type="ElementFile" />
   </Files>
   <ExtensionData>
-    <ExtensionDataItem Key="Microsoft.VisualStudio.SharePoint.ListSettings.ListFieldsContentTypeID" Value="0x0100befa86d12ef84ca88153ba41d6450eeb" />
+    <ExtensionDataItem Key="Microsoft.VisualStudio.SharePoint.ListSettings.ListFieldsContentTypeID" Value="0x01001e443f0c2eb84d3e86148c0bec970f0d" />
   </ExtensionData>
 </ProjectItem>

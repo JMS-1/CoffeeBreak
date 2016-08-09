@@ -22,6 +22,13 @@ module CoffeeBreak {
                 this._model.coffein = withCoffein;
                 this.validate();
             });
+
+            var query = JMS.SharePoint.newExecutor();
+
+            query.items(CoffeeType).success(items => {
+            });
+
+            query.startAsync();
         }
 
         private validate(): void {

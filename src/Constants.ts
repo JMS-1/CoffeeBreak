@@ -8,7 +8,7 @@ module CoffeeBreak {
         };
 
         static contentTypeIds = {
-            coffeeTypes: '0x01010200A2400A551B854B8D997D4D06F8B7DA16'
+            coffeeTypes: '0x01003F6C67E72F454C9B967266935FC81C2A'
         };
     }
 

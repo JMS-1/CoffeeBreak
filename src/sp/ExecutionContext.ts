@@ -1,12 +1,34 @@
 ﻿'use strict';
 
 module JMS.SharePoint {
+    export interface IResult<TResponseType> {
+        success(callback: (response: TResponseType) => void): IResult<TResponseType>;
+
+        failure(callback: (message: string) => void): IResult<TResponseType>;
+    }
+
     export interface IExecutionResult<TResponseType extends SP.ClientObject> {
         request: TResponseType;
 
         success(callback: (response: TResponseType) => void): IExecutionResult<TResponseType>;
 
         failure(callback: (message: string) => void): IExecutionResult<TResponseType>;
+    }
+
+    export interface ISerializableClass {
+        listName: string;
+
+        contentTypeId: string;
+
+        listColumns: string[];
+    }
+
+    export interface ISerializable {
+        saveTo(item: SP.ListItem): void;
+    }
+
+    export interface IFactory<TModelType extends ISerializable> {
+        new (item: SP.ListItem): TModelType;
     }
 
     export interface IExecutionContext {
@@ -16,15 +38,11 @@ module JMS.SharePoint {
 
         list(listName: string): IExecutionResult<SP.List>;
 
-        items(listName: string, query?: SP.CamlQuery): IExecutionResult<SP.ListItemCollection>;
+        items<TModelType extends ISerializable>(factory: IFactory<TModelType>, query?: SP.CamlQuery): IResult<TModelType[]>;
 
         createItem<TModelType extends ISerializable>(data: TModelType): IExecutionResult<SP.ListItem>;
 
         startAsync(): void;
-    }
-
-    export interface ISerializable {
-        saveTo(item: SP.ListItem): void;
     }
 
     class ExecutionResult<TResponseType extends SP.ClientObject> implements IExecutionResult<TResponseType> {
@@ -32,8 +50,8 @@ module JMS.SharePoint {
 
         private _failure: (message: string) => void;
 
-        constructor(public request: TResponseType) {
-            request.get_context().load(request);
+        constructor(public request: TResponseType, ...refinement: string[]) {
+            request.get_context().load(request, ...refinement);
         }
 
         success(callback: (response: TResponseType) => void): IExecutionResult<TResponseType> {
@@ -54,6 +72,39 @@ module JMS.SharePoint {
         }
 
         fireFailure(message: string): void {
+            if (this._failure)
+                this._failure(message);
+        }
+    }
+
+    class Result<TResponseType, TProtocolType extends SP.ClientObject> implements IResult<TResponseType> {
+        private _success: (response: TResponseType) => void;
+
+        private _failure: (message: string) => void;
+
+        constructor(promise: IExecutionResult<TProtocolType>, private _projector: (data: TProtocolType) => TResponseType) {
+            promise.success(r => this.fireSuccess(r));
+            promise.failure(m => this.fireFailure(m));
+        }
+
+        success(callback: (response: TResponseType) => void): IResult<TResponseType> {
+            this._success = callback;
+
+            return this;
+        }
+
+        failure(callback: (message: string) => void): IResult<TResponseType> {
+            this._failure = callback;
+
+            return this;
+        }
+
+        private fireSuccess(data: TProtocolType): void {
+            if (this._success)
+                this._success(this._projector(data));
+        }
+
+        private fireFailure(message: string): void {
             if (this._failure)
                 this._failure(message);
         }
@@ -87,12 +138,25 @@ module JMS.SharePoint {
             return this.addPromise(ExecutionContext.web().get_lists().getByTitle(listName));
         }
 
-        items(listName: string, query: SP.CamlQuery = new SP.CamlQuery()): IExecutionResult<SP.ListItemCollection> {
-            return this.addPromise(ExecutionContext.web().get_lists().getByTitle(listName).getItems(query));
+        items<TModelType extends ISerializable>(factory: IFactory<TModelType>, query: SP.CamlQuery = new SP.CamlQuery()): IResult<TModelType[]> {
+            var factoryStatic: ISerializableClass = <any>factory;
+            var columns: string[] = factoryStatic.listColumns;
+            var properties = `Include(ID, ${columns.join(", ")})`;
+
+            var promise = this.addPromise(ExecutionContext.web().get_lists().getByTitle(factoryStatic.listName).getItems(query), properties);
+
+            return new Result<TModelType[], SP.ListItemCollection>(promise, items => {
+                var modelItems: TModelType[] = [];
+
+                for (var all = items.getEnumerator(); all.moveNext();)
+                    modelItems.push(new factory(all.get_current()));
+
+                return modelItems;
+            });
         }
 
         createItem<TModelType extends ISerializable>(data: TModelType): IExecutionResult<SP.ListItem> {
-            var dataStatic = Object.getPrototypeOf(data).constructor;                   
+            var dataStatic: ISerializableClass = Object.getPrototypeOf(data).constructor;
             var newItem = ExecutionContext.web().get_lists().getByTitle(dataStatic.listName).addItem(new SP.ListItemCreationInformation());
 
             newItem.set_item('ContentTypeId', dataStatic.contentTypeId);
@@ -104,8 +168,8 @@ module JMS.SharePoint {
             return this.addPromise(newItem);
         }
 
-        private addPromise<TResponseType extends SP.ClientObject>(request: TResponseType): ExecutionResult<TResponseType> {
-            var promise = new ExecutionResult<TResponseType>(request);
+        private addPromise<TResponseType extends SP.ClientObject>(request: TResponseType, ...refinement: string[]): ExecutionResult<TResponseType> {
+            var promise = new ExecutionResult<TResponseType>(request, ...refinement);
 
             this.promises.push(promise);
 
