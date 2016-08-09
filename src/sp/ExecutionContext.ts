@@ -38,7 +38,7 @@ module JMS.SharePoint {
 
         list(listName: string): IExecutionResult<SP.List>;
 
-        items<TModelType extends ISerializable>(factory: IFactory<TModelType>, query?: SP.CamlQuery): IResult<TModelType[]>;
+        items<TModelType extends ISerializable>(factory: IFactory<TModelType>, query?: Query): IResult<TModelType[]>;
 
         createItem<TModelType extends ISerializable>(data: TModelType): IExecutionResult<SP.ListItem>;
 
@@ -138,12 +138,12 @@ module JMS.SharePoint {
             return this.addPromise(ExecutionContext.web().get_lists().getByTitle(listName));
         }
 
-        items<TModelType extends ISerializable>(factory: IFactory<TModelType>, query: SP.CamlQuery = new SP.CamlQuery()): IResult<TModelType[]> {
+        items<TModelType extends ISerializable>(factory: IFactory<TModelType>, query: Query = new Query()): IResult<TModelType[]> {
             var factoryStatic: ISerializableClass = <any>factory;
             var columns: string[] = factoryStatic.listColumns;
-            var properties = `Include(ID, ${columns.join(", ")})`;
+            var properties = `Include(${columns.join(", ")})`;
 
-            var promise = this.addPromise(ExecutionContext.web().get_lists().getByTitle(factoryStatic.listName).getItems(query), properties);
+            var promise = this.addPromise(ExecutionContext.web().get_lists().getByTitle(factoryStatic.listName).getItems(query.getQuery()), properties);
 
             return new Result<TModelType[], SP.ListItemCollection>(promise, items => {
                 var modelItems: TModelType[] = [];
