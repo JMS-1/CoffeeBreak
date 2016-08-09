@@ -2,5 +2,6 @@
 <Elements xmlns="http://schemas.microsoft.com/sharepoint/">
   <Module Name="RootModule">
     <File Path="views\createType.html" Url="views/createType.html" ReplaceContent="TRUE" />
+    <File Path="views\dashboard.html" Url="views/dashboard.html" ReplaceContent="TRUE" />
   </Module>
 </Elements>

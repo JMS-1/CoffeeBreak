@@ -53,6 +53,7 @@ module CoffeeBreak {
         }
 
         protected close(): void {
+            App.closeView();
         }
     }
 }

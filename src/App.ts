@@ -9,26 +9,28 @@ module CoffeeBreak {
 
         private _spa: JQuery;
 
+        private _history: IViewFactory<any>[] = [];
+
         private startup(): void {
             this._spa = $(`#spaContainer`);
 
-            this.checkSampleData(CreateTypeView);
+            this.checkSampleData();
         }
 
-        private checkSampleData<TViewType extends IView>(firstView: IViewFactory<TViewType>): void {
+        private checkSampleData(): void {
             var context = JMS.SharePoint.newExecutor();
 
             context.items(CoffeeType).success(types => {
                 if (types.length > 0)
-                    this.loadView(firstView)
+                    this.loadView(DashboardView)
                 else
-                    this.loadSampleData(firstView);
+                    this.loadSampleData();
             });
 
             context.startAsync();
         }
 
-        private loadSampleData<TViewType extends IView>(firstView: IViewFactory<TViewType>): void {
+        private loadSampleData(): void {
             var context = JMS.SharePoint.newExecutor();
 
             var type1 = new CoffeeType();
@@ -43,17 +45,24 @@ module CoffeeBreak {
             type2.name = "Krönung Light";
             type2.coffein = false;
 
-            context.createItem(type2).success(item => this.loadView(firstView));
+            context.createItem(type2).success(item => this.loadView(DashboardView));
 
             context.startAsync();
         }
 
         loadView<TViewType extends IView>(factory: IViewFactory<TViewType>): void {
+            this._history.push(factory);
+
             var view = new factory();
 
             $.get(`../views/${view.viewName()}.html`, (html: string) => {
                 view.connect(this._spa.html(html));
             });
+        }
+
+        closeView(): void {
+            this._history.splice(this._history.length - 1);
+            this.loadView(this._history[this._history.length - 1]);
         }
     }
 

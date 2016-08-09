@@ -21,6 +21,8 @@ module CoffeeBreak {
 
     export interface IApplication {
         loadView<TViewType extends IView>(factory: IViewFactory<TViewType>): void;
+
+        closeView(): void;
     }
 
 }

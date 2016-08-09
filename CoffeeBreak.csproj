@@ -69,6 +69,7 @@
     <TypeScriptSourceRoot />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="views\dashboard.html" />
     <None Include="Content\App.scss" />
     <None Include="gulpfile.js" />
     <Content Include="Content\App.css" />
@@ -210,8 +211,10 @@
     <TypeScriptCompile Include="src\Constants.ts" />
     <TypeScriptCompile Include="src\controller\Controller.ts" />
     <TypeScriptCompile Include="src\controller\CreateTypeController.ts" />
+    <TypeScriptCompile Include="src\controller\DashboardController.ts" />
     <TypeScriptCompile Include="src\views\CreateTypeView.ts" />
     <TypeScriptCompile Include="src\sp\ExecutionContext.ts" />
+    <TypeScriptCompile Include="src\views\DashboardView.ts" />
     <TypeScriptCompile Include="src\views\View.ts" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
