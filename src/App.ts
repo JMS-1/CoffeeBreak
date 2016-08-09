@@ -15,7 +15,7 @@ module CoffeeBreak {
             this.loadView(CreateTypeView);
         }
 
-        loadView<TViewType>(factory: IViewFactory): void {
+        loadView<TViewType extends IView>(factory: IViewFactory<TViewType>): void {
             var view = new factory();
 
             $.get(`../views/${view.viewName()}.html`, (html: string) => {

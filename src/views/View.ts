@@ -2,7 +2,7 @@
 
 module CoffeeBreak {
 
-    export abstract class View<TViewType, TControllerType extends IController> implements IView {
+    export abstract class View<TViewInterface, TViewType extends TViewInterface, TControllerType extends ITypedController<TViewInterface>> implements IView {
         private _controller: TControllerType;
 
         private _view: JQuery;
@@ -27,6 +27,23 @@ module CoffeeBreak {
             input.on(`input`, () => onChange(input.val()));
 
             return input;
+        }
+
+        protected connectFlag(selector: string, onChange: (newValue: boolean) => void): JQuery {
+            var input = this._view.find(selector);
+
+            input.on(`change`, () => onChange(input.prop('checked')));
+
+            return input;
+        }
+
+        protected connectAction(selector: string, onExecute: () => void): JQuery {
+            var button = this._view.find(selector);
+
+            button.on(`click`, () => onExecute());
+            button.button();
+
+            return button;
         }
     }
 }

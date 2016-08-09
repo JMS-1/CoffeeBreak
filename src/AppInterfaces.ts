@@ -12,12 +12,15 @@ module CoffeeBreak {
         onConnect(): void;
     }
 
-    export interface IViewFactory {
-        new (): IView;
+    export interface ITypedController<TViewInterface> extends IController {
+    }
+
+    export interface IViewFactory<TViewType extends IView> {
+        new (): TViewType;
     }
 
     export interface IApplication {
-        loadView<TViewType>(factory: IViewFactory): void;
+        loadView<TViewType extends IView>(factory: IViewFactory<TViewType>): void;
     }
 
 }

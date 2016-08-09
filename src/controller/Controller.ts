@@ -2,7 +2,7 @@
 
 module CoffeeBreak {
 
-    export abstract class Controller<TViewInterface> implements IController {
+    export abstract class Controller<TViewInterface> implements ITypedController<TViewInterface> {
         constructor(protected view: TViewInterface) {
         }
 
