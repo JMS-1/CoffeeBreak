@@ -1,6 +1,15 @@
 ﻿'use strict';
 
 module JMS.SharePoint {
+
+    export interface IFactory0<TType> {
+        new (): TType;
+    }
+
+    export interface IFactory1<TType, TArgType> {
+        new (arg?: TArgType): TType;
+    }
+
     export interface IResult<TResponseType> {
         success(callback: (response: TResponseType) => void): IResult<TResponseType>;
 
@@ -25,8 +34,7 @@ module JMS.SharePoint {
         loadFrom(item: SP.ListItem): void;
     }
 
-    export interface IFactory<TModelType extends ISerializable> {
-        new (item: SP.ListItem): TModelType;
+    export interface IModelFactory<TModelType extends ISerializable> extends IFactory1<TModelType, SP.ListItem> {
     }
 
     export interface IExecutionContext {
@@ -36,7 +44,7 @@ module JMS.SharePoint {
 
         list(listName: string): IExecutionResult<SP.List>;
 
-        items<TModelType extends ISerializable>(factory: IFactory<TModelType>, query?: Query): IResult<TModelType[]>;
+        items<TModelType extends ISerializable>(factory: IModelFactory<TModelType>, query?: Query): IResult<TModelType[]>;
 
         createItem<TModelType extends ISerializable>(data: TModelType): IResult<TModelType>;
 

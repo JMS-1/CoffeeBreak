@@ -1,10 +1,10 @@
-﻿/// <reference path="View.ts" />
+﻿/// <reference path="FormView.ts" />
 
 'use strict';
 
 module CoffeeBreak {
 
-    export class CreateTypeView extends View<ICreateType, CreateTypeView, CreateTypeController> implements ICreateType {
+    export class CreateTypeView extends FormView<ICreateType, CreateTypeView, CreateTypeController> implements ICreateType {
         private _company: JQuery;
 
         private _companies: string[];
@@ -19,10 +19,6 @@ module CoffeeBreak {
 
         private _withCoffein: JQuery;
 
-        private _save: JQuery;
-
-        private _cancel: JQuery;
-
         private _dialog: JQuery;
 
         private _onCompanyChanged: (newValue: string) => void;
@@ -30,8 +26,6 @@ module CoffeeBreak {
         private _onNameChanged: (newValue: string) => void;
 
         private _onCoffeinChanged: (newValue: boolean) => void;
-
-        private _onSave: (done: (success: boolean) => void) => void;
 
         viewName(): string {
             return 'createType';
@@ -42,6 +36,8 @@ module CoffeeBreak {
         }
 
         protected onConnect(): void {
+            super.onConnect();
+
             this._dialog = super.connectDialog(`.coffeeBreakSelectionDialog`);
 
             this._company = super.connectText(`.coffeeBreakCompany > input`, newValue => this._onCompanyChanged && this._onCompanyChanged(newValue));
@@ -52,18 +48,11 @@ module CoffeeBreak {
 
             this._withCoffein = super.connectFlag(`.coffeeBreakCoffein > input`, newValue => this._onCoffeinChanged && this._onCoffeinChanged(newValue));
 
-            this._cancel = super.connectAction(`a.coffeeBreakCancel`, () => super.close());
-            this._save = super.connectAction(`a.coffeeBreakSave`, () => this._onSave && this._onSave(success => {
-                if (success)
-                    super.close();
-            }));
-
             this._companySelector.button();
             this._nameSelector.button();
 
             this.setCompanies();
             this.setNames();
-            this.setAllowSave(false);
         }
 
         private openSelector(list: string[], input: JQuery): void {
@@ -90,17 +79,6 @@ module CoffeeBreak {
 
         activeDonation(): Donation {
             return App.activeDonation;
-        }
-
-        setSave(save: (done: (success: boolean) => void) => void): void {
-            this._onSave = save;
-        }
-
-        setAllowSave(enable: boolean): void {
-            if (enable)
-                this._save.button('enable');
-            else
-                this._save.button('disable');
         }
 
         setCompany(company: string, onChange?: (newValue: string) => void): void {

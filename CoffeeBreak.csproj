@@ -209,6 +209,7 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\AppInterfaces.ts" />
+    <TypeScriptCompile Include="src\controller\FormController.ts" />
     <TypeScriptCompile Include="src\models\CoffeeType.ts" />
     <TypeScriptCompile Include="src\Constants.ts" />
     <TypeScriptCompile Include="src\controller\Controller.ts" />
@@ -223,6 +224,7 @@
     <TypeScriptCompile Include="src\views\CreateTypeView.ts" />
     <TypeScriptCompile Include="src\sp\ExecutionContext.ts" />
     <TypeScriptCompile Include="src\views\DashboardView.ts" />
+    <TypeScriptCompile Include="src\views\FormView.ts" />
     <TypeScriptCompile Include="src\views\View.ts" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

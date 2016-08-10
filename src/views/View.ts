@@ -15,7 +15,7 @@ module CoffeeBreak {
             this._controller.onConnect();
         }
 
-        constructor(factory: { new (view: TViewType): TControllerType }) {
+        constructor(factory: JMS.SharePoint.IFactory1<TControllerType, TViewType>) {
             this._controller = new factory(<TViewType><any>this);
         }
 

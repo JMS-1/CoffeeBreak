@@ -1,10 +1,10 @@
-﻿/// <reference path="Controller.ts" />
+﻿/// <reference path="FormController.ts" />
 
 'use strict';
 
 module CoffeeBreak {
 
-    export interface ICreateType {
+    export interface ICreateType extends IForm {
         setCompanies(companies: string[]): void;
 
         setCompany(company: string, onChange?: (newValue: string) => void): void;
@@ -19,56 +19,38 @@ module CoffeeBreak {
 
         setCoffein(withCoffein: boolean, onChange?: (newValue: boolean) => void): void;
 
-        setAllowSave(enable: boolean): void;
-
-        setSave(save: (done: (success: boolean) => void) => void): void;
-
         activeDonation(): Donation;
     }
 
-    export class CreateTypeController extends Controller<ICreateType> {
-        private _model = new CoffeeType();
-
+    export class CreateTypeController extends FormController<ICreateType, CoffeeType> {
         private _companies: { [company: string]: string[] };
 
         private _existing: string[];
 
-        onConnect(): void {
-            this.validate();
+        constructor(view: ICreateType) {
+            super(view, CoffeeType);
+        }
 
-            this.view.setCompany(this._model.company, company => {
-                this._model.company = company;
+        onConnect(): void {
+            super.onConnect();
+
+            this.view.setCompany(this.model.company, company => {
+                this.model.company = company;
                 this.refreshNames();
                 this.validate();
             });
 
-            this.view.setName(this._model.name, name => {
-                this._model.name = name;
+            this.view.setName(this.model.name, name => {
+                this.model.name = name;
                 this.validate();
             });
 
-            this.view.setCoffein(this._model.coffein, withCoffein => {
-                this._model.coffein = withCoffein;
+            this.view.setCoffein(this.model.coffein, withCoffein => {
+                this.model.coffein = withCoffein;
                 this.validate();
             });
 
-            this.view.setSave(done => {
-                this.view.setAllowSave(false);
-
-                var executor = JMS.SharePoint.newExecutor();
-
-                executor
-                    .createItem(this._model)
-                    .success(model => this.view.activeDonation().typeId = model.id)
-                    .success(model => done(true))
-                    .failure(message => done(false));
-
-                executor.startAsync();
-            });
-
-            var query = JMS.SharePoint.newExecutor();
-
-            query.items(CoffeeType).success(items => {
+            super.loadTypes(items => {
                 this._existing = items.map(item => item.fullName().toLocaleLowerCase());
 
                 this._companies = {};
@@ -97,19 +79,23 @@ module CoffeeBreak {
                 this.validate();
             });
 
-            query.startAsync();
+            this.validate();
+        }
+
+        protected onSaved(model: CoffeeType): void {
+            this.view.activeDonation().typeId = model.id
         }
 
         private refreshNames(): void {
-            this.view.setNames(this._companies[this._model.company || '']);
+            this.view.setNames(this._companies[this.model.company || '']);
         }
 
         private validate(): void {
-            var isValid = this._model.validate(error => this.view.setCompanyError(error), error => this.view.setNameError(error));
+            var isValid = this.model.validate(error => this.view.setCompanyError(error), error => this.view.setNameError(error));
 
             if (isValid)
                 if (this._existing) {
-                    var fullName = this._model.fullName().toLocaleLowerCase();
+                    var fullName = this.model.fullName().toLocaleLowerCase();
 
                     for (var item of this._existing)
                         if (item === fullName) {

@@ -87,7 +87,7 @@ module JMS.SharePoint {
             return this.addPromise(ExecutionContext.web().get_lists().getByTitle(listName));
         }
 
-        items<TModelType extends ISerializable>(factory: IFactory<TModelType>, query: Query = new Query()): IResult<TModelType[]> {
+        items<TModelType extends ISerializable>(factory: JMS.SharePoint.IModelFactory<TModelType>, query: Query = new Query()): IResult<TModelType[]> {
             var factoryStatic: ISerializableClass = <any>factory;
             var promise = this.addPromise(ExecutionContext.web().get_lists().getByTitle(factoryStatic.listName).getItems(query.getQuery()));
 

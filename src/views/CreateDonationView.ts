@@ -1,10 +1,10 @@
-﻿/// <reference path="View.ts" />
+﻿/// <reference path="FormView.ts" />
 
 'use strict';
 
 module CoffeeBreak {
 
-    export class CreateDonationView extends View<ICreateDonation, CreateDonationView, CreateDonationController> implements ICreateDonation {
+    export class CreateDonationView extends FormView<ICreateDonation, CreateDonationView, CreateDonationController> implements ICreateDonation {
         viewName(): string {
             return 'createDonation';
         }
@@ -13,17 +13,11 @@ module CoffeeBreak {
 
         private _weight: JQuery;
 
-        private _save: JQuery;
-
-        private _cancel: JQuery;
-
         private _newType: JQuery;
 
         private _onTypeChanged: (selected: CoffeeType) => void;
 
         private _onWeightChanged: (newValue: number, isValid: boolean) => void;
-
-        private _onSave: (done: (success: boolean) => void) => void;
 
         private _typeMap: { [id: string]: CoffeeType } = {};
 
@@ -32,19 +26,13 @@ module CoffeeBreak {
         }
 
         protected onConnect(): void {
+            super.onConnect();
+
             this._type = super.connectSelect(`.coffeeBreakType > select`, selected => this._onTypeChanged && this._onTypeChanged(this._typeMap[selected]));
             this._newType = super.connectAction(`.coffeeBreakType > a`, () => App.loadView(CreateTypeView));
             this._newType.prop(`disabled`, true);
 
             this._weight = super.connectNumber(`.coffeeBreakWeight > input`, (newValue, isValid) => this._onWeightChanged && this._onWeightChanged(newValue, isValid));
-
-            this._cancel = super.connectAction(`a.coffeeBreakCancel`, () => this.close());
-            this._save = super.connectAction(`a.coffeeBreakSave`, () => this._onSave && this._onSave(success => {
-                if (success)
-                    super.close();
-            }));
-
-            this.setAllowSave(false);
         }
 
         protected close(): void {
@@ -60,17 +48,6 @@ module CoffeeBreak {
                 App.activeDonation = model;
 
             return active;
-        }
-
-        setSave(save: (done: (success: boolean) => void) => void): void {
-            this._onSave = save;
-        }
-
-        setAllowSave(enable: boolean): void {
-            if (enable)
-                this._save.button('enable');
-            else
-                this._save.button('disable');
         }
 
         setWeight(weight: number, onChange?: (newValue: number, isValid: boolean) => void): void {

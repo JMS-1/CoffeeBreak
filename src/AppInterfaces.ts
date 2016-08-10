@@ -8,15 +8,7 @@ module CoffeeBreak {
         connect(html: JQuery): void;
     }
 
-    export interface IController {
-        onConnect(): void;
-    }
-
-    export interface ITypedController<TViewInterface> extends IController {
-    }
-
-    export interface IViewFactory<TViewType extends IView> {
-        new (): TViewType;
+    export interface IViewFactory<TViewType extends IView> extends JMS.SharePoint.IFactory0<TViewType> {
     }
 
     export interface IApplication {
