@@ -22,6 +22,8 @@ module CoffeeBreak {
         setAllowSave(enable: boolean): void;
 
         setSave(save: (done: (success: boolean) => void) => void): void;
+
+        registerNewType(type: CoffeeType): void;
     }
 
     export class CreateTypeController extends Controller<ICreateType> {
@@ -57,8 +59,9 @@ module CoffeeBreak {
 
                 executor
                     .createItem(this._model)
-                    .success(m => done(true))
-                    .failure(m => done(false));
+                    .success(model => this.view.registerNewType(model))
+                    .success(model => done(true))
+                    .failure(message => done(false));
 
                 executor.startAsync();
             });

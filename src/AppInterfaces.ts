@@ -23,6 +23,8 @@ module CoffeeBreak {
         loadView<TViewType extends IView>(factory: IViewFactory<TViewType>): void;
 
         closeView(): void;
+
+        newlyCreatedType: CoffeeType;
     }
 
 }

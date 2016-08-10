@@ -7,6 +7,8 @@ module CoffeeBreak {
             ExecuteOrDelayUntilScriptLoaded(() => $(() => this.startup()), "sp.js");
         }
 
+        newlyCreatedType: CoffeeType;
+
         private _spa: JQuery;
 
         private _history: IViewFactory<any>[] = [];
@@ -72,13 +74,14 @@ module CoffeeBreak {
             var view = new factory();
 
             $.get(`../views/${view.viewName()}.html`, (html: string) => {
+                this._spa.html(``);
+
                 view.connect(this._spa.html(html));
             });
         }
 
         closeView(): void {
-            this._history.splice(this._history.length - 1);
-            this.loadView(this._history[this._history.length - 1]);
+            this.loadView(this._history.splice(this._history.length - 2)[0]);
         }
     }
 

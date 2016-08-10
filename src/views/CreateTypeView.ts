@@ -39,6 +39,8 @@ module CoffeeBreak {
 
         constructor() {
             super(CreateTypeController);
+
+            this.registerNewType(undefined);
         }
 
         protected onConnect(): void {
@@ -86,6 +88,10 @@ module CoffeeBreak {
                 autoOpen: true,
                 modal: true
             });
+        }
+
+        registerNewType(type: CoffeeType): void {
+            App.newlyCreatedType = type;
         }
 
         setSave(save: (done: (success: boolean) => void) => void): void {

@@ -22,9 +22,18 @@ module CoffeeBreak {
         protected abstract onConnect(): void;
 
         protected connectDialog(selector: string): JQuery {
-            var dialog = this._view.find(selector);
+            return this._view.find(selector);
+        }
 
-            return dialog;
+        protected connectSelect(selector: string, onChange: (newValue: string) => void): JQuery {
+            var select = this._view.find(selector);
+
+            select.selectmenu(<JQueryUI.SelectMenuOptions>{
+                change: () => onChange(select.val()),
+                disabled: true
+            });
+
+            return select;
         }
 
         protected connectText(selector: string, onChange: (newValue: string) => void): JQuery {

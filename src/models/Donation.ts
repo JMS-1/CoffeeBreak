@@ -15,6 +15,8 @@ module CoffeeBreak {
 
         typeId: number;
 
+        typeName: string;
+
         saveTo(item: SP.ListItem): void {
             super.saveTo(item);
 
@@ -43,8 +45,10 @@ module CoffeeBreak {
                 this.weight = weight;
 
             var typeId: SP.FieldLookupValue = item.get_item(Donation._TypeProperty);
-            if (typeId)
+            if (typeId) {
                 this.typeId = typeId.get_lookupId();
+                this.typeName = typeId.get_lookupValue();
+            }
         }
     }
 
