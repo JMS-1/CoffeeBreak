@@ -74,8 +74,6 @@ module CoffeeBreak {
             var view = new factory();
 
             $.get(`../views/${view.viewName()}.html`, (html: string) => {
-                this._spa.html(``);
-
                 view.connect(this._spa.html(html));
             });
         }

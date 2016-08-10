@@ -5,7 +5,7 @@
 module CoffeeBreak {
 
     export interface ICreateDonation {
-        setType(type: string, onChange?: (newValue: CoffeeType) => void): void;
+        setType(typeId: number, onChange?: (newValue: CoffeeType) => void): CoffeeType;
 
         setTypes(types: CoffeeType[]): void;
 
@@ -17,11 +17,9 @@ module CoffeeBreak {
 
         onConnect(): void {
             var newlyCreatedType = this.view.getNewlyCreatedType();
-            
-            if (newlyCreatedType) {
+
+            if (newlyCreatedType)
                 this._model.typeId = newlyCreatedType.id;
-                this._model.typeName = newlyCreatedType.fullName();
-            }
 
             var query = JMS.SharePoint.newExecutor();
 
@@ -29,15 +27,22 @@ module CoffeeBreak {
                 items.sort();
 
                 this.view.setTypes(items);
-                this.view.setType(this._model.typeName, newType => {
+
+                var activeType = this.view.setType(this._model.typeId, newType => {
                     this._model.typeId = newType.id;
-                    this._model.typeName = newType.fullName();
 
                     this.validate();
                 });
+
+                if (activeType)
+                    this._model.typeId = activeType.id;
+
+                this.validate();
             });
 
             query.startAsync();
+
+            this.validate();
         }
 
         private validate(): void {

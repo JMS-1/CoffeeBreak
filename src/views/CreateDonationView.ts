@@ -48,19 +48,24 @@ module CoffeeBreak {
             if (types.length < 1)
                 return;
 
-            types.forEach(t => {
-                $(`<option />`, { text: t.fullName(), value: t.id }).appendTo(this._type);
+            types.forEach((type, index) => {
+                var id = type.id.toString();
 
-                this._typeMap[t.id] = t;
+                this._type.append(new Option(type.fullName(), id));
+                this._typeMap[id] = type;
             });
 
             this._type.selectmenu(`refresh`);
             this._type.selectmenu(`enable`);
         }
 
-        setType(type: string, onChange?: (newValue: CoffeeType) => void): void {
+        setType(typeId: number, onChange?: (newValue: CoffeeType) => void): CoffeeType {
             this._onTypeChanged = onChange;
-            this._type.val(type);
+
+            if (typeId !== undefined)
+                this._type.val(typeId);
+
+            return this._typeMap[this._type.val()];
         }
     }
 }
