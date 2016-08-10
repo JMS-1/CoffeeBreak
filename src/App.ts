@@ -34,26 +34,36 @@ module CoffeeBreak {
             var context = JMS.SharePoint.newExecutor();
 
             var type1 = new CoffeeType();
-            var type1Id: number;
             type1.company = "Senseo";
             type1.name = "Guten Morgen";
             type1.coffein = true;
 
-            context.createItem(type1).success(item => type1Id = item.id);
-
             var type2 = new CoffeeType();
-            var type2Id: number;
             type2.company = "Jakobs";
             type2.name = "Krönung Light";
             type2.coffein = false;
 
-            context.createItem(type2).success(item => type2Id = item.id).success(item => this.loadDonations());
+            context.createItem(type1);
+            context.createItem(type2).success(item => this.loadDonations());
 
             context.startAsync();
         }
 
         private loadDonations(): void {
-            this.loadView(DashboardView);
+            var context = JMS.SharePoint.newExecutor();
+
+            var don1 = new Donation();
+            don1.typeId = 1;
+            don1.weight = 500;
+
+            var don2 = new Donation();
+            don2.typeId = 2;
+            don2.weight = 250;
+
+            context.createItem(don1);
+            context.createItem(don2).success(item => this.loadView(DashboardView));
+
+            context.startAsync();
         }
 
         loadView<TViewType extends IView>(factory: IViewFactory<TViewType>): void {

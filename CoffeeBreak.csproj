@@ -69,12 +69,9 @@
     <TypeScriptSourceRoot />
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Lists\CoffeeTypeRelation\Elements.xml" />
     <Content Include="Lists\DonationTypes\DonationTypesInstance\Elements.xml" />
     <Content Include="Lists\DonationTypes\Elements.xml" />
     <Content Include="Lists\DonationTypes\Schema.xml" />
-    <Content Include="Lists\DonationType\Elements.xml" />
-    <Content Include="Lists\Weight\Elements.xml" />
     <Content Include="views\createDonation.html" />
     <Content Include="views\dashboard.html" />
     <None Include="Content\App.scss" />
@@ -127,9 +124,6 @@
     <Content Include="Scripts\jquery-ui-1.12.0.js" />
     <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
     <Content Include="views\createType.html" />
-    <None Include="Lists\CoffeeTypeRelation\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{0d4cf75c-35e7-4590-8b3e-cef5413bf450}</SharePointProjectItemId>
-    </None>
     <None Include="Lists\CoffeeTypes\CoffeeTypesInstance\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{05310c16-b7ae-4b5f-a11f-a4def41d54d6}</SharePointProjectItemId>
     </None>
@@ -141,12 +135,6 @@
     </None>
     <None Include="Lists\DonationTypes\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{1c5d6d3c-e372-41c9-95ca-aac07535d308}</SharePointProjectItemId>
-    </None>
-    <None Include="Lists\DonationType\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{3c692666-b79f-4f0c-bf6e-c500f1943ee5}</SharePointProjectItemId>
-    </None>
-    <None Include="Lists\Weight\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{d044c377-be5f-453b-90ab-10ef9a479ada}</SharePointProjectItemId>
     </None>
     <None Include="package.json" />
     <None Include="packages.config">
@@ -227,6 +215,7 @@
     <TypeScriptCompile Include="src\controller\CreateDonationController.ts" />
     <TypeScriptCompile Include="src\controller\CreateTypeController.ts" />
     <TypeScriptCompile Include="src\controller\DashboardController.ts" />
+    <TypeScriptCompile Include="src\models\Donation.ts" />
     <TypeScriptCompile Include="src\models\Model.ts" />
     <TypeScriptCompile Include="src\sp\Interfaces.ts" />
     <TypeScriptCompile Include="src\sp\Query.ts" />

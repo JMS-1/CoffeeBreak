@@ -2,29 +2,43 @@
 <List xmlns:ows="Microsoft SharePoint" Title="DonationTypes" FolderCreation="FALSE" Direction="$Resources:Direction;" Url="Lists/DonationTypes" BaseType="0" xmlns="http://schemas.microsoft.com/sharepoint/" EnableContentTypes="TRUE">
   <MetaData>
     <ContentTypes>
-
-
-      <ContentTypeRef ID="0x01000ACCEA4070694F2D9626A6668ED27E1C" />
+      <ContentType ID="0x01000ACCEA4070694F2D9626A6668ED27E1C" Name="DonationType" Group="Custom Content Types" Description="Eine einzelne Spende" Inherits="TRUE" Version="0">
+        <FieldRefs>
+          <FieldRef ID="{2ff9d955-1b09-4796-87fe-6c0efd310e73}" Required="TRUE" Name="Weight" />
+          <FieldRef ID="{feda7925-fc94-4b9e-8b79-afe4b8c95f5b}" Required="TRUE" Name="CoffeeTypeRelation" />
+        </FieldRefs>
+      </ContentType>
     </ContentTypes>
     <Fields>
-
-      <Field ID="{2ff9d955-1b09-4796-87fe-6c0efd310e73}" Name="Weight" DisplayName="Weight" Type="Number" Required="TRUE" Group="Custom Site Columns"></Field>
-      <Field ID="{feda7925-fc94-4b9e-8b79-afe4b8c95f5b}" Name="CoffeeTypeRelation" DisplayName="Coffee Type Relation" Type="Lookup" List="Lists/CoffeeTypes" FieldRef="ID" EnableLookup="TRUE" Required="TRUE" Group="Custom Site Columns"></Field>
+      <Field
+          ID="{2ff9d955-1b09-4796-87fe-6c0efd310e73}"
+          Name="Weight"
+          DisplayName="Gewicht (g)"
+          Type="Number"
+          Required="FALSE"
+          Group="Custom Site Columns">
+      </Field>
+      <Field
+          ID="{feda7925-fc94-4b9e-8b79-afe4b8c95f5b}"
+          Name="CoffeeTypeRelation"
+          DisplayName="Coffee Type Relation"
+          Type="Lookup"
+          List="Lists/CoffeeTypes"
+          EnableLookup="TRUE"
+          Required="FALSE"
+          Group="Custom Site Columns">
+      </Field>
     </Fields>
     <Views>
-
-
       <View BaseViewID="0" Type="HTML" MobileView="TRUE" TabularView="FALSE">
         <Toolbar Type="Standard" />
         <XslLink Default="TRUE">main.xsl</XslLink>
         <RowLimit Paged="TRUE">30</RowLimit>
         <ViewFields>
-
           <FieldRef Name="LinkTitleNoMenu"></FieldRef>
         </ViewFields>
         <Query>
           <OrderBy>
-
             <FieldRef Name="Modified" Ascending="FALSE"></FieldRef>
           </OrderBy>
         </Query>
@@ -40,14 +54,11 @@
         <JSLink>clienttemplates.js</JSLink>
         <RowLimit Paged="TRUE">30</RowLimit>
         <ViewFields>
-
-          <FieldRef Name="LinkTitle"></FieldRef>
-          <FieldRef Name="CoffeeTypeRelation" />
+          <FieldRef Name="CoffeeTypeRelation" linkToItem="TRUE" />
           <FieldRef Name="Weight" />
         </ViewFields>
         <Query>
           <OrderBy>
-
             <FieldRef Name="ID"></FieldRef>
           </OrderBy>
         </Query>

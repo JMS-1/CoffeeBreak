@@ -31,9 +31,6 @@
 <%-- The markup and script in the following Content element will be placed in the <body> of the page --%>
 <asp:Content ContentPlaceHolderID="PlaceHolderMain" runat="server">
 
-    <a href="../Lists/DonationTypes" target="_blank">Spenden</a>
-    <a href="../Lists/CoffeeTypes" target="_blank">Arten</a>
-
     <div id="spaContainer" class="coffeeBreakApp">
         (Bitte einen Moment Geduld)
     </div>
