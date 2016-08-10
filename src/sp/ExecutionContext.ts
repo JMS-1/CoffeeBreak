@@ -105,8 +105,6 @@ module JMS.SharePoint {
             var factoryStatic: ISerializableClass = Object.getPrototypeOf(data).constructor;
             var newItem = ExecutionContext.web().get_lists().getByTitle(factoryStatic.listName).addItem(new SP.ListItemCreationInformation());
 
-            newItem.set_item('ContentTypeId', factoryStatic.contentTypeId);
-
             data.saveTo(newItem);
 
             newItem.update();

@@ -11,8 +11,6 @@ module CoffeeBreak {
 
         static listName = Constants.listNames.donations;
 
-        static contentTypeId = Constants.contentTypeIds.donations;
-
         weight: number;
 
         typeId: number;

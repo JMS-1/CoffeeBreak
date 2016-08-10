@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<List xmlns:ows="Microsoft SharePoint" Title="DonationTypes" FolderCreation="FALSE" Direction="$Resources:Direction;" Url="Lists/DonationTypes" BaseType="0" xmlns="http://schemas.microsoft.com/sharepoint/" EnableContentTypes="TRUE">
+<List xmlns:ows="Microsoft SharePoint" Title="Donations" FolderCreation="FALSE" Direction="$Resources:Direction;" Url="Lists/Donations" BaseType="0" xmlns="http://schemas.microsoft.com/sharepoint/" EnableContentTypes="TRUE">
   <MetaData>
     <ContentTypes>
-      <ContentType ID="0x01000ACCEA4070694F2D9626A6668ED27E1C" Name="DonationType" Group="Custom Content Types" Description="Eine einzelne Spende" Inherits="TRUE" Version="0">
+      <ContentType ID="0x01000ACCEA4070694F2D9626A6668ED27E1C" Name="Donation" Group="Custom Content Types" Description="Eine einzelne Spende" Inherits="TRUE" Version="0">
         <FieldRefs>
           <FieldRef ID="{2ff9d955-1b09-4796-87fe-6c0efd310e73}" Required="TRUE" Name="Weight" />
           <FieldRef ID="{feda7925-fc94-4b9e-8b79-afe4b8c95f5b}" Required="TRUE" Name="CoffeeTypeRelation" />

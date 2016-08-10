@@ -11,8 +11,6 @@ module CoffeeBreak {
 
         static listName = Constants.listNames.coffeeTypes;
 
-        static contentTypeId = Constants.contentTypeIds.coffeeTypes;
-
         company: string;
 
         name: string;

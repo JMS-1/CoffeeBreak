@@ -1,0 +1,4 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Elements xmlns="http://schemas.microsoft.com/sharepoint/">
+  <ListInstance Title="Donations" OnQuickLaunch="TRUE" TemplateType="101" Url="Lists/Donations" Description="Alle bisherigen Spenden"></ListInstance>
+</Elements>

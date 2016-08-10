@@ -17,8 +17,6 @@ module JMS.SharePoint {
 
     export interface ISerializableClass {
         listName: string;
-
-        contentTypeId: string;
     }
 
     export interface ISerializable {

@@ -69,9 +69,9 @@
     <TypeScriptSourceRoot />
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="Lists\DonationTypes\DonationTypesInstance\Elements.xml" />
-    <Content Include="Lists\DonationTypes\Elements.xml" />
-    <Content Include="Lists\DonationTypes\Schema.xml" />
+    <Content Include="Lists\Donations\DonationsInstance\Elements.xml" />
+    <Content Include="Lists\Donations\Elements.xml" />
+    <Content Include="Lists\Donations\Schema.xml" />
     <Content Include="views\createDonation.html" />
     <Content Include="views\dashboard.html" />
     <None Include="Content\App.scss" />
@@ -130,10 +130,10 @@
     <None Include="Lists\CoffeeTypes\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{62069766-20fa-414e-9d71-80f75e6a054c}</SharePointProjectItemId>
     </None>
-    <None Include="Lists\DonationTypes\DonationTypesInstance\SharePointProjectItem.spdata">
+    <None Include="Lists\Donations\DonationsInstance\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{06e45d59-3be2-4541-aeb1-64a9dc915152}</SharePointProjectItemId>
     </None>
-    <None Include="Lists\DonationTypes\SharePointProjectItem.spdata">
+    <None Include="Lists\Donations\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{1c5d6d3c-e372-41c9-95ca-aac07535d308}</SharePointProjectItemId>
     </None>
     <None Include="package.json" />

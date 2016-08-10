@@ -2,13 +2,13 @@
 <Elements xmlns="http://schemas.microsoft.com/sharepoint/">
     <!-- Do not change the value of the Name attribute below. If it does not match the folder name of the List project item, an error will occur when the project is run. -->
     <ListTemplate
-        Name="DonationTypes"
+        Name="Donations"
         Type="101"
         BaseType="0"
         OnQuickLaunch="TRUE"
         SecurityBits="11"
         Sequence="411"
-        DisplayName="DonationTypes"
+        DisplayName="Donations"
         Description="Alle bisherigen Spenden"
         Image="/_layouts/15/images/itgen.png"/>
 </Elements>
