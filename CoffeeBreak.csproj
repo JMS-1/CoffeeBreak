@@ -124,8 +124,6 @@
     <Content Include="Lists\CoffeeTypes\CoffeeTypesInstance\Elements.xml" />
     <Content Include="Lists\CoffeeTypes\Elements.xml" />
     <Content Include="Lists\CoffeeTypes\Schema.xml" />
-    <Content Include="Lists\CoffeeType\Elements.xml" />
-    <Content Include="Lists\WithCoffein\Elements.xml" />
     <Content Include="Scripts\jquery-ui-1.12.0.js" />
     <Content Include="Scripts\jquery-ui-1.12.0.min.js" />
     <Content Include="views\createType.html" />
@@ -138,9 +136,6 @@
     <None Include="Lists\CoffeeTypes\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{62069766-20fa-414e-9d71-80f75e6a054c}</SharePointProjectItemId>
     </None>
-    <None Include="Lists\CoffeeType\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{c785893c-ebb4-4636-a1b5-7100be60c6fb}</SharePointProjectItemId>
-    </None>
     <None Include="Lists\DonationTypes\DonationTypesInstance\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{06e45d59-3be2-4541-aeb1-64a9dc915152}</SharePointProjectItemId>
     </None>
@@ -152,9 +147,6 @@
     </None>
     <None Include="Lists\Weight\SharePointProjectItem.spdata">
       <SharePointProjectItemId>{d044c377-be5f-453b-90ab-10ef9a479ada}</SharePointProjectItemId>
-    </None>
-    <None Include="Lists\WithCoffein\SharePointProjectItem.spdata">
-      <SharePointProjectItemId>{993ac06f-d8d1-4039-8ac1-a0e0fa2076d9}</SharePointProjectItemId>
     </None>
     <None Include="package.json" />
     <None Include="packages.config">

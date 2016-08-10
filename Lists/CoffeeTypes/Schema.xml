@@ -1,30 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<List xmlns:ows="Microsoft SharePoint" Title="CoffeeTypes" FolderCreation="FALSE" Direction="$Resources:Direction;" Url="Lists/CoffeeTypes" BaseType="0" xmlns="http://schemas.microsoft.com/sharepoint/" EnableContentTypes="TRUE">
+<List xmlns:ows="Microsoft SharePoint" Title="CoffeeTypes" FolderCreation="FALSE" Direction="$Resources:Direction;" Url="Lists/CoffeeTypes" BaseType="0" xmlns="http://schemas.microsoft.com/sharepoint/" >
   <MetaData>
     <ContentTypes>
-
-
-      <ContentTypeRef ID="0x01003F6C67E72F454C9B967266935FC81C2A" />
+      <ContentType ID="0x01003F6C67E72F454C9B967266935FC81C2A" Name="CoffeeType" Group="Custom Content Types" Description="Eine Art von Kaffee" Inherits="TRUE" Version="0">
+        <FieldRefs>
+          <FieldRef ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" DisplayName="Marke / Sorte" Required="TRUE" Name="Title" />
+          <FieldRef ID="{db685820-a7f3-4919-ae33-4375acaaf6c8}" DisplayName="With Coffein" Required="TRUE" Name="WithCoffein" />
+        </FieldRefs>
+      </ContentType>
     </ContentTypes>
     <Fields>
-
-      <Field ID="{fa564e0f-0c70-4ab9-b863-0177e6ddd247}" Type="Text" Name="Title" DisplayName="$Resources:core,Title;" Required="TRUE" SourceID="http://schemas.microsoft.com/sharepoint/v3" StaticName="Title" MaxLength="255" />
-      <Field ID="{db685820-a7f3-4919-ae33-4375acaaf6c8}" Name="WithCoffein" DisplayName="With Coffein" Type="Boolean" Required="TRUE" Group="Custom Site Columns"></Field>
+      <Field
+          ID="{db685820-a7f3-4919-ae33-4375acaaf6c8}"
+          Name="WithCoffein"
+          DisplayName="With Coffein"
+          Type="Boolean"
+          Required="FALSE"
+          Group="Custom Site Columns" />
     </Fields>
     <Views>
-
-
       <View BaseViewID="0" Type="HTML" MobileView="TRUE" TabularView="FALSE">
         <Toolbar Type="Standard" />
         <XslLink Default="TRUE">main.xsl</XslLink>
         <RowLimit Paged="TRUE">30</RowLimit>
         <ViewFields>
-
-          <FieldRef Name="LinkTitleNoMenu"></FieldRef>
+          <FieldRef Name="LinkTitleNoMenu" />
         </ViewFields>
         <Query>
           <OrderBy>
-
             <FieldRef Name="Modified" Ascending="FALSE"></FieldRef>
           </OrderBy>
         </Query>
@@ -40,13 +43,11 @@
         <JSLink>clienttemplates.js</JSLink>
         <RowLimit Paged="TRUE">30</RowLimit>
         <ViewFields>
-
-          <FieldRef Name="LinkTitle"></FieldRef>
+          <FieldRef Name="LinkTitleNoMenu" />
           <FieldRef Name="WithCoffein" />
         </ViewFields>
         <Query>
           <OrderBy>
-
             <FieldRef Name="ID"></FieldRef>
           </OrderBy>
         </Query>
