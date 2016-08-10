@@ -27,7 +27,7 @@ module CoffeeBreak {
             this._type = super.connectSelect(`.coffeeBreakType > select`, selected => this._onTypeChanged && this._onTypeChanged(this._typeMap[selected]));
 
             this._cancel = super.connectAction(`a.coffeeBreakCancel`, () => this.close());
-            this._newType = super.connectAction(`.coffeeBreakType > input[type="BUTTON"]`, () => App.loadView(CreateTypeView));
+            this._newType = super.connectAction(`.coffeeBreakType > a`, () => App.loadView(CreateTypeView));
 
             this._newType.prop(`disabled`, true);
         }
@@ -55,8 +55,7 @@ module CoffeeBreak {
                 this._typeMap[id] = type;
             });
 
-            this._type.selectmenu(`refresh`);
-            this._type.selectmenu(`enable`);
+            this._type.prop(`disabled`, false);
         }
 
         setType(typeId: number, onChange?: (newValue: CoffeeType) => void): CoffeeType {

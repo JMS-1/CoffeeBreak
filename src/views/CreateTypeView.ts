@@ -47,10 +47,10 @@ module CoffeeBreak {
             this._dialog = super.connectDialog(`.coffeeBreakSelectionDialog`);
 
             this._company = super.connectText(`.coffeeBreakCompany > input[type="TEXT"]`, newValue => this._onCompanyChanged && this._onCompanyChanged(newValue));
-            this._companySelector = super.connectAction(`.coffeeBreakCompany > input[type="BUTTON"]`, () => this.openSelector(this._companies, this._company));
+            this._companySelector = super.connectAction(`.coffeeBreakCompany > a`, () => this.openSelector(this._companies, this._company));
 
             this._name = super.connectText(`.coffeeBreakName > input[type="TEXT"]`, newValue => this._onNameChanged && this._onNameChanged(newValue));
-            this._nameSelector = super.connectAction(`.coffeeBreakName > input[type="BUTTON"]`, () => this.openSelector(this._names, this._name));
+            this._nameSelector = super.connectAction(`.coffeeBreakName > a`, () => this.openSelector(this._names, this._name));
 
             this._withCoffein = super.connectFlag(`.coffeeBreakCoffein > input[type="CHECKBOX"]`, newValue => this._onCoffeinChanged && this._onCoffeinChanged(newValue));
 

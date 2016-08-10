@@ -28,10 +28,8 @@ module CoffeeBreak {
         protected connectSelect(selector: string, onChange: (newValue: string) => void): JQuery {
             var select = this._view.find(selector);
 
-            select.selectmenu(<JQueryUI.SelectMenuOptions>{
-                change: () => onChange(select.val()),
-                disabled: true
-            });
+            select.prop(`disabled`, true);
+            select.on(`change`, () => onChange(select.val()));
 
             return select;
         }
