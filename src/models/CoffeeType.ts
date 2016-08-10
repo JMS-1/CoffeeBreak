@@ -1,10 +1,10 @@
-﻿/// <reference path="Constants.ts" />
+﻿/// <reference path="Model.ts" />
 
 'use strict';
 
 module CoffeeBreak {
 
-    export class CoffeeType implements JMS.SharePoint.ISerializable {
+    export class CoffeeType extends Model {
         private static _FullNameProperty = 'Title';
 
         private static _CoffeinProperty = 'WithCoffein';
@@ -13,15 +13,11 @@ module CoffeeBreak {
 
         static contentTypeId = Constants.contentTypeIds.coffeeTypes;
 
-        static listColumns = [CoffeeType._FullNameProperty, CoffeeType._CoffeinProperty];
-
         company: string;
 
         name: string;
 
         coffein: boolean = true;
-
-        id: number;
 
         fullName(): string {
             var company = (this.company || '').trim();
@@ -34,19 +30,19 @@ module CoffeeBreak {
         }
 
         saveTo(item: SP.ListItem): void {
-            if (this.id !== undefined)
-                item.set_item("ID", this.id);
+            super.saveTo(item);
 
             item.set_item(CoffeeType._FullNameProperty, this.fullName());
             item.set_item(CoffeeType._CoffeinProperty, this.coffein === true);
         }
 
         constructor(item?: SP.ListItem) {
-            if (item)
-                this.loadFrom(item);
+            super(item);
         }
 
         loadFrom(item: SP.ListItem) {
+            super.loadFrom(item);
+
             var fullName: string = item.get_item(CoffeeType._FullNameProperty);
             if (typeof fullName === "string") {
                 var split = fullName.indexOf(':');
@@ -59,10 +55,6 @@ module CoffeeBreak {
             var coffein: boolean = item.get_item(CoffeeType._CoffeinProperty);
             if (typeof coffein === "boolean")
                 this.coffein = coffein;
-
-            var id: number = item.get_item("ID");
-            if (typeof id === "number")
-                this.id = id;
         }
 
         validate(setCompany: (error?: string) => void, setName: (error?: string) => void): boolean {

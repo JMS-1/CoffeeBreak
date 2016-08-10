@@ -24,13 +24,13 @@ module CoffeeBreak {
                 if (types.length > 0)
                     this.loadView(DashboardView)
                 else
-                    this.loadSampleData();
+                    this.loadTypes();
             });
 
             context.startAsync();
         }
 
-        private loadSampleData(): void {
+        private loadTypes(): void {
             var context = JMS.SharePoint.newExecutor();
 
             var type1 = new CoffeeType();
@@ -47,9 +47,13 @@ module CoffeeBreak {
             type2.name = "Krönung Light";
             type2.coffein = false;
 
-            context.createItem(type2).success(item => type2Id = item.id).success(item => this.loadView(DashboardView));
+            context.createItem(type2).success(item => type2Id = item.id).success(item => this.loadDonations());
 
             context.startAsync();
+        }
+
+        private loadDonations(): void {
+            this.loadView(DashboardView);
         }
 
         loadView<TViewType extends IView>(factory: IViewFactory<TViewType>): void {

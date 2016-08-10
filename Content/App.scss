@@ -27,6 +27,11 @@
 }
 
 .coffeeBreakSelectionDialog {
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+
     li {
         margin: 2px 4px;
         padding: 2px 4px;

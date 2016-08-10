@@ -229,12 +229,14 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\AppInterfaces.ts" />
-    <TypeScriptCompile Include="src\CoffeeType.ts" />
+    <TypeScriptCompile Include="src\models\CoffeeType.ts" />
     <TypeScriptCompile Include="src\Constants.ts" />
     <TypeScriptCompile Include="src\controller\Controller.ts" />
     <TypeScriptCompile Include="src\controller\CreateDonationController.ts" />
     <TypeScriptCompile Include="src\controller\CreateTypeController.ts" />
     <TypeScriptCompile Include="src\controller\DashboardController.ts" />
+    <TypeScriptCompile Include="src\models\Model.ts" />
+    <TypeScriptCompile Include="src\sp\Interfaces.ts" />
     <TypeScriptCompile Include="src\sp\Query.ts" />
     <TypeScriptCompile Include="src\views\CreateDonationView.ts" />
     <TypeScriptCompile Include="src\views\CreateTypeView.ts" />
