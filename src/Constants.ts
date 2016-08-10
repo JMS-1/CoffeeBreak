@@ -14,7 +14,11 @@ module CoffeeBreak {
 
             required: 'Es muss ein Wert angegeben werden',
 
-            duplicateType: 'Die Art von Kaffee existiert bereits'
+            duplicateType: 'Die Art von Kaffee existiert bereits',
+
+            badNumber: 'Es handelt sich nicht um eine Zahl',
+
+            badRange: 'Die Zahl muss zwischen 10 und 10.000 liegen (jeweils einschließlich)'
         }
 
         static text = {

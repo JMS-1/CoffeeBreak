@@ -39,20 +39,18 @@ module CoffeeBreak {
 
         constructor() {
             super(CreateTypeController);
-
-            this.registerNewType(undefined);
         }
 
         protected onConnect(): void {
             this._dialog = super.connectDialog(`.coffeeBreakSelectionDialog`);
 
-            this._company = super.connectText(`.coffeeBreakCompany > input[type="TEXT"]`, newValue => this._onCompanyChanged && this._onCompanyChanged(newValue));
+            this._company = super.connectText(`.coffeeBreakCompany > input`, newValue => this._onCompanyChanged && this._onCompanyChanged(newValue));
             this._companySelector = super.connectAction(`.coffeeBreakCompany > a`, () => this.openSelector(this._companies, this._company));
 
-            this._name = super.connectText(`.coffeeBreakName > input[type="TEXT"]`, newValue => this._onNameChanged && this._onNameChanged(newValue));
+            this._name = super.connectText(`.coffeeBreakName > input`, newValue => this._onNameChanged && this._onNameChanged(newValue));
             this._nameSelector = super.connectAction(`.coffeeBreakName > a`, () => this.openSelector(this._names, this._name));
 
-            this._withCoffein = super.connectFlag(`.coffeeBreakCoffein > input[type="CHECKBOX"]`, newValue => this._onCoffeinChanged && this._onCoffeinChanged(newValue));
+            this._withCoffein = super.connectFlag(`.coffeeBreakCoffein > input`, newValue => this._onCoffeinChanged && this._onCoffeinChanged(newValue));
 
             this._cancel = super.connectAction(`a.coffeeBreakCancel`, () => super.close());
             this._save = super.connectAction(`a.coffeeBreakSave`, () => this._onSave && this._onSave(success => {
@@ -90,8 +88,8 @@ module CoffeeBreak {
             });
         }
 
-        registerNewType(type: CoffeeType): void {
-            App.newlyCreatedType = type;
+        activeDonation(): Donation {
+            return App.activeDonation;
         }
 
         setSave(save: (done: (success: boolean) => void) => void): void {
@@ -129,24 +127,13 @@ module CoffeeBreak {
             else
                 this._nameSelector.button('disable');
         }
-
-        private static setError(input: JQuery, error: string) {
-            if (error.length > 0) {
-                input.parent().addClass(Constants.validation.css);
-                input.attr('title', error);
-            }
-            else {
-                input.parent().removeClass(Constants.validation.css);
-                input.removeAttr('title');
-            }
-        }
-
+        
         setNameError(error: string = ''): void {
-            CreateTypeView.setError(this._name, error);
+            View.setError(this._name, error);
         }
 
         setCompanyError(error: string = ''): void {
-            CreateTypeView.setError(this._company, error);
+            View.setError(this._company, error);
         }
 
         setName(name: string, onChange?: (newValue: string) => void): void {

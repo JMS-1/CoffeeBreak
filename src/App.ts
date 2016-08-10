@@ -7,7 +7,7 @@ module CoffeeBreak {
             ExecuteOrDelayUntilScriptLoaded(() => $(() => this.startup()), "sp.js");
         }
 
-        newlyCreatedType: CoffeeType;
+        activeDonation: Donation;
 
         private _spa: JQuery;
 

@@ -11,11 +11,19 @@ module CoffeeBreak {
 
         private _type: JQuery;
 
+        private _weight: JQuery;
+
+        private _save: JQuery;
+
         private _cancel: JQuery;
 
         private _newType: JQuery;
 
         private _onTypeChanged: (selected: CoffeeType) => void;
+
+        private _onWeightChanged: (newValue: number, isValid: boolean) => void;
+
+        private _onSave: (done: (success: boolean) => void) => void;
 
         private _typeMap: { [id: string]: CoffeeType } = {};
 
@@ -25,21 +33,58 @@ module CoffeeBreak {
 
         protected onConnect(): void {
             this._type = super.connectSelect(`.coffeeBreakType > select`, selected => this._onTypeChanged && this._onTypeChanged(this._typeMap[selected]));
+            this._newType = super.connectAction(`.coffeeBreakType > a`, () => App.loadView(CreateTypeView));
+            this._newType.prop(`disabled`, true);
+
+            this._weight = super.connectNumber(`.coffeeBreakWeight > input`, (newValue, isValid) => this._onWeightChanged && this._onWeightChanged(newValue, isValid));
 
             this._cancel = super.connectAction(`a.coffeeBreakCancel`, () => this.close());
-            this._newType = super.connectAction(`.coffeeBreakType > a`, () => App.loadView(CreateTypeView));
+            this._save = super.connectAction(`a.coffeeBreakSave`, () => this._onSave && this._onSave(success => {
+                if (success)
+                    super.close();
+            }));
 
-            this._newType.prop(`disabled`, true);
+            this.setAllowSave(false);
         }
 
         protected close(): void {
-            App.newlyCreatedType = undefined;
-
             super.close();
+
+            App.activeDonation = undefined;
         }
 
-        getNewlyCreatedType(): CoffeeType {
-            return App.newlyCreatedType;
+        activeDonation(model?: Donation): Donation {
+            var active = App.activeDonation;
+
+            if (model !== undefined)
+                App.activeDonation = model;
+
+            return active;
+        }
+
+        setSave(save: (done: (success: boolean) => void) => void): void {
+            this._onSave = save;
+        }
+
+        setAllowSave(enable: boolean): void {
+            if (enable)
+                this._save.button('enable');
+            else
+                this._save.button('disable');
+        }
+
+        setWeight(weight: number, onChange?: (newValue: number, isValid: boolean) => void): void {
+            if (onChange)
+                this._onWeightChanged = onChange;
+
+            if (weight === undefined)
+                this._weight.val(``);
+            else
+                this._weight.val(weight);
+        }
+
+        setWeightError(error: string = ''): void {
+            View.setError(this._weight, error);
         }
 
         setTypes(types: CoffeeType[]): void {
@@ -65,6 +110,10 @@ module CoffeeBreak {
                 this._type.val(typeId);
 
             return this._typeMap[this._type.val()];
+        }
+
+        setTypeError(error: string = ''): void {
+            View.setError(this._type, error);
         }
     }
 }

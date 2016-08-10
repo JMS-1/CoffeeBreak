@@ -46,6 +46,33 @@ module CoffeeBreak {
             if (typeId)
                 this.typeId = typeId.get_lookupId();
         }
+
+        validate(setType: (error?: string) => void, setWeight: (error?: string) => void): boolean {
+            var isValid = true;
+
+            if (this.typeId === undefined) {
+                setType(Constants.validation.required);
+
+                isValid = false;
+            }
+            else
+                setType();
+
+            if (this.weight === undefined) {
+                setWeight(Constants.validation.required);
+
+                isValid = false;
+            }
+            else if ((this.weight < 10) || (this.weight > 10000)) {
+                setWeight(Constants.validation.badRange);
+
+                isValid = false;
+            }
+            else
+                setWeight();
+
+            return isValid;
+        }
     }
 
 }

@@ -23,7 +23,7 @@ module CoffeeBreak {
 
         setSave(save: (done: (success: boolean) => void) => void): void;
 
-        registerNewType(type: CoffeeType): void;
+        activeDonation(): Donation;
     }
 
     export class CreateTypeController extends Controller<ICreateType> {
@@ -59,7 +59,7 @@ module CoffeeBreak {
 
                 executor
                     .createItem(this._model)
-                    .success(model => this.view.registerNewType(model))
+                    .success(model => this.view.activeDonation().typeId = model.id)
                     .success(model => done(true))
                     .failure(message => done(false));
 

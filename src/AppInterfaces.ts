@@ -24,7 +24,7 @@ module CoffeeBreak {
 
         closeView(): void;
 
-        newlyCreatedType: CoffeeType;
+        activeDonation: Donation;
     }
 
 }
