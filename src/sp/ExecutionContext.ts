@@ -101,7 +101,7 @@ module JMS.SharePoint {
             });
         }
 
-        createItem<TModelType extends ISerializable>(data: TModelType): IResult<TModelType> {
+        update<TModelType extends ISerializable>(data: TModelType): IResult<TModelType> {
             var factoryStatic: ISerializableClass = Object.getPrototypeOf(data).constructor;
             var newItem = ExecutionContext.web().get_lists().getByTitle(factoryStatic.listName).addItem(new SP.ListItemCreationInformation());
 

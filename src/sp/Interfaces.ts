@@ -46,7 +46,7 @@ module JMS.SharePoint {
 
         items<TModelType extends ISerializable>(factory: IModelFactory<TModelType>, query?: Query, ...refinements: string[]): IResult<TModelType[]>;
 
-        createItem<TModelType extends ISerializable>(data: TModelType): IResult<TModelType>;
+        update<TModelType extends ISerializable>(data: TModelType): IResult<TModelType>;
 
         startAsync(): void;
     }

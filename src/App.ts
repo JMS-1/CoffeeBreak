@@ -50,8 +50,8 @@ module CoffeeBreak {
             type2.name = "Krönung Light";
             type2.coffein = false;
 
-            context.createItem(type1);
-            context.createItem(type2).success(item => this.loadDonations());
+            context.update(type1);
+            context.update(type2).success(item => this.loadDonations());
 
             context.startAsync();
         }
@@ -67,8 +67,8 @@ module CoffeeBreak {
             don2.typeId = 2;
             don2.weight = 250;
 
-            context.createItem(don1);
-            context.createItem(don2).success(item => this.loadView(DashboardView));
+            context.update(don1);
+            context.update(don2).success(item => this.loadView(DashboardView));
 
             context.startAsync();
         }
