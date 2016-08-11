@@ -6,6 +6,8 @@ module CoffeeBreak {
 
     export interface IDashboard {
         fillTable(donations: Donation[]): void;
+
+        setRefresh(callback: (forMe?: boolean) => void);
     }
 
     export class DashboardController extends Controller<IDashboard> {
@@ -14,6 +16,13 @@ module CoffeeBreak {
         private _me: SP.User;
 
         onConnect(): void {
+            this.view.setRefresh(forMe => {
+                if (forMe !== undefined)
+                    this._model.selfOnly = forMe;
+
+                this.reload();
+            });
+
             var context = JMS.SharePoint.newExecutor();
 
             context.user().success(user => {

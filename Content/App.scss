@@ -47,6 +47,27 @@
             text-align: center;
         }
     }
+
+    .coffeeBreakDashboardLayout {
+        > div:first-child {
+            > div {
+                float: left;
+            }
+
+            > div:nth-child(2) {
+                margin-left: 10px;
+
+                > label, > a {
+                    display: block;
+                }
+            }
+
+            > div:last-child {
+                float: none;
+                clear: both;
+            }
+        }
+    }
 }
 
 .coffeeBreakSelectionDialog {
