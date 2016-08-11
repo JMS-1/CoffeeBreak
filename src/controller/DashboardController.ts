@@ -7,6 +7,8 @@ module CoffeeBreak {
     export interface IDashboard {
         fillTable(donations: Donation[]): void;
 
+        fillTimeGroup(donations: TimeGroupDonation[]): void;
+
         setRefresh(callback: (forMe?: boolean) => void);
     }
 
@@ -37,14 +39,31 @@ module CoffeeBreak {
             var context = JMS.SharePoint.newExecutor();
             var query = new JMS.SharePoint.Query();
 
-            query
-                .limit(20)
-                .order(Donation.CreatedProperty, false);
+            query.limit(20).order(Donation.CreatedProperty, false);
 
             if (this._model.selfOnly && this._me)
                 query.equal(Donation.AuthorProperty, this._me.get_id(), true);
 
             context.items(Donation, query).success(items => this.view.fillTable(items));
+
+            query = new JMS.SharePoint.Query();
+
+            query.limit(0).order(TimeGroupDonation.TimeGranularityProperty, false).group(TimeGroupDonation.TimeGranularityProperty);
+
+            context.items(TimeGroupDonation, query, `Include(ID, ${TimeGroupDonation.TimeGranularityProperty}, ${Donation.WeightProperty})`).success(items => {
+                var segments: TimeGroupDonation[] = [];
+                var aggregate: TimeGroupDonation;
+
+                items.forEach(donation => {
+                    if (!aggregate || (donation.segment !== aggregate.segment))
+                        segments.push(aggregate = donation);
+
+                    aggregate.totalWeight += donation.weight;
+                    aggregate.totalCount += 1;
+                });
+
+                this.view.fillTimeGroup(segments);
+            });
 
             context.startAsync();
         }

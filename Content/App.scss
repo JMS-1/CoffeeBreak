@@ -42,14 +42,16 @@
         > thead > tr > td {
             font-weight: bold;
         }
+    }
 
-        > tbody > tr > td:nth-child(2) {
-            text-align: center;
-        }
+    table.coffeeBreakDonationTable > tbody > tr > td:nth-child(2), table.coffeeBreakDonationTimeGroupTable > tbody > tr > td:not(:first-child) {
+        text-align: center;
     }
 
     .coffeeBreakDashboardLayout {
         > div:first-child {
+            margin-bottom: 10px;
+
             > div {
                 float: left;
             }

@@ -34,10 +34,6 @@ module CoffeeBreak {
             item.set_item(CoffeeType._CoffeinProperty, this.coffein === true);
         }
 
-        constructor(item?: SP.ListItem) {
-            super(item);
-        }
-
         loadFrom(item: SP.ListItem) {
             super.loadFrom(item);
 

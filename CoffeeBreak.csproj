@@ -219,6 +219,7 @@
     <TypeScriptCompile Include="src\models\Dashboard.ts" />
     <TypeScriptCompile Include="src\models\Donation.ts" />
     <TypeScriptCompile Include="src\models\Model.ts" />
+    <TypeScriptCompile Include="src\models\TimeGroupDonation.ts" />
     <TypeScriptCompile Include="src\sp\Interfaces.ts" />
     <TypeScriptCompile Include="src\sp\Query.ts" />
     <TypeScriptCompile Include="src\views\CreateDonationView.ts" />

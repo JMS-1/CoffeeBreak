@@ -2,6 +2,25 @@
 
 module JMS.SharePoint {
 
+    export interface ICondition {
+    }
+
+    export interface IConditionPart {
+        equal(field: string, value: any, isLookup?: boolean): IConditionPair;
+
+        and(): IConditionPair;
+
+        or(): IConditionPair;
+    }
+
+    export interface IConditionPair {
+        first(): IConditionPart;
+
+        second(): IConditionPart;
+
+        parent(): IConditionPair;
+    }
+
     interface IQueryXml {
         toXml(parent: Element): void;
     }
@@ -25,23 +44,24 @@ module JMS.SharePoint {
         }
     }
 
-    export interface ICondition {
-    }
+    class Grouping implements IQueryXml {
+        private _fields: string[] = [];
 
-    export interface IConditionPart {
-        equal(field: string, value: any, isLookup?: boolean): IConditionPair;
+        toXml(parent: Element): void {
+            var self = <Element>parent.appendChild(parent.ownerDocument.createElement('GroupBy'));
 
-        and(): IConditionPair;
+            self.setAttribute('Collapse', 'TRUE');
 
-        or(): IConditionPair;
-    }
+            this._fields.forEach(f => {
+                var field = <Element>self.appendChild(parent.ownerDocument.createElement('FieldRef'));
 
-    export interface IConditionPair {
-        first(): IConditionPart;
+                field.setAttribute('Name', f);
+            });
+        }
 
-        second(): IConditionPart;
-
-        parent(): IConditionPair;
+        addField(name: string): void {
+            this._fields.push(name);
+        }
     }
 
     abstract class Condition implements IQueryXml, ICondition {
@@ -186,11 +206,16 @@ module JMS.SharePoint {
 
         private _order: Order;
 
+        private _group: Grouping;
+
         toXml(parent: Element): void {
             var self = <Element>parent.appendChild(parent.ownerDocument.createElement('Query'));
 
             if (this._where)
                 this._where.toXml(self);
+
+            if (this._group)
+                this._group.toXml(self);
 
             if (this._order)
                 this._order.toXml(self);
@@ -201,6 +226,13 @@ module JMS.SharePoint {
                 this._order = new Order();
 
             this._order.addField(name, ascending);
+        }
+
+        addGroup(name: string): void {
+            if (!this._group)
+                this._group = new Grouping();
+
+            this._group.addField(name);
         }
 
         where(condition: Condition): ICondition {
@@ -252,6 +284,12 @@ module JMS.SharePoint {
 
         order(name: string, ascending: boolean = true): Query {
             this._root.addSort(name, ascending);
+
+            return this;
+        }
+
+        group(name: string): Query {
+            this._root.addGroup(name);
 
             return this;
         }

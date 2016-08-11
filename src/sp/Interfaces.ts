@@ -44,7 +44,7 @@ module JMS.SharePoint {
 
         list(listName: string): IExecutionResult<SP.List>;
 
-        items<TModelType extends ISerializable>(factory: IModelFactory<TModelType>, query?: Query): IResult<TModelType[]>;
+        items<TModelType extends ISerializable>(factory: IModelFactory<TModelType>, query?: Query, ...refinements: string[]): IResult<TModelType[]>;
 
         createItem<TModelType extends ISerializable>(data: TModelType): IResult<TModelType>;
 

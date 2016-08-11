@@ -11,6 +11,8 @@ module CoffeeBreak {
 
         private _table: JQuery;
 
+        private _timeGroup: JQuery;
+
         private _newDonation: JQuery;
 
         private _refresh: JQuery;
@@ -23,6 +25,7 @@ module CoffeeBreak {
 
         protected onConnect(): void {
             this._table = this.connectAny(`table.coffeeBreakDonationTable > tbody`);
+            this._timeGroup = this.connectAny(`table.coffeeBreakDonationTimeGroupTable > tbody`);
 
             this.connectFlag(`.coffeeBreakMeOnly > input`, newValue => this._reload && this._reload(newValue));
 
@@ -44,6 +47,17 @@ module CoffeeBreak {
                     .append($('<td />', { text: donation.created.toLocaleString() }))
                     .append($('<td />', { text: donation.author }))
                     .appendTo(this._table));
+        }
+
+        fillTimeGroup(donations: TimeGroupDonation[]): void {
+            this._timeGroup.html('');
+
+            donations.forEach(donation =>
+                $('<tr />')
+                    .append($('<td />', { text: donation.segment }))
+                    .append($('<td />', { text: donation.totalCount.toString() }))
+                    .append($('<td />', { text: donation.totalWeight.toString() }))
+                    .appendTo(this._timeGroup));
         }
     }
 

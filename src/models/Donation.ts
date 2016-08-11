@@ -5,11 +5,11 @@
 module CoffeeBreak {
 
     export class Donation extends Model {
-        public static AuthorProperty = 'Author';
+        static AuthorProperty = 'Author';
 
-        public static CreatedProperty = 'Created';
+        static CreatedProperty = 'Created';
 
-        private static _WeightProperty = 'Weight';
+        static WeightProperty = 'Weight';
 
         private static _TypeProperty = 'CoffeeTypeRelation';
 
@@ -28,7 +28,7 @@ module CoffeeBreak {
         saveTo(item: SP.ListItem): void {
             super.saveTo(item);
 
-            item.set_item(Donation._WeightProperty, this.weight);
+            item.set_item(Donation.WeightProperty, this.weight);
 
             if (this.typeId === undefined)
                 item.set_item(Donation._TypeProperty, null);
@@ -41,14 +41,10 @@ module CoffeeBreak {
             }
         }
 
-        constructor(item?: SP.ListItem) {
-            super(item);
-        }
-
         loadFrom(item: SP.ListItem) {
             super.loadFrom(item);
 
-            var weight: number = item.get_item(Donation._WeightProperty);
+            var weight: number = item.get_item(Donation.WeightProperty);
             if (typeof weight === "number")
                 this.weight = weight;
 
