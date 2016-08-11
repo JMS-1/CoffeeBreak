@@ -28,6 +28,20 @@
           Required="FALSE"
           Group="Custom Site Columns">
       </Field>
+      <Field
+          ID="{d84d2eef-198f-4d07-b969-67c4beb330ef}"
+          Name="TimeGranularity"
+          DisplayName="Gruppierung"
+          Type="Calculated"
+          ResultType="Text"
+          ReadOnly="TRUE"
+          Required="FALSE"
+          Group="Custom Site Columns">
+        <Formula>=TEXT([Created], "YYYY-MM-DD HH:mm")</Formula>
+        <FieldRefs>
+          <FieldRef Name="Created" />
+        </FieldRefs>
+      </Field>
     </Fields>
     <Views>
       <View BaseViewID="0" Type="HTML" MobileView="TRUE" TabularView="FALSE">
