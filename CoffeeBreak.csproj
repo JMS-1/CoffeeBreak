@@ -69,11 +69,18 @@
     <TypeScriptSourceRoot />
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="CoffeeBreakPart\Elements.xml">
+      <OpcRelationship>feature-elementmanifest</OpcRelationship>
+    </Content>
     <Content Include="Lists\Donations\DonationsInstance\Elements.xml" />
     <Content Include="Lists\Donations\Elements.xml" />
     <Content Include="Lists\Donations\Schema.xml" />
+    <Content Include="Pages\CoffeeBreakPart.aspx" />
     <Content Include="views\createDonation.html" />
     <Content Include="views\dashboard.html" />
+    <None Include="CoffeeBreakPart\SharePointProjectItem.spdata">
+      <SharePointProjectItemId>{e2248ebf-d74d-4d69-9c33-e77532bfa43b}</SharePointProjectItemId>
+    </None>
     <None Include="Content\App.scss" />
     <None Include="gulpfile.js" />
     <Content Include="Content\App.css" />

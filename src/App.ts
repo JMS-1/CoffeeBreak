@@ -4,7 +4,12 @@ module CoffeeBreak {
 
     class TheApplication implements IApplication {
         constructor() {
-            ExecuteOrDelayUntilScriptLoaded(() => $(() => this.startup()), "sp.js");
+            var starter = () => $(() => this.startup());
+
+            if (window["ExecuteOrDelayUntilScriptLoaded"] === undefined)
+                starter();
+            else
+                ExecuteOrDelayUntilScriptLoaded(starter, "sp.js");
         }
 
         activeDonation: Donation;

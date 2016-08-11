@@ -48,7 +48,7 @@ module CoffeeBreak {
 
             query = new JMS.SharePoint.Query();
 
-            query.limit(0).order(TimeGroupDonation.TimeGranularityProperty, false).group(TimeGroupDonation.TimeGranularityProperty);
+            query.limit(0).group(TimeGroupDonation.TimeGranularityProperty);
 
             context.items(TimeGroupDonation, query, `Include(ID, ${TimeGroupDonation.TimeGranularityProperty}, ${Donation.WeightProperty})`).success(items => {
                 var segments: TimeGroupDonation[] = [];
@@ -61,6 +61,8 @@ module CoffeeBreak {
                     aggregate.totalWeight += donation.weight;
                     aggregate.totalCount += 1;
                 });
+
+                segments.sort((l, r) => -l.segment.localeCompare(r.segment));
 
                 this.view.fillTimeGroup(segments);
             });
