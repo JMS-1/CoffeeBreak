@@ -16,10 +16,10 @@ module CoffeeBreak {
         }
 
         protected onConnect(): void {
-            this._cancel = super.connectAction(`a.coffeeBreakCancel`, () => super.close());
-            this._save = super.connectAction(`a.coffeeBreakSave`, () => this._onSave && this._onSave(success => {
+            this._cancel = this.connectAction(`a.coffeeBreakCancel`, () => this.close());
+            this._save = this.connectAction(`a.coffeeBreakSave`, () => this._onSave && this._onSave(success => {
                 if (success)
-                    super.close();
+                    this.close();
             }));
 
             this.setAllowSave(false);

@@ -50,7 +50,7 @@ module CoffeeBreak {
                 this.validate();
             });
 
-            super.loadTypes(items => {
+            this.loadTypes(items => {
                 this._existing = items.map(item => item.fullName().toLocaleLowerCase());
 
                 this._companies = {};

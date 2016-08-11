@@ -41,7 +41,7 @@ module CoffeeBreak {
                 this.validate();
             });
 
-            super.loadTypes(items => {
+            this.loadTypes(items => {
                 items.sort();
 
                 this.view.setTypes(items);

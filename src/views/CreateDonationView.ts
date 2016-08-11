@@ -28,11 +28,11 @@ module CoffeeBreak {
         protected onConnect(): void {
             super.onConnect();
 
-            this._type = super.connectSelect(`.coffeeBreakType > select`, selected => this._onTypeChanged && this._onTypeChanged(this._typeMap[selected]));
-            this._newType = super.connectAction(`.coffeeBreakType > a`, () => App.loadView(CreateTypeView));
+            this._type = this.connectSelect(`.coffeeBreakType > select`, selected => this._onTypeChanged && this._onTypeChanged(this._typeMap[selected]));
+            this._newType = this.connectAction(`.coffeeBreakType > a`, () => App.loadView(CreateTypeView));
             this._newType.prop(`disabled`, true);
 
-            this._weight = super.connectNumber(`.coffeeBreakWeight > input`, (newValue, isValid) => this._onWeightChanged && this._onWeightChanged(newValue, isValid));
+            this._weight = this.connectNumber(`.coffeeBreakWeight > input`, (newValue, isValid) => this._onWeightChanged && this._onWeightChanged(newValue, isValid));
         }
 
         protected close(): void {

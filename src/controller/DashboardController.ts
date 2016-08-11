@@ -12,9 +12,15 @@ module CoffeeBreak {
 
         onConnect(): void {
             var context = JMS.SharePoint.newExecutor();
+            var query = new JMS.SharePoint.Query();
 
             context.user().success(user => this._me = user);
-            context.items(Donation).success(items => {
+
+            query
+                .limit(20)
+                .order(Donation.CreatedProperty, false);
+
+            context.items(Donation, query).success(items => {
             });
 
             context.startAsync();

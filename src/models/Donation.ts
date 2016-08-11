@@ -5,6 +5,10 @@
 module CoffeeBreak {
 
     export class Donation extends Model {
+        public static AuthorProperty = 'Author';
+
+        public static CreatedProperty = 'Created';
+
         private static _WeightProperty = 'Weight';
 
         private static _TypeProperty = 'CoffeeTypeRelation';
@@ -54,11 +58,11 @@ module CoffeeBreak {
                 this.typeId = typeId.get_lookupId();
             }
 
-            var author: SP.FieldLookupValue = item.get_item(Model.AuthorProperty);
+            var author: SP.FieldLookupValue = item.get_item(Donation.AuthorProperty);
             if (author)
                 this.author = author.get_lookupValue();
 
-            this.created = <Date>item.get_item(Model.CreatedProperty);
+            this.created = <Date>item.get_item(Donation.CreatedProperty);
         }
 
         validate(setType: (error?: string) => void, setWeight: (error?: string) => void): boolean {

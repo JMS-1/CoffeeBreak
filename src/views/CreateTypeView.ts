@@ -38,15 +38,15 @@ module CoffeeBreak {
         protected onConnect(): void {
             super.onConnect();
 
-            this._dialog = super.connectDialog(`.coffeeBreakSelectionDialog`);
+            this._dialog = this.connectDialog(`.coffeeBreakSelectionDialog`);
 
-            this._company = super.connectText(`.coffeeBreakCompany > input`, newValue => this._onCompanyChanged && this._onCompanyChanged(newValue));
-            this._companySelector = super.connectAction(`.coffeeBreakCompany > a`, () => this.openSelector(this._companies, this._company));
+            this._company = this.connectText(`.coffeeBreakCompany > input`, newValue => this._onCompanyChanged && this._onCompanyChanged(newValue));
+            this._companySelector = this.connectAction(`.coffeeBreakCompany > a`, () => this.openSelector(this._companies, this._company));
 
-            this._name = super.connectText(`.coffeeBreakName > input`, newValue => this._onNameChanged && this._onNameChanged(newValue));
-            this._nameSelector = super.connectAction(`.coffeeBreakName > a`, () => this.openSelector(this._names, this._name));
+            this._name = this.connectText(`.coffeeBreakName > input`, newValue => this._onNameChanged && this._onNameChanged(newValue));
+            this._nameSelector = this.connectAction(`.coffeeBreakName > a`, () => this.openSelector(this._names, this._name));
 
-            this._withCoffein = super.connectFlag(`.coffeeBreakCoffein > input`, newValue => this._onCoffeinChanged && this._onCoffeinChanged(newValue));
+            this._withCoffein = this.connectFlag(`.coffeeBreakCoffein > input`, newValue => this._onCoffeinChanged && this._onCoffeinChanged(newValue));
 
             this._companySelector.button();
             this._nameSelector.button();

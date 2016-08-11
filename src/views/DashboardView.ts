@@ -18,8 +18,8 @@ module CoffeeBreak {
         }
 
         protected onConnect(): void {
-            this._newType = super.connectAction('a.coffeeBreakNewTypeButton', () => App.loadView(CreateTypeView));
-            this._newDonation = super.connectAction('a.coffeeBreakNewDonationButton', () => App.loadView(CreateDonationView));
+            this._newType = this.connectAction('a.coffeeBreakNewTypeButton', () => App.loadView(CreateTypeView));
+            this._newDonation = this.connectAction('a.coffeeBreakNewDonationButton', () => App.loadView(CreateDonationView));
         }
     }
 
