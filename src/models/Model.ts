@@ -5,6 +5,10 @@
 module CoffeeBreak {
 
     export abstract class Model implements JMS.SharePoint.ISerializable {
+        protected static AuthorProperty = 'Author';
+
+        protected static CreatedProperty = 'Created';
+
         private static _IDProperty = 'ID';
 
         id: number;

@@ -15,6 +15,12 @@ module CoffeeBreak {
 
         typeId: number;
 
+        typeName: string;
+
+        author: string;
+
+        created: Date;
+
         saveTo(item: SP.ListItem): void {
             super.saveTo(item);
 
@@ -43,8 +49,16 @@ module CoffeeBreak {
                 this.weight = weight;
 
             var typeId: SP.FieldLookupValue = item.get_item(Donation._TypeProperty);
-            if (typeId)
+            if (typeId) {
+                this.typeName = typeId.get_lookupValue();
                 this.typeId = typeId.get_lookupId();
+            }
+
+            var author: SP.FieldLookupValue = item.get_item(Model.AuthorProperty);
+            if (author)
+                this.author = author.get_lookupValue();
+
+            this.created = <Date>item.get_item(Model.CreatedProperty);
         }
 
         validate(setType: (error?: string) => void, setWeight: (error?: string) => void): boolean {
