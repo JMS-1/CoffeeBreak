@@ -2,25 +2,6 @@
 
 module JMS.SharePoint {
 
-    export interface ICondition {
-    }
-
-    export interface IConditionPart {
-        equal(field: string, value: any, isLookup?: boolean): IConditionPair;
-
-        and(): IConditionPair;
-
-        or(): IConditionPair;
-    }
-
-    export interface IConditionPair {
-        first(): IConditionPart;
-
-        second(): IConditionPart;
-
-        parent(): IConditionPair;
-    }
-
     interface IQueryXml {
         toXml(parent: Element): void;
     }
@@ -104,7 +85,7 @@ module JMS.SharePoint {
         }
     }
 
-    class ConditionPart implements IConditionPart {
+    class ConditionPart implements IConditionFactory {
         private _condition: Condition;
 
         constructor(private _pair: IConditionPair) {
@@ -164,11 +145,11 @@ module JMS.SharePoint {
             this._second.toXml(self);
         }
 
-        first(): IConditionPart {
+        first(): IConditionFactory {
             return this._first;
         }
 
-        second(): IConditionPart {
+        second(): IConditionFactory {
             return this._second;
         }
 

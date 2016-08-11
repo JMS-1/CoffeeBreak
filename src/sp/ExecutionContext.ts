@@ -7,8 +7,8 @@ module JMS.SharePoint {
 
         private _failure: ((message: string) => void)[] = [];
 
-        constructor(public request: TResponseType, ...refinement: string[]) {
-            request.get_context().load(request, ...refinement);
+        constructor(private _request: TResponseType, ...refinement: string[]) {
+            _request.get_context().load(_request, ...refinement);
         }
 
         success(callback: (response: TResponseType) => void): IExecutionResult<TResponseType> {
@@ -24,7 +24,7 @@ module JMS.SharePoint {
         }
 
         fireSuccess(): void {
-            this._success.forEach(c => c(this.request));
+            this._success.forEach(c => c(this._request));
         }
 
         fireFailure(message: string): void {
@@ -102,18 +102,15 @@ module JMS.SharePoint {
         }
 
         update<TModelType extends ISerializable>(data: TModelType): IResult<TModelType> {
-            var factoryStatic: ISerializableClass = Object.getPrototypeOf(data).constructor;
-            var newItem = ExecutionContext.web().get_lists().getByTitle(factoryStatic.listName).addItem(new SP.ListItemCreationInformation());
+            var factory: IModelFactory<TModelType> = Object.getPrototypeOf(data).constructor;
+            var modelClass = <ISerializableClass><any>factory;
+            var newItem = ExecutionContext.web().get_lists().getByTitle(modelClass.listName).addItem(new SP.ListItemCreationInformation());
 
             data.saveTo(newItem);
 
             newItem.update();
 
-            return new Result<TModelType, SP.ListItem>(this.addPromise(newItem), item => {
-                data.loadFrom(item);
-
-                return data;
-            });
+            return new Result<TModelType, SP.ListItem>(this.addPromise(newItem), item => new factory(item));
         }
 
         private addPromise<TResponseType extends SP.ClientObject>(request: TResponseType, ...refinement: string[]): ExecutionResult<TResponseType> {

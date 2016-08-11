@@ -17,7 +17,7 @@ module CoffeeBreak {
 
         totalWeight = 0;
 
-        loadFrom(item: SP.ListItem) {
+        protected loadFrom(item: SP.ListItem) {
             super.loadFrom(item);
 
             this.segment = item.get_item(TimeGroupDonation.TimeGranularityProperty);

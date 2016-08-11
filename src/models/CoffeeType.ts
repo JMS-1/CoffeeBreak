@@ -34,7 +34,7 @@ module CoffeeBreak {
             item.set_item(CoffeeType._CoffeinProperty, this.coffein === true);
         }
 
-        loadFrom(item: SP.ListItem) {
+        protected loadFrom(item: SP.ListItem) {
             super.loadFrom(item);
 
             var fullName: string = item.get_item(CoffeeType._FullNameProperty);
@@ -56,6 +56,11 @@ module CoffeeBreak {
 
             if ((this.company || '').trim().length < 1) {
                 setCompany(Constants.validation.required);
+
+                isValid = false;
+            }
+            else if (this.company.indexOf(':') >= 0) {
+                setCompany(Constants.validation.badCompany);
 
                 isValid = false;
             }

@@ -19,7 +19,7 @@ module CoffeeBreak {
                 this.loadFrom(item);
         }
 
-        loadFrom(item: SP.ListItem) {
+        protected loadFrom(item: SP.ListItem) {
             var id: number = item.get_item(Model._IDProperty);
             if (typeof id === "number")
                 this.id = id;

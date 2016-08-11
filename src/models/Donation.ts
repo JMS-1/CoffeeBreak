@@ -41,7 +41,7 @@ module CoffeeBreak {
             }
         }
 
-        loadFrom(item: SP.ListItem) {
+        protected loadFrom(item: SP.ListItem) {
             super.loadFrom(item);
 
             var weight: number = item.get_item(Donation.WeightProperty);

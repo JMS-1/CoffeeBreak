@@ -18,7 +18,9 @@ module CoffeeBreak {
 
             badNumber: 'Es handelt sich nicht um eine Zahl',
 
-            badRange: 'Die Zahl muss zwischen 10 und 10.000 liegen (jeweils einschließlich)'
+            badRange: 'Die Zahl muss zwischen 10 und 10.000 liegen (jeweils einschließlich)',
+
+            badCompany: 'Der Name des Herstellers darf keinen Doppelpunkt enthalten'
         }
 
         static text = {
