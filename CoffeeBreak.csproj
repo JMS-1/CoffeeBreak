@@ -216,6 +216,7 @@
     <TypeScriptCompile Include="src\controller\CreateDonationController.ts" />
     <TypeScriptCompile Include="src\controller\CreateTypeController.ts" />
     <TypeScriptCompile Include="src\controller\DashboardController.ts" />
+    <TypeScriptCompile Include="src\models\Dashboard.ts" />
     <TypeScriptCompile Include="src\models\Donation.ts" />
     <TypeScriptCompile Include="src\models\Model.ts" />
     <TypeScriptCompile Include="src\sp\Interfaces.ts" />

@@ -25,11 +25,166 @@ module JMS.SharePoint {
         }
     }
 
+    export interface ICondition {
+    }
+
+    export interface IConditionPart {
+        equal(field: string, value: any, isLookup?: boolean): IConditionPair;
+
+        and(): IConditionPair;
+
+        or(): IConditionPair;
+    }
+
+    export interface IConditionPair {
+        first(): IConditionPart;
+
+        second(): IConditionPart;
+    }
+
+    abstract class Condition implements IQueryXml, ICondition {
+        abstract toXml(parent: Element): void;
+    }
+
+    abstract class Binary extends Condition {
+        constructor(private _field: string, private _value: any, private _operation: string, private _isLookup?: boolean) {
+            super();
+        }
+
+        toXml(parent: Element): void {
+            var self = <Element>parent.appendChild(parent.ownerDocument.createElement(this._operation));
+
+            var field = <Element>self.appendChild(parent.ownerDocument.createElement('FieldRef'));
+            field.setAttribute('Name', this._field);
+
+            var value = <Element>self.appendChild(parent.ownerDocument.createElement('Value'));
+            switch (typeof this._value) {
+                case 'number':
+                    value.textContent = this._value.toString();
+
+                    if (this._isLookup) {
+                        field.setAttribute('LookupId', 'TRUE');
+                        value.setAttribute('Type', 'Lookup');
+                    }
+                    else
+                        value.setAttribute('Type', 'Number');
+
+                    break;
+                default:
+                    throw `Unbekannter Datentyp ${typeof this._value}`;
+            }
+        }
+    }
+
+    class Equal extends Binary {
+        constructor(field: string, value: any, isLookup: boolean) {
+            super(field, value, `Eq`, isLookup);
+        }
+    }
+
+    class ConditionPart implements IConditionPart {
+        private _condition: Condition;
+
+        constructor(private _pair: IConditionPair) {
+        }
+
+        private setCondition(condition: Condition): IConditionPair {
+            if (this._condition)
+                throw 'Suchbedingung darf nur einmal gesetzt werden';
+
+            this._condition = condition;
+
+            return this._pair;
+        }
+
+        equal(field: string, value: any, isLookup: boolean = false): IConditionPair {
+            return this.setCondition(new Equal(field, value, isLookup));
+        }
+
+        private setListCondition(factory: IFactory0<ConditionList>): IConditionPair {
+            var condition = new factory();
+
+            this.setCondition(condition);
+
+            return condition;
+        }
+
+        and(): IConditionPair {
+            return this.setListCondition(And);
+        }
+
+        or(): IConditionPair {
+            return this.setListCondition(Or);
+        }
+
+        toXml(parent: Element): void {
+            if (this._condition)
+                this._condition.toXml(parent);
+        }
+    }
+
+    abstract class ConditionList extends Condition implements IConditionPair {
+        private _first: ConditionPart;
+
+        private _second: ConditionPart;
+
+        constructor(private _operation: string) {
+            super();
+
+            this._first = new ConditionPart(this);
+            this._second = new ConditionPart(this);
+        }
+
+        toXml(parent: Element): void {
+            var self = <Element>parent.appendChild(parent.ownerDocument.createElement(this._operation));
+
+            this._first.toXml(self);
+            this._second.toXml(self);
+        }
+
+        first(): IConditionPart {
+            return this._first;
+        }
+
+        second(): IConditionPart {
+            return this._second;
+        }
+    }
+
+    class And extends ConditionList {
+        constructor() {
+            super('And');
+        }
+    }
+
+    class Or extends ConditionList {
+        constructor() {
+            super('Or');
+        }
+    }
+
+    class Where extends Condition {
+        constructor(private _inner: Condition) {
+            super();
+        }
+
+        toXml(parent: Element): void {
+            var self = <Element>parent.appendChild(parent.ownerDocument.createElement('Where'));
+
+            this._inner.toXml(self);
+        }
+    }
+
     class QueryBody implements IQueryXml {
+        private _where: Where;
+
         private _order: Order;
 
         toXml(parent: Element): void {
             var self = <Element>parent.appendChild(parent.ownerDocument.createElement('Query'));
+
+            if (this._where)
+                this._where.toXml(self);
 
             if (this._order)
                 this._order.toXml(self);
@@ -40,6 +195,15 @@ module JMS.SharePoint {
                 this._order = new Order();
 
             this._order.addField(name, ascending);
+        }
+
+        where(condition: Condition): ICondition {
+            if (this._where)
+                throw `Suchbedingung darf nicht überschrieben werden`;
+
+            this._where = new Where(condition);
+
+            return condition;
         }
     }
 
@@ -84,6 +248,32 @@ module JMS.SharePoint {
             this._root.addSort(name, ascending);
 
             return this;
+        }
+
+        private setCondition(condition: Condition): ICondition {
+            this._root.where(condition);
+
+            return this;
+        }
+
+        equal(field: string, value: any, isLookup: boolean = false): ICondition {
+            return this.setCondition(new Equal(field, value, isLookup));
+        }
+
+        private setListCondition(factory: IFactory0<ConditionList>): IConditionPair {
+            var condition = new factory();
+
+            this._root.where(condition);
+
+            return condition;
+        }
+
+        and(): IConditionPair {
+            return this.setListCondition(And);
+        }
+
+        or(): IConditionPair {
+            return this.setListCondition(Or);
         }
     }
 
