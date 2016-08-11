@@ -40,6 +40,8 @@ module JMS.SharePoint {
         first(): IConditionPart;
 
         second(): IConditionPart;
+
+        parent(): IConditionPair;
     }
 
     abstract class Condition implements IQueryXml, ICondition {
@@ -101,8 +103,8 @@ module JMS.SharePoint {
             return this.setCondition(new Equal(field, value, isLookup));
         }
 
-        private setListCondition(factory: IFactory0<ConditionList>): IConditionPair {
-            var condition = new factory();
+        private setListCondition(factory: IFactory1<ConditionPair, IConditionPair>): IConditionPair {
+            var condition = new factory(this._pair);
 
             this.setCondition(condition);
 
@@ -123,12 +125,12 @@ module JMS.SharePoint {
         }
     }
 
-    abstract class ConditionList extends Condition implements IConditionPair {
+    abstract class ConditionPair extends Condition implements IConditionPair {
         private _first: ConditionPart;
 
         private _second: ConditionPart;
 
-        constructor(private _operation: string) {
+        constructor(private _operation: string, private _parent: ConditionPair) {
             super();
 
             this._first = new ConditionPart(this);
@@ -149,17 +151,21 @@ module JMS.SharePoint {
         second(): IConditionPart {
             return this._second;
         }
-    }
 
-    class And extends ConditionList {
-        constructor() {
-            super('And');
+        parent(): IConditionPair {
+            return this._parent;
         }
     }
 
-    class Or extends ConditionList {
-        constructor() {
-            super('Or');
+    class And extends ConditionPair {
+        constructor(parent: ConditionPair) {
+            super('And', parent);
+        }
+    }
+
+    class Or extends ConditionPair {
+        constructor(parent: ConditionPair) {
+            super('Or', parent);
         }
     }
 
@@ -260,7 +266,7 @@ module JMS.SharePoint {
             return this.setCondition(new Equal(field, value, isLookup));
         }
 
-        private setListCondition(factory: IFactory0<ConditionList>): IConditionPair {
+        private setListCondition(factory: IFactory1<ConditionPair, IConditionPair>): IConditionPair {
             var condition = new factory();
 
             this._root.where(condition);
