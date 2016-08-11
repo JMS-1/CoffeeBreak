@@ -22,11 +22,11 @@ module CoffeeBreak {
         protected abstract onConnect(): void;
 
         protected connectDialog(selector: string): JQuery {
-            return this._view.find(selector);
+            return this.connectAny(selector);
         }
 
         protected connectSelect(selector: string, onChange: (newValue: string) => void): JQuery {
-            var select = this._view.find(selector);
+            var select = this.connectAny(selector);
 
             select.prop(`disabled`, true);
             select.on(`change`, () => onChange(select.val()));
@@ -34,8 +34,12 @@ module CoffeeBreak {
             return select;
         }
 
+        protected connectAny(selector: string): JQuery {
+            return this._view.find(selector);
+        }
+
         protected connectText(selector: string, onChange: (newValue: string) => void): JQuery {
-            var input = this._view.find(selector);
+            var input = this.connectAny(selector);
 
             input.on(`input`, () => onChange(input.val()));
 
@@ -52,7 +56,7 @@ module CoffeeBreak {
         }
 
         protected connectFlag(selector: string, onChange: (newValue: boolean) => void): JQuery {
-            var input = this._view.find(selector);
+            var input = this.connectAny(selector);
 
             input.on(`change`, () => onChange(input.prop('checked')));
 
@@ -60,7 +64,7 @@ module CoffeeBreak {
         }
 
         protected connectAction(selector: string, onExecute: () => void): JQuery {
-            var button = this._view.find(selector);
+            var button = this.connectAny(selector);
 
             button.on(`click`, () => onExecute());
             button.button();

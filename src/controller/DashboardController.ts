@@ -5,6 +5,7 @@
 module CoffeeBreak {
 
     export interface IDashboard {
+        fillTable(donations: Donation[]): void;
     }
 
     export class DashboardController extends Controller<IDashboard> {
@@ -34,8 +35,7 @@ module CoffeeBreak {
             if (this._model.selfOnly && this._me)
                 query.equal(Donation.AuthorProperty, this._me.get_id(), true);
 
-            context.items(Donation, query).success(items => {
-            });
+            context.items(Donation, query).success(items => this.view.fillTable(items));
 
             context.startAsync();
         }
