@@ -14,16 +14,16 @@ module CoffeeBreak {
     }
 
     // Identifiert einen Controller für ein Formular.
-    export interface IFormController<TPresenationType extends IForm> extends IController<TPresenationType> {
+    export interface IFormController<TPresentationType extends IForm> extends IController<TPresentationType> {
     }
 
     // Basisklasse zur Implementierung von Controllern zu Formularen.
-    export abstract class FormController<TPresenationType extends IForm, TModelType extends Model> extends Controller<TPresenationType> implements IFormController<TPresenationType> {
+    export abstract class FormController<TPresentationType extends IForm, TModelType extends Model> extends Controller<TPresentationType> implements IFormController<TPresentationType> {
         // Die Modelldaten, die auf dem Formular gepflegt werden sollen.
         protected model: TModelType;
 
         // Leider kann TypeScript kein new TModelType(), daher die explizite Angabe eines Konstruktors.
-        constructor(view: TPresenationType, factory: JMS.SharePoint.IModelFactory<TModelType>) {
+        constructor(view: TPresentationType, factory: JMS.SharePoint.IModelFactory<TModelType>) {
             super(view);
 
             this.model = new factory();

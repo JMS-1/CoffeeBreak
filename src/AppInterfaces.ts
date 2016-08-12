@@ -15,7 +15,7 @@ module CoffeeBreak {
     }
 
     export interface IApplication {
-        loadView<TPresenationType extends IPresentation, TViewType extends TPresenationType, TControllerType extends IController<TPresenationType>>(controllerFactory: IControllerFactory<TControllerType, TPresenationType>, viewFactory: IViewFactory<View<TPresenationType, TViewType, TControllerType>>): void;
+        loadView<TPresentationType extends IPresentation, TViewType extends TPresentationType, TControllerType extends IController<TPresentationType>>(controllerFactory: IControllerFactory<TControllerType, TPresentationType>, viewFactory: IViewFactory<View<TPresentationType, TViewType, TControllerType>>): void;
 
         closeView(): void;
 

@@ -77,11 +77,11 @@ module CoffeeBreak {
             context.startAsync();
         }
 
-        loadView<TPresenationType extends IPresentation, TViewType extends TPresenationType, TControllerType extends IController<TPresenationType>>(controllerFactory: IControllerFactory<TControllerType, TPresenationType>, viewFactory: IViewFactory<View<TPresenationType, TViewType, TControllerType>>): void {
+        loadView<TPresentationType extends IPresentation, TViewType extends TPresentationType, TControllerType extends IController<TPresentationType>>(controllerFactory: IControllerFactory<TControllerType, TPresentationType>, viewFactory: IViewFactory<View<TPresentationType, TViewType, TControllerType>>): void {
             this._history.push({ controller: controllerFactory, view: viewFactory });
 
             var view = new viewFactory();
-            var controller = new controllerFactory(<TPresenationType><IPresentation>view);
+            var controller = new controllerFactory(<TPresentationType><IPresentation>view);
 
             $.get(`../views/${view.viewName()}.html`, (html: string) => {
                 view.connect(this._spa.html(html));

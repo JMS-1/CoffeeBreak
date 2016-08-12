@@ -234,6 +234,7 @@
     <TypeScriptCompile Include="src\sp\ExecutionContext.ts" />
     <TypeScriptCompile Include="src\views\DashboardView.ts" />
     <TypeScriptCompile Include="src\views\FormView.ts" />
+    <TypeScriptCompile Include="src\views\Presentation.ts" />
     <TypeScriptCompile Include="src\views\View.ts" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

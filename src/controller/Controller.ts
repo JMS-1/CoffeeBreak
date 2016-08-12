@@ -9,12 +9,12 @@ module CoffeeBreak {
     }
 
     // Typsichere Bindung eines Controllers an sein Präsentationsmodell.
-    export interface IController<TPresenationType extends IPresentation> {
+    export interface IController<TPresentationType extends IPresentation> {
     }
 
     // Basisklasse zur Implementierung eines Controllers.
-    export abstract class Controller<TPresenationType extends IPresentation> implements IController<TPresenationType> {
-        constructor(protected view: TPresenationType) {
+    export abstract class Controller<TPresentationType extends IPresentation> implements IController<TPresentationType> {
+        constructor(protected view: TPresentationType) {
             view.setConnect(() => this.onConnect());
         }
 
