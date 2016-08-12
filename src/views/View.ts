@@ -2,8 +2,11 @@
 
 module CoffeeBreak {
 
-    export abstract class View<TViewInterface, TViewType extends TViewInterface, TControllerType extends ITypedController<TViewInterface>> implements IView {
+    // Basisklasse zur Implementierung einer Seite in der SPA.
+    export abstract class View<TViewInterface extends IViewBase, TViewType extends TViewInterface, TControllerType extends ITypedController<TViewInterface>> implements IView, IViewBase {
         private _controller: TControllerType;
+
+        private _controllerConnect: () => void;
 
         private _view: JQuery;
 
@@ -12,11 +15,17 @@ module CoffeeBreak {
         connect(html: JQuery): void {
             this._view = html;
             this.onConnect();
-            this._controller.onConnect();
+
+            if (this._controllerConnect)
+                this._controllerConnect();
         }
 
         constructor(factory: JMS.SharePoint.IFactory1<TControllerType, TViewType>) {
             this._controller = new factory(<TViewType><any>this);
+        }
+
+        setConnect(callback: () => void): void {
+            this._controllerConnect = callback;
         }
 
         protected abstract onConnect(): void;

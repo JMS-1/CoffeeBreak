@@ -35,7 +35,7 @@ module CoffeeBreak {
         }
 
         // Wird aufgerufen, sobald der View zur Konfiguration bereit ist.
-        onConnect(): void {
+        protected onConnect(): void {
             super.onConnect();
 
             // Eventuell wird bereits eine Spende neu angelegt oder bearbeitet, dann machen wir damit weiter - ansonsten wird das aktuelle Modell dafür registriert.

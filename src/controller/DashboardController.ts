@@ -5,7 +5,7 @@
 module CoffeeBreak {
 
     // Das Präsentationsmodell für die Startseite.
-    export interface IDashboard {
+    export interface IDashboard extends IViewBase {
         // Meldet die Liste der neuesten Spenden.
         fillTable(donations: Donation[]): void;
 
@@ -25,7 +25,7 @@ module CoffeeBreak {
         private _me: SP.User;
 
         // Wird ausgelöst, sobald der View zur Konfiguration bereit ist.
-        onConnect(): void {
+        protected onConnect(): void {
             // Legt die Methode zur erneuten Anfrage der Daten fest.
             this.view.setRefresh(forMe => {
                 // Eventuell mit veränderter Einschränkung auf die Spenden.

@@ -3,20 +3,22 @@
 module CoffeeBreak {
 
     // Methoden, die von jedem Controller unterstützt werden müssen.
-    export interface IController {
-        // Wird aufgerufen, wenn der View bereit zur Konfiguration ist.
-        onConnect(): void;
+    export interface IViewBase {
+        // Meldet eine Methode zur Initialisierung an.
+        setConnect(callback: () => void): void;
     }
 
     // Typsichere Bindung eines Controllers an sein Präsentationsmodell.
-    export interface ITypedController<TViewInterface> extends IController {
+    export interface ITypedController<TViewInterface extends IViewBase> {
     }
 
     // Basisklasse zur Implementierung eines Controllers.
-    export abstract class Controller<TViewInterface> implements ITypedController<TViewInterface> {
+    export abstract class Controller<TViewInterface extends IViewBase> implements ITypedController<TViewInterface> {
         constructor(protected view: TViewInterface) {
+            view.setConnect(() => this.onConnect());
         }
 
-        abstract onConnect(): void;
+        // Wird aufgerufen, sobald der View zur Konfiguration bereit ist.
+        protected abstract onConnect(): void;
     }
 }

@@ -5,7 +5,7 @@
 module CoffeeBreak {
 
     // Das Präsentationsmodell für ein Formular muss zumindest das Speichern unterstützen.
-    export interface IForm {
+    export interface IForm extends IViewBase {
         // Teilt dem View mit, ob ein Speichern überhaupt erlaubt ist.
         setAllowSave(enable: boolean): void;
 
@@ -30,7 +30,7 @@ module CoffeeBreak {
         }
 
         // Wird aufgerufen, sobald der View zur Konfiguration bereit ist.
-        onConnect(): void {
+        protected onConnect(): void {
             // Meldet die Methode an, die beim Speichern durch den Anwender aufzurufen ist.
             this.view.setSave(done => {
                 // Speichern ist ohne folgende Änderung immer nur einmal möglich - tatsächlich ist das nicht ganz sauber: das Speicher müsste verboten werden, bis der aktuelle Vorgang abgeschlossen ist.

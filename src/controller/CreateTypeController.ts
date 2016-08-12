@@ -44,7 +44,7 @@ module CoffeeBreak {
         }
 
         // Wird aufgerufen, sobald der View zur Konfiguration bereit ist.
-        onConnect(): void {
+        protected onConnect(): void {
             super.onConnect();
 
             // Legt den aktuellen Hersteller und die Eingabe desselben fest.
