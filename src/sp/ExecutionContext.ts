@@ -79,34 +79,22 @@ module JMS.SharePoint {
         // Alle zusammengehörenden SharePoint Operationen.
         private promises: ExecutionResult<any>[] = [];
 
-        // Die SharePoint Umgebung wird einmalig ermittelt.
-        private static _context: SP.ClientContext;
-
-        private static context(): SP.ClientContext {
-            if (!ExecutionContext._context)
-                ExecutionContext._context = SP.ClientContext.get_current();
-
-            return ExecutionContext._context;
-        }
-
-        // Meldet das SharePoint Web zu dieser Anwendung.
-        private static web(): SP.Web {
-            return ExecutionContext.context().get_web();
-        }
+        // Die zugehörige SharePoint Umgebung.
+        private _web = new SP.ClientContext().get_web();
 
         // Ermittelt den aktuellen Anwender.
         user(): IExecutionResult<SP.User> {
-            return this.addPromise(ExecutionContext.web().get_currentUser());
+            return this.addPromise(this._web.get_currentUser());
         }
 
         // Ermittelt alle bekannten SharePoint Listen.
         lists(): IExecutionResult<SP.ListCollection> {
-            return this.addPromise(ExecutionContext.web().get_lists());
+            return this.addPromise(this._web.get_lists());
         }
 
         // Ermittelt eine konkrete SharePoint Liste.
         list(listName: string): IExecutionResult<SP.List> {
-            return this.addPromise(ExecutionContext.web().get_lists().getByTitle(listName));
+            return this.addPromise(this._web.get_lists().getByTitle(listName));
         }
 
         // Ermittelt Einträge in einer Liste.
@@ -115,7 +103,7 @@ module JMS.SharePoint {
             var factoryStatic: ISerializableClass = <any>factory;
 
             // Abfrage formulieren.
-            var promise = this.addPromise(ExecutionContext.web().get_lists().getByTitle(factoryStatic.listName).getItems(query.getQuery()), ...refinements);
+            var promise = this.addPromise(this._web.get_lists().getByTitle(factoryStatic.listName).getItems(query.getQuery()), ...refinements);
 
             // Projektion auf Modellelemente einrichten.
             return new ResultProjector<TModelType[], SP.ListItemCollection>(promise, items => {
@@ -136,7 +124,7 @@ module JMS.SharePoint {
             var factory: IModelFactory<TModelType> = <any>modelClass;
 
             // SharePoint Operation anmelden und Daten aus dem Modell übernehmen.
-            var newItem = ExecutionContext.web().get_lists().getByTitle(modelClass.listName).addItem(new SP.ListItemCreationInformation());
+            var newItem = this._web.get_lists().getByTitle(modelClass.listName).addItem(new SP.ListItemCreationInformation());
 
             data.saveTo(newItem);
 
@@ -158,7 +146,9 @@ module JMS.SharePoint {
 
         // Startet alle ausstehenden SharePoint Operationen.
         startAsync(): void {
-            ExecutionContext.context().executeQueryAsync(
+            var context = this._web.get_context();
+            
+            context.executeQueryAsync(
                 (s, info) => {
                     // Erfolgsmeldung durchreichen.
                     this.promises.forEach(p => p.fireSuccess());
