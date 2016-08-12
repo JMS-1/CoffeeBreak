@@ -5,7 +5,7 @@
 module CoffeeBreak {
 
     // Das Präsentationsmodell für die Startseite.
-    export interface IDashboard extends IViewBase {
+    export interface IDashboard extends IPresentation {
         // Meldet die Liste der neuesten Spenden.
         fillTable(donations: Donation[]): void;
 

@@ -31,10 +31,6 @@ module CoffeeBreak {
             return `createType`;
         }
 
-        constructor() {
-            super(CreateTypeController);
-        }
-
         protected onConnect(): void {
             super.onConnect();
 

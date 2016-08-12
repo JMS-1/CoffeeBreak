@@ -16,12 +16,16 @@ module CoffeeBreak {
 
         private _spa: JQuery;
 
-        private _history: IViewFactory<any>[] = [];
+        private _history: { controller: IControllerFactory<any, any>, view: IViewFactory<any> }[] = [];
 
         private startup(): void {
             this._spa = $(`#spaContainer`);
 
-            this.loadView(DashboardView);
+            this.loadDashboard();
+        }
+
+        private loadDashboard(): void {
+            this.loadView(DashboardController, DashboardView);
         }
 
         private checkSampleData(): void {
@@ -29,7 +33,7 @@ module CoffeeBreak {
 
             context.items(CoffeeType).success(types => {
                 if (types.length > 0)
-                    this.loadView(DashboardView)
+                    this.loadDashboard();
                 else
                     this.loadTypes();
             });
@@ -68,15 +72,16 @@ module CoffeeBreak {
             don2.weight = 250;
 
             context.update(don1);
-            context.update(don2).success(item => this.loadView(DashboardView));
+            context.update(don2).success(item => this.loadDashboard());
 
             context.startAsync();
         }
 
-        loadView<TViewType extends IView>(factory: IViewFactory<TViewType>): void {
-            this._history.push(factory);
+        loadView<TPresenationType extends IPresentation, TViewType extends TPresenationType, TControllerType extends IController<TPresenationType>>(controllerFactory: IControllerFactory<TControllerType, TPresenationType>, viewFactory: IViewFactory<View<TPresenationType, TViewType, TControllerType>>): void {
+            this._history.push({ controller: controllerFactory, view: viewFactory });
 
-            var view = new factory();
+            var view = new viewFactory();
+            var controller = new controllerFactory(<TPresenationType><IPresentation>view);
 
             $.get(`../views/${view.viewName()}.html`, (html: string) => {
                 view.connect(this._spa.html(html));
@@ -84,7 +89,9 @@ module CoffeeBreak {
         }
 
         closeView(): void {
-            this.loadView(this._history.splice(this._history.length - 2)[0]);
+            var tos = this._history.splice(this._history.length - 2)[0];
+
+            this.loadView(tos.controller, tos.view);
         }
     }
 

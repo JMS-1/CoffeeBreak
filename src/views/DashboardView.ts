@@ -19,17 +19,13 @@ module CoffeeBreak {
 
         private _reload: (forMe?: boolean) => void;
 
-        constructor() {
-            super(DashboardController);
-        }
-
         protected onConnect(): void {
             this._table = this.connectAny(`table.coffeeBreakDonationTable > tbody`);
             this._timeGroup = this.connectAny(`table.coffeeBreakDonationTimeGroupTable > tbody`);
 
             this.connectFlag(`.coffeeBreakMeOnly > input`, newValue => this._reload && this._reload(newValue));
 
-            this._newDonation = this.connectAction(`a.coffeeBreakNewButton`, () => App.loadView(CreateDonationView));
+            this._newDonation = this.connectAction(`a.coffeeBreakNewButton`, () => App.loadView(CreateDonationController, CreateDonationView));
             this._refresh = this.connectAction(`a.coffeeBreakRefreshButton`, () => this._reload && this._reload());
         }
 

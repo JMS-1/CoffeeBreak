@@ -5,7 +5,7 @@
 module CoffeeBreak {
 
     // Das Präsentationsmodell für ein Formular muss zumindest das Speichern unterstützen.
-    export interface IForm extends IViewBase {
+    export interface IForm extends IPresentation {
         // Teilt dem View mit, ob ein Speichern überhaupt erlaubt ist.
         setAllowSave(enable: boolean): void;
 
@@ -14,16 +14,16 @@ module CoffeeBreak {
     }
 
     // Identifiert einen Controller für ein Formular.
-    export interface ITypedFormController<TViewInterface extends IForm> extends ITypedController<TViewInterface> {
+    export interface IFormController<TPresenationType extends IForm> extends IController<TPresenationType> {
     }
 
     // Basisklasse zur Implementierung von Controllern zu Formularen.
-    export abstract class FormController<TViewInterface extends IForm, TModelType extends Model> extends Controller<TViewInterface> implements ITypedFormController<TViewInterface> {
+    export abstract class FormController<TPresenationType extends IForm, TModelType extends Model> extends Controller<TPresenationType> implements IFormController<TPresenationType> {
         // Die Modelldaten, die auf dem Formular gepflegt werden sollen.
         protected model: TModelType;
 
         // Leider kann TypeScript kein new TModelType(), daher die explizite Angabe eines Konstruktors.
-        constructor(view: TViewInterface, factory: JMS.SharePoint.IModelFactory<TModelType>) {
+        constructor(view: TPresenationType, factory: JMS.SharePoint.IModelFactory<TModelType>) {
             super(view);
 
             this.model = new factory();

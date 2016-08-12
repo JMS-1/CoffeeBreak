@@ -21,15 +21,11 @@ module CoffeeBreak {
 
         private _typeMap: { [id: string]: CoffeeType } = {};
 
-        constructor() {
-            super(CreateDonationController);
-        }
-
         protected onConnect(): void {
             super.onConnect();
 
             this._type = this.connectSelect(`.coffeeBreakType > select`, selected => this._onTypeChanged && this._onTypeChanged(this._typeMap[selected]));
-            this._newType = this.connectAction(`.coffeeBreakType > a`, () => App.loadView(CreateTypeView));
+            this._newType = this.connectAction(`.coffeeBreakType > a`, () => App.loadView(CreateTypeController, CreateTypeView));
             this._newType.prop(`disabled`, true);
 
             this._weight = this.connectNumber(`.coffeeBreakWeight > input`, (newValue, isValid) => this._onWeightChanged && this._onWeightChanged(newValue, isValid));
