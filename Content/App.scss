@@ -3,40 +3,33 @@
     background: beige;
     color: black;
     padding: 10px;
-
     // Sicherheitshalber die Einstellungen der Umgebung ignorieren.
     select {
         background: white;
         color: black;
     }
-
     // Der Einfachheit halber alle Feldnamen mit einer festen Breite - im Allgemeinen würde man hier ein Feintuning per Formular machen.
     label > span:first-child {
         display: inline-block;
         width: 10rem;
     }
-
     // Markierung von ungültigen Eingaben über die Farbe der Feldnamen.
     label.coffeeBreakInvalid > span:first-child {
         color: red;
     }
-
     // Falls ein Formular Schaltflächen zur Bestätigung hat setzen wir die ein bißchen ab.
     .coffeeBreakActions {
         margin-top: 10px;
     }
-
     // Manche Schaltflächen stehen mit kurzen Texten diskret hinter Eingabefeldern.
     .coffeeBreakSelectorButton, .coffeeBreakNewTypeButton {
         padding: 4px 6px;
         min-width: 2rem;
     }
-
     // Unsichtbar machen braucht man irgendwie in jeder Anwendung - alternativ über jQuery show/hide.
     .coffeeBreakHidden {
         display: none;
     }
-
     // Das grundsätzliche Aussehen einer Tabelle, auch hier versuchen wir die Umgebung zu ignorieren.
     table {
         border-collapse: collapse;
@@ -51,12 +44,10 @@
             font-weight: bold;
         }
     }
-
     // Bei Spalten mit Zahlen werden die Zellinhalte zentriert - sicher auch im Normalfall mit expliziten CSS Klassen eleganter zu lösen, e.g. .coffeeBreakNumericCell etc.
     table.coffeeBreakDonationTable > tbody > tr > td:nth-child(2), table.coffeeBreakDonationTimeGroupTable > tbody > tr > td:not(:first-child) {
         text-align: center;
     }
-
     // Der obere Bereich der Startseite ist in zwei horizontale nebeneinanderstehende Bereiche unterteilt - zumindest solange der Platz reicht.
     .coffeeBreakDashboardLayout {
         > div:first-child {
@@ -95,9 +86,13 @@
         border: 1px solid black;
         list-style: none;
     }
-
     // Natürlich mit ein bißchen Feedback bei der Auswahl durch den Anwender.
     li:hover {
         background: deepskyblue;
     }
+}
+
+// Hier kommen sich jQueryUI und das CSS von SharePoint in die Quere und machen das Schliessen Icon des Dialogs sehr breit.
+.coffeeBreakDialog .ui-button {
+    min-width: 0px;
 }

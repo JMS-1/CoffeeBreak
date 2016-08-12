@@ -81,7 +81,7 @@ module CoffeeBreak {
             }).appendTo(parent));
 
             this._dialog.dialog(<JQueryUI.DialogOptions>{
-                closeText: Constants.text.cancelButton,
+                dialogClass: Constants.text.dialogCss,
                 title: Constants.text.selectFromList,
                 closeOnEscape: true,
                 resizable: false,
