@@ -82,7 +82,7 @@ module JMS.SharePoint {
         // Meldet alle Listen.
         lists(): IExecutionResult<SP.ListCollection>;
 
-        // Meldet den Inhalt einer Liste - beschränkt auf die Standardkonfiguration einer CAML Query.
+        // Meldet eine konkrete Liste.
         list(listName: string): IExecutionResult<SP.List>;
 
         // Meldet den Inhalt einer Liste als Modellinstanzen - konfigurierbar mit Suchbedingung, Sortierung, Spaltenauswahl et al.
