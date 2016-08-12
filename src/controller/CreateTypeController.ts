@@ -124,7 +124,7 @@ module CoffeeBreak {
 
         // Meldet die Namen aller Sorten des aktuellen Herstellers an den View.
         private refreshNames(): void {
-            this.view.setNames(this._companies[this.model.company || '']);
+            this.view.setNames(this._companies[this.model.company || ``]);
         }
 
         // Führ eine Prüfung durch.

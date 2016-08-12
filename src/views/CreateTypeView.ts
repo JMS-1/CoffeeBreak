@@ -28,7 +28,7 @@ module CoffeeBreak {
         private _onCoffeinChanged: (newValue: boolean) => void;
 
         viewName(): string {
-            return 'createType';
+            return `createType`;
         }
 
         constructor() {
@@ -59,11 +59,11 @@ module CoffeeBreak {
             var outer = this._dialog.html(`<ul />`);
             var parent = outer.children().first();
 
-            list.forEach(n => $(`<li />`, { text: n }).on('click', () => {
+            list.forEach(n => $(`<li />`, { text: n }).on(`click`, () => {
                 input.val(n);
-                input.trigger('input');
+                input.trigger(`input`);
 
-                this._dialog.dialog('close');
+                this._dialog.dialog(`close`);
             }).appendTo(parent));
 
             this._dialog.dialog(<JQueryUI.DialogOptions>{
@@ -92,25 +92,25 @@ module CoffeeBreak {
             this._companies = companies;
 
             if (companies.length > 0)
-                this._companySelector.button('enable');
+                this._companySelector.button(`enable`);
             else
-                this._companySelector.button('disable');
+                this._companySelector.button(`disable`);
         }
 
         setNames(names: string[] = []): void {
             this._names = names;
 
             if (names.length > 0)
-                this._nameSelector.button('enable');
+                this._nameSelector.button(`enable`);
             else
-                this._nameSelector.button('disable');
+                this._nameSelector.button(`disable`);
         }
         
-        setNameError(error: string = ''): void {
+        setNameError(error: string = ``): void {
             View.setError(this._name, error);
         }
 
-        setCompanyError(error: string = ''): void {
+        setCompanyError(error: string = ``): void {
             View.setError(this._company, error);
         }
 
@@ -125,7 +125,7 @@ module CoffeeBreak {
             if (onChange)
                 this._onCoffeinChanged = onChange;
 
-            this._withCoffein.prop('checked', withCoffein);
+            this._withCoffein.prop(`checked`, withCoffein);
         }
     }
 

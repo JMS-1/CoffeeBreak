@@ -6,7 +6,7 @@ module CoffeeBreak {
 
     export class CreateDonationView extends FormView<ICreateDonation, CreateDonationView, CreateDonationController> implements ICreateDonation {
         viewName(): string {
-            return 'createDonation';
+            return `createDonation`;
         }
 
         private _type: JQuery;
@@ -60,7 +60,7 @@ module CoffeeBreak {
                 this._weight.val(weight);
         }
 
-        setWeightError(error: string = ''): void {
+        setWeightError(error: string = ``): void {
             View.setError(this._weight, error);
         }
 
@@ -89,7 +89,7 @@ module CoffeeBreak {
             return this._typeMap[this._type.val()];
         }
 
-        setTypeError(error: string = ''): void {
+        setTypeError(error: string = ``): void {
             View.setError(this._type, error);
         }
     }

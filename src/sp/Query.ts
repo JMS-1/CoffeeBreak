@@ -16,14 +16,14 @@ module JMS.SharePoint {
         // Erzeugt CAML.
         toXml(parent: Element): void {
             // Der Knoten für die Feldliste.
-            var self = <Element>parent.appendChild(parent.ownerDocument.createElement('OrderBy'));
+            var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`OrderBy`));
 
             // Darin eingetragen werden alle Feldinformationen.
             this._fields.forEach(f => {
-                var field = <Element>self.appendChild(parent.ownerDocument.createElement('FieldRef'));
+                var field = <Element>self.appendChild(parent.ownerDocument.createElement(`FieldRef`));
 
-                field.setAttribute('Name', f.name);
-                field.setAttribute('Ascending', f.ascending ? 'TRUE' : 'FALSE');
+                field.setAttribute(`Name`, f.name);
+                field.setAttribute(`Ascending`, f.ascending ? `TRUE` : `FALSE`);
             });
         }
 
@@ -41,15 +41,15 @@ module JMS.SharePoint {
         // Erzeugt CAML.
         toXml(parent: Element): void {
             // Der Knoten mit der Liste der Felder.
-            var self = <Element>parent.appendChild(parent.ownerDocument.createElement('GroupBy'));
+            var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`GroupBy`));
 
-            self.setAttribute('Collapse', 'TRUE');
+            self.setAttribute(`Collapse`, `TRUE`);
 
             // Alle Felder als Kindknoten eintragen.
             this._fields.forEach(f => {
-                var field = <Element>self.appendChild(parent.ownerDocument.createElement('FieldRef'));
+                var field = <Element>self.appendChild(parent.ownerDocument.createElement(`FieldRef`));
 
-                field.setAttribute('Name', f);
+                field.setAttribute(`Name`, f);
             });
         }
 
@@ -77,23 +77,23 @@ module JMS.SharePoint {
             var self = <Element>parent.appendChild(parent.ownerDocument.createElement(this._operation));
 
             // Der Knoten für das Feld.
-            var field = <Element>self.appendChild(parent.ownerDocument.createElement('FieldRef'));
-            field.setAttribute('Name', this._field);
+            var field = <Element>self.appendChild(parent.ownerDocument.createElement(`FieldRef`));
+            field.setAttribute(`Name`, this._field);
 
             // Der Knoten für den Wert.
-            var value = <Element>self.appendChild(parent.ownerDocument.createElement('Value'));
+            var value = <Element>self.appendChild(parent.ownerDocument.createElement(`Value`));
             switch (typeof this._value) {
-                case 'number':
+                case `number`:
                     value.textContent = this._value.toString();
 
                     // Konstante Zahlen könnenauch Fremdschlüssel sein.
                     if (this._isLookup) {
                         // Ein Frendschlüssel wird etwas anders behandelt.
-                        field.setAttribute('LookupId', 'TRUE');
-                        value.setAttribute('Type', 'Lookup');
+                        field.setAttribute(`LookupId`, `TRUE`);
+                        value.setAttribute(`Type`, `Lookup`);
                     }
                     else
-                        value.setAttribute('Type', 'Number');
+                        value.setAttribute(`Type`, `Number`);
 
                     break;
                 default:
@@ -122,7 +122,7 @@ module JMS.SharePoint {
         // Legt die Untersuchbedingung einmalig fest und meldet die übergeordnete Suchbedingungen zur Nutzung als Fluent Interface.
         private setCondition(condition: Condition): IConditionPair {
             if (this._condition)
-                throw 'Suchbedingung darf nur einmal gesetzt werden';
+                throw `Suchbedingung darf nur einmal gesetzt werden`;
 
             this._condition = condition;
 
@@ -204,14 +204,14 @@ module JMS.SharePoint {
     // Repräsentiert ein logisches UND.
     class And extends ConditionPair {
         constructor(parent: ConditionPair) {
-            super('And', parent);
+            super(`And`, parent);
         }
     }
 
     // Repräsentiert ein logisches ODER.
     class Or extends ConditionPair {
         constructor(parent: ConditionPair) {
-            super('Or', parent);
+            super(`Or`, parent);
         }
     }
 
@@ -224,7 +224,7 @@ module JMS.SharePoint {
         // Erzeugt das CAML für die Suchbedingung.
         toXml(parent: Element): void {
             // Erst einmal aber den Knoten für den WHERE Anteil der CAML Query.
-            var self = <Element>parent.appendChild(parent.ownerDocument.createElement('Where'));
+            var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`Where`));
 
             this._inner.toXml(self);
         }
@@ -244,7 +244,7 @@ module JMS.SharePoint {
         // Erzeugt das CAML der Query.
         toXml(parent: Element): void {
             // Nach der Erzeugung des Wurzelknotens sind alle weiteren Konfigurationen optional.
-            var self = <Element>parent.appendChild(parent.ownerDocument.createElement('Query'));
+            var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`Query`));
 
             if (this._where)
                 this._where.toXml(self);
@@ -290,9 +290,9 @@ module JMS.SharePoint {
 
         // Erzeugt CAML.
         toXml(parent: Element): void {
-            var self = <Element>parent.appendChild(parent.ownerDocument.createElement('RowLimit'));
+            var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`RowLimit`));
 
-            self.setAttribute('Paged', 'FALSE');
+            self.setAttribute(`Paged`, `FALSE`);
             self.textContent = this.maxRows.toString();
         }
     }
@@ -308,7 +308,7 @@ module JMS.SharePoint {
         // Meldet den CAML View zur Suche.
         getQuery(): SP.CamlQuery {
             // Erstelle ein XML Dokument.
-            var xml = document.implementation.createDocument(null, 'View', null);
+            var xml = document.implementation.createDocument(null, `View`, null);
 
             // Konfiguriere den CAM View.
             var view = <Element>xml.firstChild;

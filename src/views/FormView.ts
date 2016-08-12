@@ -31,9 +31,9 @@ module CoffeeBreak {
 
         setAllowSave(enable: boolean): void {
             if (enable)
-                this._save.button('enable');
+                this._save.button(`enable`);
             else
-                this._save.button('disable');
+                this._save.button(`disable`);
         }
     }
 

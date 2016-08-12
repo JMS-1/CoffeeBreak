@@ -58,7 +58,7 @@ module CoffeeBreak {
         protected connectFlag(selector: string, onChange: (newValue: boolean) => void): JQuery {
             var input = this.connectAny(selector);
 
-            input.on(`change`, () => onChange(input.prop('checked')));
+            input.on(`change`, () => onChange(input.prop(`checked`)));
 
             return input;
         }
@@ -79,11 +79,11 @@ module CoffeeBreak {
         protected static setError(input: JQuery, error: string) {
             if (error.length > 0) {
                 input.parent().addClass(Constants.validation.css);
-                input.attr('title', error);
+                input.attr(`title`, error);
             }
             else {
                 input.parent().removeClass(Constants.validation.css);
-                input.removeAttr('title');
+                input.removeAttr(`title`);
             }
         }
     }

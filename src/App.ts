@@ -6,10 +6,10 @@ module CoffeeBreak {
         constructor() {
             var starter = () => $(() => this.startup());
 
-            if (window["ExecuteOrDelayUntilScriptLoaded"] === undefined)
+            if (window[`ExecuteOrDelayUntilScriptLoaded`] === undefined)
                 starter();
             else
-                ExecuteOrDelayUntilScriptLoaded(starter, "sp.js");
+                ExecuteOrDelayUntilScriptLoaded(starter, `sp.js`);
         }
 
         activeDonation: Donation;
@@ -21,7 +21,7 @@ module CoffeeBreak {
         private startup(): void {
             this._spa = $(`#spaContainer`);
 
-            this.checkSampleData();
+            this.loadView(DashboardView);
         }
 
         private checkSampleData(): void {
@@ -41,13 +41,13 @@ module CoffeeBreak {
             var context = JMS.SharePoint.newExecutor();
 
             var type1 = new CoffeeType();
-            type1.company = "Senseo";
-            type1.name = "Guten Morgen";
+            type1.company = `Senseo`;
+            type1.name = `Guten Morgen`;
             type1.coffein = true;
 
             var type2 = new CoffeeType();
-            type2.company = "Jakobs";
-            type2.name = "Krönung Light";
+            type2.company = `Jakobs`;
+            type2.name = `Krönung Light`;
             type2.coffein = false;
 
             context.update(type1);
