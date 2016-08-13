@@ -71,8 +71,8 @@ module CoffeeBreak {
             query
                 .limit(0)
                 .group(TimeGroupDonation.TimeGranularityProperty)
-                .aggregate(Model.IDProperty, `Count`)
-                .aggregate(Donation.WeightProperty, `Sum`);
+                .aggregate(Model.IDProperty, JMS.SharePoint.AggregationAlgorithms.Count)
+                .aggregate(Donation.WeightProperty, JMS.SharePoint.AggregationAlgorithms.Sum);
 
             // Aggregationen auswerten.
             context.pivot(TimeGroupDonation, query).success(data => {

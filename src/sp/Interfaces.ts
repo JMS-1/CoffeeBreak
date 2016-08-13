@@ -30,7 +30,7 @@ module JMS.SharePoint {
         failure(callback: (message: string) => void): IExecutionResult<TResponseType>;
     }
 
-    // Schnittstelle für eine Modellklasse.
+    // Schnittstelle für eine Modellklasse - leider ein Stückchen der "Magie" im Hintergrund, auf die man eigentlich verzichten sollte!
     export interface ISerializableClass {
         // Der Name der zugehörigen SharePoint Liste (als static Feld der Klasse).
         listName: string;
@@ -72,6 +72,15 @@ module JMS.SharePoint {
 
         // Die übergeordnete Suchbedingung - vereinfacht die Konfiguration über das Fluent Interface.
         parent(): TParentType;
+    }
+
+    // Alle unterstützen Aggregationsalgorithmen.
+    export enum AggregationAlgorithms {
+        // Einfach nur Zählen.
+        Count,
+
+        // Numerische Werte aufaddieren.
+        Sum,
     }
 
     // Repräsentiert eine Verbindung zu SharePoint.

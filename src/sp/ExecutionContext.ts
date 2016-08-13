@@ -75,7 +75,7 @@ module JMS.SharePoint {
         }
     }
 
-    // Beschreibt eine einzelne Aufrufgruppe an SharePoint - produktiv muss man hier etwas sorgfältiger mit potentiellen Überlappungen sein, da der ClientContext ein Singleton ist!
+    // Beschreibt eine einzelne Aufrufgruppe an SharePoint.
     class ExecutionContext implements IExecutionContext {
         // Alle zusammengehörenden SharePoint Operationen.
         private promises: ExecutionResult<any>[] = [];

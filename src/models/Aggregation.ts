@@ -13,6 +13,16 @@ module CoffeeBreak {
 
         // Rekonstruiert Modelldaten aus der SharePoint Repräsentation.
         protected abstract loadFrom(row: any);
+
+        // Ermittelt eine Aggregation.
+        protected static getAggregationResultString(row: any, fieldName: string, algorithm: JMS.SharePoint.AggregationAlgorithms): string {
+            return row[`${fieldName}.${JMS.SharePoint.AggregationAlgorithms[algorithm]}.agg`];
+        }
+
+        // Ermittelt eine Aggregation.
+        protected static getAggregationResultInteger(row: any, fieldName: string, algorithm: JMS.SharePoint.AggregationAlgorithms): number {
+            return parseFloat(Aggregation.getAggregationResultString(row, fieldName, algorithm).replace(`,`, ``).replace(`.`, ``));
+        }
     }
 
 }

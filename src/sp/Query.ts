@@ -68,7 +68,7 @@ module JMS.SharePoint {
     // Verwaltet Aggregationen.
     class Aggregations implements IQueryXml {
         // Die aggregierten Felder samt den zugehörigen Algorithmen.
-        private _fields: { name: string, algorithm: string }[] = [];
+        private _fields: { name: string, algorithm: AggregationAlgorithms }[] = [];
 
         // Erzeugt CAML.
         toXml(parent: Element): void {
@@ -83,12 +83,12 @@ module JMS.SharePoint {
                 var field = <Element>self.appendChild(parent.ownerDocument.createElement(`FieldRef`));
 
                 field.setAttribute(`Name`, f.name);
-                field.setAttribute(`Type`, f.algorithm);
+                field.setAttribute(`Type`, AggregationAlgorithms[f.algorithm]);
             });
         }
 
         // Ergänzt eine Aggregations.
-        addAggregation(name: string, algorithm: string): void {
+        addAggregation(name: string, algorithm: AggregationAlgorithms): void {
             this._fields.push({ name: name, algorithm: algorithm });
         }
     }
@@ -375,7 +375,7 @@ module JMS.SharePoint {
         }
 
         // Ergänzt eine Aggregation.
-        aggregate(name: string, algorithm: string): Query {
+        aggregate(name: string, algorithm: AggregationAlgorithms): Query {
             this._aggregations.addAggregation(name, algorithm);
 
             return this;

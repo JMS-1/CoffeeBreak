@@ -24,8 +24,8 @@ module CoffeeBreak {
         // Überträgt die SharePoint Repräsentation in die Modelldaten.
         protected loadFrom(row: any) {
             this.segment = row[TimeGroupDonation.TimeGranularityProperty];
-            this.totalCount = parseInt(row[`${Model.IDProperty}.Count.agg`]);
-            this.totalWeight = parseFloat(row[`${Donation.WeightProperty}.Sum.agg`]);
+            this.totalCount = Aggregation.getAggregationResultInteger(row, Model.IDProperty, JMS.SharePoint.AggregationAlgorithms.Count);
+            this.totalWeight = Aggregation.getAggregationResultInteger(row, Donation.WeightProperty, JMS.SharePoint.AggregationAlgorithms.Sum);
         }
     }
 
