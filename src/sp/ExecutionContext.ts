@@ -119,7 +119,7 @@ module JMS.SharePoint {
         }
 
         // Erstellt eine Analyse mit Aggegationen.
-        pivot<TAggregationType>(factory: IFactory1<TAggregationType, any>, query?: Query): IResult<TAggregationType[]> {
+        pivot<TAggregationType>(factory: IFactory1<TAggregationType, IPivotRow>, query?: Query): IResult<TAggregationType[]> {
             // Statische Konfiguration der Modelklasse ermitteln.
             var factoryStatic: ISerializableClass = <any>factory;
 
@@ -132,7 +132,7 @@ module JMS.SharePoint {
             // Projektion auf Modellelemente einrichten.
             return new ResultProjector<TAggregationType[], SP.ClientObject>(promise, () => {
                 // Alle Ergebniszeilen ermitteln.
-                var rows: any[] = JSON.parse(data.get_value()).Row;
+                var rows: IPivotRow[] = JSON.parse(data.get_value()).Row;
 
                 // Umwandeln.
                 return rows.map(row => new factory(row));

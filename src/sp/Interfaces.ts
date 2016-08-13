@@ -83,6 +83,12 @@ module JMS.SharePoint {
         Sum,
     }
 
+    // Beschreibt eine Zeile in einer aggregierten tabelle.
+    export interface IPivotRow {
+        // Ein einzelne Zelle der Zeile.
+        [field: string]: string;
+    }
+
     // Repräsentiert eine Verbindung zu SharePoint.
     export interface IExecutionContext {
         // Ermittelt den aktuellen Anwender.
@@ -104,6 +110,6 @@ module JMS.SharePoint {
         startAsync(): void;
 
         // Erstellt eine Analyse mit Aggegationen.
-        pivot<TAggregationType>(factory: IFactory1<TAggregationType, any>, query?: Query): IResult<TAggregationType[]>;
+        pivot<TAggregationType>(factory: IFactory1<TAggregationType, IPivotRow>, query?: Query): IResult<TAggregationType[]>;
     }
 }
