@@ -4,7 +4,7 @@
 
 module CoffeeBreak {
 
-    // Repräsentiert eine einfache Sicht auf eine Spende - tatsächlich sollte die Gruppierung im Backend erfolgen, aber das ist wohl nicht so direkt möglich und wenn doch: das wäre die Klasse dafür!
+    // Repräsentiert eine einfache Sicht auf eine Spende.
     export class TimeGroupDonation extends Aggregation {
         // Der Name des Feldes mit der Granularität für die Gruppierung nach dem Zeitpunkt der Spende.
         static TimeGranularityProperty = `TimeGranularity`;
