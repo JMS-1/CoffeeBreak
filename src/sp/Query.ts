@@ -15,6 +15,9 @@ module JMS.SharePoint {
 
         // Erzeugt CAML.
         toXml(parent: Element): void {
+            if (this._fields.length < 1)
+                return;
+
             // Der Knoten für die Feldliste.
             var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`OrderBy`));
 
@@ -40,6 +43,9 @@ module JMS.SharePoint {
 
         // Erzeugt CAML.
         toXml(parent: Element): void {
+            if (this._fields.length < 1)
+                return;
+
             // Der Knoten mit der Liste der Felder.
             var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`GroupBy`));
 
@@ -56,6 +62,34 @@ module JMS.SharePoint {
         // Ergänzt ein Feld für die Gruppierung.
         addField(name: string): void {
             this._fields.push(name);
+        }
+    }
+
+    // Verwaltet Aggregationen.
+    class Aggregations implements IQueryXml {
+        // Die aggregierten Felder samt den zugehörigen Algorithmen.
+        private _fields: { name: string, algorithm: string }[] = [];
+
+        // Erzeugt CAML.
+        toXml(parent: Element): void {
+            if (this._fields.length < 1)
+                return;
+
+            // Der Knoten mit der Liste der Felder.
+            var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`Aggregations`));
+
+            // Alle Felder als Kindknoten eintragen.
+            this._fields.forEach(f => {
+                var field = <Element>self.appendChild(parent.ownerDocument.createElement(`FieldRef`));
+
+                field.setAttribute(`Name`, f.name);
+                field.setAttribute(`Type`, f.algorithm);
+            });
+        }
+
+        // Ergänzt eine Aggregations.
+        addAggregation(name: string, algorithm: string): void {
+            this._fields.push({ name: name, algorithm: algorithm });
         }
     }
 
@@ -236,10 +270,10 @@ module JMS.SharePoint {
         private _where: Where;
 
         // Optional die Sortierung.
-        private _order: Order;
+        private _order = new Order();
 
         // Optional die Gruppierung.
-        private _group: Grouping;
+        private _group = new Grouping();
 
         // Erzeugt das CAML der Query.
         toXml(parent: Element): void {
@@ -249,26 +283,17 @@ module JMS.SharePoint {
             if (this._where)
                 this._where.toXml(self);
 
-            if (this._group)
-                this._group.toXml(self);
-
-            if (this._order)
-                this._order.toXml(self);
+            this._group.toXml(self);
+            this._order.toXml(self);
         }
 
         // Ergänzt ein Feld zur Sortierung.
         addSort(name: string, ascending: boolean): void {
-            if (!this._order)
-                this._order = new Order();
-
             this._order.addField(name, ascending);
         }
 
         // Ergänzt ein Feld für die Gruppierung.
         addGroup(name: string): void {
-            if (!this._group)
-                this._group = new Grouping();
-
             this._group.addField(name);
         }
 
@@ -305,8 +330,11 @@ module JMS.SharePoint {
         // Die Konfiguration der maximalen Anzahl von Ergebnissen.
         private _rowLimit = new RowLimit();
 
+        // Die Aggregationen zur Suche.
+        private _aggregations = new Aggregations();
+
         // Meldet den CAML View zur Suche.
-        getQuery(): SP.CamlQuery {
+        createQuery(): SP.CamlQuery {
             // Erstelle ein XML Dokument.
             var xml = document.implementation.createDocument(null, `View`, null);
 
@@ -315,6 +343,7 @@ module JMS.SharePoint {
 
             this._root.toXml(view);
             this._rowLimit.toXml(view);
+            this._aggregations.toXml(view);
 
             // Schließlich wird das XML Dokument als CAML View Zeichenkette in die SharePoint Repräsentation gewandelt.
             var query = new SP.CamlQuery();
@@ -341,6 +370,13 @@ module JMS.SharePoint {
         // Ergänzt ein Feld für die Gruppierung.
         group(name: string): Query {
             this._root.addGroup(name);
+
+            return this;
+        }
+
+        // Ergänzt eine Aggregation.
+        aggregate(name: string, algorithm: string): Query {
+            this._aggregations.addAggregation(name, algorithm);
 
             return this;
         }

@@ -14,8 +14,8 @@ module CoffeeBreak {
 
     // Basisklasse zur Implementierung eines Controllers.
     export abstract class Controller<TPresentationType extends IPresentation> implements IController<TPresentationType> {
-        constructor(protected view: TPresentationType) {
-            view.setConnect(() => this.onConnect());
+        constructor(protected presentationModel: TPresentationType) {
+            presentationModel.setConnect(() => this.onConnect());
         }
 
         // Wird aufgerufen, sobald der View zur Konfiguration bereit ist.

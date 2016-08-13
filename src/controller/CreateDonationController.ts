@@ -39,14 +39,14 @@ module CoffeeBreak {
             super.onConnect();
 
             // Eventuell wird bereits eine Spende neu angelegt oder bearbeitet, dann machen wir damit weiter - ansonsten wird das aktuelle Modell dafür registriert.
-            var active = this.view.activeDonation();
+            var active = this.presentationModel.activeDonation();
             if (active)
                 this.model = active;
             else
-                this.view.activeDonation(this.model);
+                this.presentationModel.activeDonation(this.model);
 
             // Meldet das aktuelle Gewicht sowie das Verhalten bei Eingabeänderung.
-            this.view.setWeight(this.model.weight, (newValue, isValid) => {
+            this.presentationModel.setWeight(this.model.weight, (newValue, isValid) => {
                 // Werte übernehmen und erneut prüfen - der zweite Parameter zeigt an, ob überhaupt eine gültige Zahl eingegeben wurde.
                 this._hasValidWeight = isValid;
                 this.model.weight = newValue;
@@ -59,10 +59,10 @@ module CoffeeBreak {
                 // Nach dem vollen Namen der Sorte sortieren und dann erst an die Oberfläche melden.
                 items.sort((l, r) => l.fullName().localeCompare(r.fullName()));
 
-                this.view.setTypes(items);
+                this.presentationModel.setTypes(items);
 
                 // Die aktelle Sorte und das Verhalten bei Änderungen melden.
-                var activeType = this.view.setType(this.model.typeId, newType => {
+                var activeType = this.presentationModel.setType(this.model.typeId, newType => {
                     // Wir übernehmen hier nur den Primärschlüssel in den Fremdschlüssel und führen dann eine Prüfung durch.
                     this.model.typeId = newType.id;
 
@@ -84,17 +84,17 @@ module CoffeeBreak {
         // Prüft die aktuellen Modelldaten.
         private validate(): void {
             // Modellkonsistenz prüfen.
-            var isValid = this.model.validate(error => this.view.setTypeError(error), error => this.view.setWeightError(error));
+            var isValid = this.model.validate(error => this.presentationModel.setTypeError(error), error => this.presentationModel.setWeightError(error));
 
             // Wenn sicher ist, dass die Eingabe des Anwenders keine Zahl ist, dann hat dieses Prüfergebnis immer Vorrang vor der Modellkonsistenz.
             if (!this._hasValidWeight) {
-                this.view.setWeightError(Constants.validation.badNumber);
+                this.presentationModel.setWeightError(Constants.validation.badNumber);
 
                 isValid = false;
             }
 
             // Der View muss nun nur noch wissen, ob der Anwender die aktuellen Daten speichern darf.
-            this.view.setAllowSave(isValid);
+            this.presentationModel.setAllowSave(isValid);
         }
     }
 

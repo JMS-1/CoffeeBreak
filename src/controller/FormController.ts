@@ -32,9 +32,9 @@ module CoffeeBreak {
         // Wird aufgerufen, sobald der View zur Konfiguration bereit ist.
         protected onConnect(): void {
             // Meldet die Methode an, die beim Speichern durch den Anwender aufzurufen ist.
-            this.view.setSave(done => {
+            this.presentationModel.setSave(done => {
                 // Speichern ist ohne folgende Änderung immer nur einmal möglich - tatsächlich ist das nicht ganz sauber: das Speicher müsste verboten werden, bis der aktuelle Vorgang abgeschlossen ist.
-                this.view.setAllowSave(false);
+                this.presentationModel.setAllowSave(false);
 
                 // Verbindung zu SharePoint herstellen.
                 var executor = JMS.SharePoint.newExecutor();

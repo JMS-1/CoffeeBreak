@@ -93,5 +93,8 @@ module JMS.SharePoint {
 
         // Sendet alle zur Verbindung registrierten Anfragen an SharePoint und wertet dann asynchron die Ergebnisse aus.
         startAsync(): void;
+
+        // Erstellt eine Analyse mit Aggegationen.
+        pivot<TAggregationType>(factory: IFactory1<TAggregationType, any>, query?: Query): IResult<TAggregationType[]>;
     }
 }

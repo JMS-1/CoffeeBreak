@@ -48,7 +48,7 @@ module CoffeeBreak {
             super.onConnect();
 
             // Legt den aktuellen Hersteller und die Eingabe desselben fest.
-            this.view.setCompany(this.model.company, company => {
+            this.presentationModel.setCompany(this.model.company, company => {
                 // Neuen Wert übernehmen.
                 this.model.company = company;
 
@@ -60,14 +60,14 @@ module CoffeeBreak {
             });
 
             // Legt die aktuelle Sorte und die Eingabe derselben fest.
-            this.view.setName(this.model.name, name => {
+            this.presentationModel.setName(this.model.name, name => {
                 this.model.name = name;
 
                 this.validate();
             });
 
             // Legt den aktuellen Koffeingehalt und die Eingabe desselben fest.
-            this.view.setCoffein(this.model.coffein, withCoffein => {
+            this.presentationModel.setCoffein(this.model.coffein, withCoffein => {
                 this.model.coffein = withCoffein;
 
                 this.validate();
@@ -106,7 +106,7 @@ module CoffeeBreak {
                 companyNames.sort();
 
                 // Die nun bekannten Listen an den View melden.
-                this.view.setCompanies(companyNames);
+                this.presentationModel.setCompanies(companyNames);
                 this.refreshNames();
 
                 // Nun müssen wir zum Beispiel auf Dubletten prüfen.
@@ -119,18 +119,18 @@ module CoffeeBreak {
 
         // Nach dem erfolgreichen Speichern einer neuen Art von Kaffee wird diese automatisch an die aktuelle Spende gebunden.
         protected onSaved(model: CoffeeType): void {
-            this.view.activeDonation().typeId = model.id
+            this.presentationModel.activeDonation().typeId = model.id
         }
 
         // Meldet die Namen aller Sorten des aktuellen Herstellers an den View.
         private refreshNames(): void {
-            this.view.setNames(this._companies[this.model.company || ``]);
+            this.presentationModel.setNames(this._companies[this.model.company || ``]);
         }
 
         // Führ eine Prüfung durch.
         private validate(): void {
             // Modellkonsistenz prüfen.
-            var isValid = this.model.validate(error => this.view.setCompanyError(error), error => this.view.setNameError(error));
+            var isValid = this.model.validate(error => this.presentationModel.setCompanyError(error), error => this.presentationModel.setNameError(error));
 
             // Wenn das Modell in Ordnung ist und die Liste aller Arten bereits geladen wurde, so erfolgt nun eine prüfung auf Dubletten - produktiv sollte das eigentlich das Backend machen.
             if (isValid)
@@ -139,7 +139,7 @@ module CoffeeBreak {
 
                     for (var item of this._existing)
                         if (item === fullName) {
-                            this.view.setNameError(Constants.validation.duplicateType);
+                            this.presentationModel.setNameError(Constants.validation.duplicateType);
 
                             isValid = false;
 
@@ -150,7 +150,7 @@ module CoffeeBreak {
                     isValid = false;
 
             // Dem View mitteilen, ob der Anwender nun Speichern darf.
-            this.view.setAllowSave(isValid);
+            this.presentationModel.setAllowSave(isValid);
         }
     }
 }

@@ -27,7 +27,7 @@ module CoffeeBreak {
         // Wird ausgelöst, sobald der View zur Konfiguration bereit ist.
         protected onConnect(): void {
             // Legt die Methode zur erneuten Anfrage der Daten fest.
-            this.view.setRefresh(forMe => {
+            this.presentationModel.setRefresh(forMe => {
                 // Eventuell mit veränderter Einschränkung auf die Spenden.
                 if (forMe !== undefined)
                     this._model.selfOnly = forMe;
@@ -63,34 +63,26 @@ module CoffeeBreak {
                 query.equal(Donation.AuthorProperty, this._me.get_id(), true);
 
             // Die Liste wird dann direkt an den View übergeben.
-            context.items(Donation, query).success(items => this.view.fillTable(items));
+            context.items(Donation, query).success(items => this.presentationModel.fillTable(items));
 
-            // Dann brauchen wir diesmal wirklich alle Spenden - eine reine CAML Query scheint keine Gruppierung mit Aggregation zu können: schade wenn dem wirklich so ist.
+            // Aggregation über alle Spenden ermitteln.
             query = new JMS.SharePoint.Query();
 
-            query.limit(0).group(TimeGroupDonation.TimeGranularityProperty);
+            query
+                .limit(0)
+                .group(TimeGroupDonation.TimeGranularityProperty)
+                .aggregate(Model.IDProperty, `Count`)
+                .aggregate(Donation.WeightProperty, `Sum`);
 
-            // Zumindest reduzieren wir die angeforderten Daten auf das Notwendigste - tatsächlich wäre es klug, das auch bei allen anderen Abfrage zu machen, aber in der Evaluation soll nur gezeigt werden, dass es überhaupt geht!
-            context.items(TimeGroupDonation, query, `Include(ID, ${TimeGroupDonation.TimeGranularityProperty}, ${Donation.WeightProperty})`).success(items => {
-                var segments: TimeGroupDonation[] = [];
-                var aggregate: TimeGroupDonation;
+            // Aggregationen auswerten.
+            context.pivot(TimeGroupDonation, query).success(data => {
+                // Wir bringen das hier erst einmal in die richtige Ordnung.
+                data.sort((l, r) => -l.segment.localeCompare(r.segment));
 
-                // Statt der Gruppierung kann hier natürlich auch eine Sortierung verwendet werden, wieder ist es einfach Sinn der Evaluation beides einmal auszuprobieren.
-                items.forEach(donation => {
-                    if (!aggregate || (donation.segment !== aggregate.segment))
-                        segments.push(aggregate = donation);
-
-                    aggregate.totalWeight += donation.weight;
-                    aggregate.totalCount += 1;
-                });
-
-                // Der View erhält die Informationen mit der neuesten Gruppe von Spenden als erstes - aus Faulheit erfolgt eine Tabellendarstellen, bei einer Graphik wäre es wohl eher anders herum sinnvoll.
-                segments.sort((l, r) => -l.segment.localeCompare(r.segment));
-
-                this.view.fillTimeGroup(segments);
+                this.presentationModel.fillTimeGroup(data);
             });
 
-            // Die Ausführung erfolgt natürlich wieder asynchron - schnelles Umschalten in der Oberfläche kann hier zu falschen Daten führen, aber für die Evaluation ist das erst einmal egal!
+            // Die Ausführung erfolgt natürlich wieder asynchron.
             context.startAsync();
         }
     }

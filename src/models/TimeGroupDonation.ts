@@ -5,7 +5,7 @@
 module CoffeeBreak {
 
     // Repräsentiert eine einfache Sicht auf eine Spende - tatsächlich sollte die Gruppierung im Backend erfolgen, aber das ist wohl nicht so direkt möglich und wenn doch: das wäre die Klasse dafür!
-    export class TimeGroupDonation extends Model {
+    export class TimeGroupDonation extends Aggregation {
         // Der Name des Feldes mit der Granularität für die Gruppierung nach dem Zeitpunkt der Spende.
         static TimeGranularityProperty = `TimeGranularity`;
 
@@ -15,22 +15,17 @@ module CoffeeBreak {
         // Der Schlüssel für die Gruppierung nach dem Zeitpunkt der Spende.
         segment: string;
 
-        // Das Gewicht eine Spende - bei einer Gruppierung im Backend bräuchten wir das hier nicht.
-        weight: number;
-
         // Die Anzahl der Spenden zum angegebenen Zeitpunkt.
-        totalCount = 0;
+        totalCount: number;
 
         // Das Gesamtgewicht der Spenden zum angegebenen Zeitpunkt.
-        totalWeight = 0;
+        totalWeight: number;
 
         // Überträgt die SharePoint Repräsentation in die Modelldaten.
-        protected loadFrom(item: SP.ListItem) {
-            super.loadFrom(item);
-
-            // Das sind nur die Rohdaten, die Aggregation wird leider im Client selbst ermittelt - siehe den DashboardController.
-            this.segment = item.get_item(TimeGroupDonation.TimeGranularityProperty);
-            this.weight = item.get_item(Donation.WeightProperty);
+        protected loadFrom(row: any) {
+            this.segment = row[TimeGroupDonation.TimeGranularityProperty];
+            this.totalCount = parseInt(row[`${Model.IDProperty}.Count.agg`]);
+            this.totalWeight = parseFloat(row[`${Donation.WeightProperty}.Sum.agg`]);
         }
     }
 

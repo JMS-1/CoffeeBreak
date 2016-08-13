@@ -12,7 +12,8 @@ module JMS.SharePoint {
 
         // Bereits beim Erzeugen der Operation wird eine Abfrage an SharePoint vorgemerkt.
         constructor(private _request: TResponseType, ...refinement: string[]) {
-            _request.get_context().load(_request, ...refinement);
+            if (_request)
+                _request.get_context().load(_request, ...refinement);
         }
 
         // Ergänzt eine Methode für den Erfolgsfall.
@@ -103,7 +104,7 @@ module JMS.SharePoint {
             var factoryStatic: ISerializableClass = <any>factory;
 
             // Abfrage formulieren.
-            var promise = this.addPromise(this._web.get_lists().getByTitle(factoryStatic.listName).getItems(query.getQuery()), ...refinements);
+            var promise = this.addPromise(this._web.get_lists().getByTitle(factoryStatic.listName).getItems(query.createQuery()), ...refinements);
 
             // Projektion auf Modellelemente einrichten.
             return new ResultProjector<TModelType[], SP.ListItemCollection>(promise, items => {
@@ -114,6 +115,27 @@ module JMS.SharePoint {
                     modelItems.push(new factory(all.get_current()));
 
                 return modelItems;
+            });
+        }
+
+        // Erstellt eine Analyse mit Aggegationen.
+        pivot<TAggregationType>(factory: IFactory1<TAggregationType, any>, query?: Query): IResult<TAggregationType[]> {
+            // Statische Konfiguration der Modelklasse ermitteln.
+            var factoryStatic: ISerializableClass = <any>factory;
+
+            // Abfrage formulieren.
+            var data = this._web.get_lists().getByTitle(factoryStatic.listName).renderListData(query.createQuery().get_viewXml());
+
+            // Umsetzung anlegen.
+            var promise = this.addPromise(null);
+
+            // Projektion auf Modellelemente einrichten.
+            return new ResultProjector<TAggregationType[], SP.ClientObject>(promise, () => {
+                // Alle Ergebniszeilen ermitteln.
+                var rows: any[] = JSON.parse(data.get_value()).Row;
+
+                // Umwandeln.
+                return rows.map(row => new factory(row));
             });
         }
 
@@ -147,7 +169,7 @@ module JMS.SharePoint {
         // Startet alle ausstehenden SharePoint Operationen.
         startAsync(): void {
             var context = this._web.get_context();
-            
+
             context.executeQueryAsync(
                 (s, info) => {
                     // Erfolgsmeldung durchreichen.

@@ -217,6 +217,7 @@
     </TypeScriptCompile>
     <TypeScriptCompile Include="src\AppInterfaces.ts" />
     <TypeScriptCompile Include="src\controller\FormController.ts" />
+    <TypeScriptCompile Include="src\models\Aggregation.ts" />
     <TypeScriptCompile Include="src\models\CoffeeType.ts" />
     <TypeScriptCompile Include="src\Constants.ts" />
     <TypeScriptCompile Include="src\controller\Controller.ts" />
