@@ -111,16 +111,16 @@ module JMS.SharePoint {
     }
 
     // Klasse zur Repräsentation einer Untersuchbedingung.
-    class ConditionPart implements IConditionFactory {
+    class ConditionFactory<TParentType> implements IConditionFactory<TParentType> {
         // Die Untersuchbedingung.
         private _condition: Condition;
 
         // Legt bei der Erzeugung die konkrete übergeordnete Suchbedingung fest.
-        constructor(private _pair: IConditionPair) {
+        constructor(private _pair: IConditionPair<TParentType>) {
         }
 
         // Legt die Untersuchbedingung einmalig fest und meldet die übergeordnete Suchbedingungen zur Nutzung als Fluent Interface.
-        private setCondition(condition: Condition): IConditionPair {
+        private setCondition(condition: Condition): IConditionPair<TParentType> {
             if (this._condition)
                 throw `Suchbedingung darf nur einmal gesetzt werden`;
 
@@ -130,12 +130,12 @@ module JMS.SharePoint {
         }
 
         // Legt als Untersuchbedingungen eine Vergleich auf einen exakten Wert fest.
-        equal(field: string, value: any, isLookup: boolean = false): IConditionPair {
+        equal(field: string, value: any, isLookup: boolean = false): IConditionPair<TParentType> {
             return this.setCondition(new Equal(field, value, isLookup));
         }
 
         // Legt als Untersuchbedingung eine Suchbedingung mit Untersuchbedingungen fest - der Rückgabewert ist hier die neue Suchbedingung.
-        private setListCondition(factory: IFactory1<ConditionPair, IConditionPair>): IConditionPair {
+        private setListCondition(factory: IFactory1<ConditionPair<IConditionPair<TParentType>>, IConditionPair<TParentType>>): IConditionPair<IConditionPair<TParentType>> {
             var condition = new factory(this._pair);
 
             this.setCondition(condition);
@@ -144,12 +144,12 @@ module JMS.SharePoint {
         }
 
         // Legt als Untersuchbedingung ein logisches UND fest.
-        and(): IConditionPair {
+        and(): IConditionPair<IConditionPair<TParentType>> {
             return this.setListCondition(And);
         }
 
         // Legt als Untersuchbedingung ein logisches ODER fest.
-        or(): IConditionPair {
+        or(): IConditionPair<IConditionPair<TParentType>> {
             return this.setListCondition(Or);
         }
 
@@ -161,19 +161,19 @@ module JMS.SharePoint {
     }
 
     // Hilfsklasse zur Implementierung einer Suchbedingung mit genau zwei Untersuchbedingungen.
-    abstract class ConditionPair extends Condition implements IConditionPair {
+    abstract class ConditionPair<TParentType> extends Condition implements IConditionPair<TParentType> {
         // Die erste Untersuchbedingung.
-        private _first: ConditionPart;
+        private _first: ConditionFactory<TParentType>;
 
         // Die zweite Untersuchbedingung.
-        private _second: ConditionPart;
+        private _second: ConditionFactory<TParentType>;
 
         // Bei der Erzeugung wird bereits eine möglicherweise übergeordnete Suchbedingung festgelegt, mit der dann das Fluent Interface einfacher zu bedienen ist.
-        constructor(private _operation: string, private _parent: ConditionPair) {
+        constructor(private _operation: string, private _parent: TParentType) {
             super();
 
-            this._first = new ConditionPart(this);
-            this._second = new ConditionPart(this);
+            this._first = new ConditionFactory<TParentType>(this);
+            this._second = new ConditionFactory<TParentType>(this);
         }
 
         // Erzeugt das CAML für die beiden Untersuchbedingungen.
@@ -186,31 +186,31 @@ module JMS.SharePoint {
         }
 
         // Meldet die erste Untersuchbedingung.
-        first(): IConditionFactory {
+        first(): IConditionFactory<TParentType> {
             return this._first;
         }
 
         // Meldet die zweite Untersuchbedingung.
-        second(): IConditionFactory {
+        second(): IConditionFactory<TParentType> {
             return this._second;
         }
 
         // Meldet die optionale übergeordnete Suchbedingung.
-        parent(): IConditionPair {
+        parent(): TParentType {
             return this._parent;
         }
     }
 
     // Repräsentiert ein logisches UND.
-    class And extends ConditionPair {
-        constructor(parent: ConditionPair) {
+    class And<TParentType> extends ConditionPair<TParentType> {
+        constructor(parent: TParentType) {
             super(`And`, parent);
         }
     }
 
     // Repräsentiert ein logisches ODER.
-    class Or extends ConditionPair {
-        constructor(parent: ConditionPair) {
+    class Or<TParentType> extends ConditionPair<TParentType> {
+        constructor(parent: TParentType) {
             super(`Or`, parent);
         }
     }
@@ -321,7 +321,6 @@ module JMS.SharePoint {
             var ser = new XMLSerializer();
 
             query.set_viewXml(ser.serializeToString(xml));
-
             return query;
         }
 
@@ -359,8 +358,8 @@ module JMS.SharePoint {
         }
 
         // Legt die Suchbedingung fest.
-        private setListCondition(factory: IFactory1<ConditionPair, IConditionPair>): IConditionPair {
-            var condition = new factory();
+        private setListCondition(factory: IFactory1<ConditionPair<Query>, Query>): IConditionPair<Query> {
+            var condition = new factory(this);
 
             this._root.where(condition);
 
@@ -368,12 +367,12 @@ module JMS.SharePoint {
         }
 
         // Legt ein logisches UND als Suchbedingung fest.
-        and(): IConditionPair {
+        and(): IConditionPair<Query> {
             return this.setListCondition(And);
         }
 
         // Legt ein logisches ODER als Suchbedingung fest.
-        or(): IConditionPair {
+        or(): IConditionPair<Query> {
             return this.setListCondition(Or);
         }
     }

@@ -51,27 +51,27 @@ module JMS.SharePoint {
     }
 
     // Eine Schnittstelle zum Erzeugen von Suchbedingungen.
-    export interface IConditionFactory {
+    export interface IConditionFactory<TParentType> {
         // Ergänzt einen Vergleich auf Gleichheit und meldet die übergeordnete Suchbedingung - als Fluent Interface.
-        equal(field: string, value: any, isLookup?: boolean): IConditionPair;
+        equal(field: string, value: any, isLookup?: boolean): IConditionPair<TParentType>;
 
         // Ergänzt ein logisches UND und meldet dieses zur weitern Konfiguration.
-        and(): IConditionPair;
+        and(): IConditionPair<IConditionPair<TParentType>>;
 
         // Ergänzt ein logisches ODER und meldet dieses zur weitern Konfiguration.
-        or(): IConditionPair;
+        or(): IConditionPair<IConditionPair<TParentType>>;
     }
 
     // Schnittstelle für logische Operationen - SharePoint kennt UND und ODER nur als binäre Operatoren.
-    export interface IConditionPair {
+    export interface IConditionPair<TParentType> {
         // Die erste untergeordnete Suchbedingung.
-        first(): IConditionFactory;
+        first(): IConditionFactory<TParentType>;
 
         // Die zweite untergeordnete Suchbedingung.
-        second(): IConditionFactory;
+        second(): IConditionFactory<TParentType>;
 
         // Die übergeordnete Suchbedingung - vereinfacht die Konfiguration über das Fluent Interface.
-        parent(): IConditionPair;
+        parent(): TParentType;
     }
 
     // Repräsentiert eine Verbindung zu SharePoint.
