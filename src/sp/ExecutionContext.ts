@@ -126,11 +126,8 @@ module JMS.SharePoint {
             // Abfrage formulieren.
             var data = this._web.get_lists().getByTitle(factoryStatic.listName).renderListData(query.createQuery().get_viewXml());
 
-            // Umsetzung anlegen.
-            var promise = this.addPromise(null);
-
             // Projektion auf Modellelemente einrichten.
-            return new ResultProjector<TAggregationType[], SP.ClientObject>(promise, () => {
+            return new ResultProjector<TAggregationType[], SP.ClientObject>(this.addPromise(null), () => {
                 // Alle Ergebniszeilen ermitteln.
                 var rows: IPivotRow[] = JSON.parse(data.get_value()).Row;
 
