@@ -317,7 +317,7 @@ module JMS.SharePoint {
         // Alle zugehörigen Projektionen.
         private _fields: string[] = [];
 
-        constructor(private _query: Query, private _foreignKey: string, private _detailList) {
+        constructor(private _query: Query, private _foreignKey: string, private _alias) {
         }
 
         // Meldet die zugehörige Suchbedingung:
@@ -338,7 +338,7 @@ module JMS.SharePoint {
             var self = <Element>joins.appendChild(joins.ownerDocument.createElement(`Join`));
 
             self.setAttribute(`Type`, `Left`);
-            self.setAttribute(`ListAlias`, this._detailList);
+            self.setAttribute(`ListAlias`, this._alias);
 
             var match = <Element>self.appendChild(joins.ownerDocument.createElement(`Eq`));
 
@@ -350,14 +350,14 @@ module JMS.SharePoint {
             // Der Primärschlüssel.
             var right = <Element>match.appendChild(joins.ownerDocument.createElement(`FieldRef`));
             right.setAttribute(`Name`, `ID`);
-            right.setAttribute(`List`, this._detailList);
+            right.setAttribute(`List`, this._alias);
 
             // Und die optional projizierten Felder.
             this._fields.forEach(f => {
                 var self = <Element>fields.appendChild(fields.ownerDocument.createElement(`Field`));
 
-                self.setAttribute(`Name`, `${this._detailList}${f}`);
-                self.setAttribute(`List`, this._detailList);
+                self.setAttribute(`Name`, `${this._alias}${f}`);
+                self.setAttribute(`List`, this._alias);
                 self.setAttribute(`Type`, `Lookup`);
                 self.setAttribute(`ShowField`, f);
             });
@@ -442,11 +442,9 @@ module JMS.SharePoint {
         }
 
         // Erstellt eine Verbindung mit einer anderen Liste.
-        join<TModelType extends ISerializable>(foreignKey: string, list: IModelFactory<TModelType>): IJoin {
+        join<TModelType extends ISerializable>(foreignKey: string, alias: string): IJoin {
             // Verknüfung anlegen.
-            var modelStatic: ISerializableClass = <any>list;
-
-            var join = new Join(this, foreignKey, modelStatic.listName);
+            var join = new Join(this, foreignKey, alias);
 
             this._joins.push(join);
 

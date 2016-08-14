@@ -94,7 +94,7 @@ module JMS.SharePoint {
         aggregate(name: string, algorithm: AggregationAlgorithms): IQuery;
 
         // Erstellt eine Verbindung mit einer anderen Liste.
-        join<TModelType extends ISerializable>(foreignKey: string, list: IModelFactory<TModelType>): IJoin;
+        join<TModelType extends ISerializable>(foreignKey: string, alias: string): IJoin;
 
         // Meldet den CAML View zur Suche.
         createQuery(): SP.CamlQuery;

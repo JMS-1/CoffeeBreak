@@ -18,6 +18,9 @@ module CoffeeBreak {
         // Der Name des Feldes zum Nachschlagen der Art des Kaffees.
         static TypeProperty = `CoffeeTypeRelation`;
 
+        // Der Name für das Nachschlagen der Sorten.
+        static CoffeeTypeJoinAlias = `TypeLookup`;
+
         // Der Name der zugehörigen SharePoint Liste.
         static  /* JMS.SharePoint.ISerializableClass. */ listName = Constants.listNames.donations;
 
@@ -71,12 +74,12 @@ module CoffeeBreak {
                 this.typeId = typeId.get_lookupId();
 
             // Kaffeesorte zur Demonstration über den JOIN mit einer anderen Liste.
-            var typeName = Model.getProjectedField(item, `${CoffeeType.listName}${CoffeeType.FullNameProperty}`);
+            var typeName = Model.getProjectedField(item, `${Donation.CoffeeTypeJoinAlias}${CoffeeType.FullNameProperty}`);
             if (typeName)
                 this.typeName = typeName.get_lookupValue();
 
             // Dito der Koffeingehalt.
-            var withCoffein = Model.getProjectedField(item, `${CoffeeType.listName}${CoffeeType.CoffeinProperty}`);
+            var withCoffein = Model.getProjectedField(item, `${Donation.CoffeeTypeJoinAlias}${CoffeeType.CoffeinProperty}`);
             if (withCoffein)
                 this.hasCoffein = (withCoffein.get_lookupValue() === "1");
 

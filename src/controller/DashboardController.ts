@@ -58,7 +58,7 @@ module CoffeeBreak {
                 JMS.SharePoint
                     .newQuery()
                     .limit(20)
-                    .join(Donation.TypeProperty, CoffeeType)
+                    .join(Donation.TypeProperty, Donation.CoffeeTypeJoinAlias)
                     .addProjection(CoffeeType.FullNameProperty)
                     .addProjection(CoffeeType.CoffeinProperty)
                     .query()
