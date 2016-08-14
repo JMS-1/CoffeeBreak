@@ -22,7 +22,7 @@ module CoffeeBreak {
         name: string;
 
         // Koffeingehalt.
-        coffein: number;
+        coffein: boolean;
 
         // Meldet den vollen Namen der Sorte.
         fullName(): string {
@@ -41,7 +41,7 @@ module CoffeeBreak {
             super.saveTo(item);
 
             item.set_item(CoffeeType.FullNameProperty, this.fullName());
-            item.set_item(CoffeeType.CoffeinProperty, this.coffein);
+            item.set_item(CoffeeType.CoffeinProperty, this.coffein ? 1 : 0);
         }
 
         // Überträgt die SharePoint Repräsentation in Modelldaten.
@@ -61,7 +61,7 @@ module CoffeeBreak {
             // Auch beim Auslesen des Koffeingehalts sind wir lieber etwas vorsichtig.
             var coffein: number = item.get_item(CoffeeType.CoffeinProperty);
             if (typeof coffein === `number`)
-                this.coffein = coffein;
+                this.coffein = (coffein == 1);
         }
 
         // Prüft die Konsistenz der Modelldaten.

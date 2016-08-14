@@ -43,7 +43,7 @@ module CoffeeBreak {
             super(view, CoffeeType);
 
             // Wir starten mal mit der Normaleinstellung.
-            this.model.coffein = 1;
+            this.model.coffein = true;
         }
 
         // Wird aufgerufen, sobald der View zur Konfiguration bereit ist.
@@ -70,8 +70,8 @@ module CoffeeBreak {
             });
 
             // Legt den aktuellen Koffeingehalt und die Eingabe desselben fest.
-            this.presentationModel.setCoffein(this.model.coffein === 1, withCoffein => {
-                this.model.coffein = withCoffein ? 1 : 0;
+            this.presentationModel.setCoffein(this.model.coffein === true, withCoffein => {
+                this.model.coffein = withCoffein;
 
                 this.validate();
             });
