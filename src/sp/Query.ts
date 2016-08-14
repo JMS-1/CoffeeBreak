@@ -8,6 +8,12 @@ module JMS.SharePoint {
         toXml(parent: Element): void;
     }
 
+    // Ermittelt die aktuelle Suchbedingung,
+    interface IConditionProvider {
+        // Die gewünschte Suchbedingung.
+        condition(): Condition;
+    }
+
     // Verwaltet die Sortierung.
     class Order implements IQueryXml {
         // Die Felder, nach denen aktuell sortiert werden soll.
@@ -145,22 +151,32 @@ module JMS.SharePoint {
     }
 
     // Klasse zur Repräsentation einer Untersuchbedingung.
-    class ConditionFactory<TParentType> implements IConditionFactory<TParentType> {
+    class ConditionFactory<TParentType> implements IConditionFactory<TParentType>, IConditionProvider {
         // Die Untersuchbedingung.
         private _condition: Condition;
 
         // Legt bei der Erzeugung die konkrete übergeordnete Suchbedingung fest.
-        constructor(private _parent: TParentType) {
+        constructor(private _parent?: TParentType) {
+        }
+
+        // Ermittelt die aktuelle Suchbedingung,
+        condition(): Condition {
+            return this._condition;
+        }
+
+        // Meldet die übergeordnete Suchbedingung.
+        protected getParent(): TParentType {
+            return this._parent;
         }
 
         // Legt die Untersuchbedingung einmalig fest und meldet die übergeordnete Suchbedingungen zur Nutzung als Fluent Interface.
-        private setCondition(condition: Condition): TParentType {
+        protected setCondition(condition: Condition): TParentType {
             if (this._condition)
                 throw `Suchbedingung darf nur einmal gesetzt werden`;
 
             this._condition = condition;
 
-            return this._parent;
+            return this.getParent();
         }
 
         // Legt als Untersuchbedingungen eine Vergleich auf einen exakten Wert fest.
@@ -170,7 +186,7 @@ module JMS.SharePoint {
 
         // Legt als Untersuchbedingung eine Suchbedingung mit Untersuchbedingungen fest - der Rückgabewert ist hier die neue Suchbedingung.
         private setListCondition(factory: IFactory1<ConditionPair<TParentType>, TParentType>): IConditionPair<TParentType> {
-            var condition = new factory(this._parent);
+            var condition = new factory(this.getParent());
 
             this.setCondition(condition);
 
@@ -250,17 +266,20 @@ module JMS.SharePoint {
     }
 
     // Verwaltet die eigentliche Suchbedingung.
-    class Where extends Condition {
-        constructor(private _inner: Condition) {
-            super();
+    class Where implements IQueryXml {
+        constructor(private _query: IConditionProvider) {
         }
 
         // Erzeugt das CAML für die Suchbedingung.
         toXml(parent: Element): void {
+            var condition = this._query.condition();
+            if (!condition)
+                return;
+
             // Erst einmal aber den Knoten für den WHERE Anteil der CAML Query.
             var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`Where`));
 
-            this._inner.toXml(self);
+            condition.toXml(self);
         }
     }
 
@@ -275,14 +294,16 @@ module JMS.SharePoint {
         // Optional die Gruppierung.
         private _group = new Grouping();
 
+        constructor(query: IConditionProvider) {
+            this._where = new Where(query);
+        }
+
         // Erzeugt das CAML der Query.
         toXml(parent: Element): void {
             // Nach der Erzeugung des Wurzelknotens sind alle weiteren Konfigurationen optional.
             var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`Query`));
 
-            if (this._where)
-                this._where.toXml(self);
-
+            this._where.toXml(self);
             this._group.toXml(self);
             this._order.toXml(self);
         }
@@ -295,16 +316,6 @@ module JMS.SharePoint {
         // Ergänzt ein Feld für die Gruppierung.
         addGroup(name: string): void {
             this._group.addField(name);
-        }
-
-        // Legt die Suchbedingung einmalig fest.
-        where(condition: Condition): ICondition {
-            if (this._where)
-                throw `Suchbedingung darf nicht überschrieben werden`;
-
-            this._where = new Where(condition);
-
-            return condition;
         }
     }
 
@@ -323,15 +334,26 @@ module JMS.SharePoint {
     }
 
     // Repräsentiert eine CAML Suchbedingung.
-    class Query implements IQuery {
+    class Query extends ConditionFactory<IQuery> implements IQuery {
         // Die eigentliche Suchbedingung.
-        private _root = new QueryBody();
+        private _root;
 
         // Die Konfiguration der maximalen Anzahl von Ergebnissen.
         private _rowLimit = new RowLimit();
 
         // Die Aggregationen zur Suche.
         private _aggregations = new Aggregations();
+
+        constructor() {
+            super();
+
+            this._root = new QueryBody(this);
+        }
+
+        // Meldet die übergeordnete Suchbedingung.
+        protected getParent(): IQuery {
+            return this;
+        }
 
         // Meldet den CAML View zur Suche.
         createQuery(): SP.CamlQuery {
@@ -354,62 +376,31 @@ module JMS.SharePoint {
         }
 
         // Legt die maximale Anzahl von Ergebnissen fest.
-        limit(maxRows: number): Query {
+        limit(maxRows: number): IQuery {
             this._rowLimit.maxRows = maxRows;
 
             return this;
         }
 
         // Ergänzt ein Feld für die Sortierung.
-        order(name: string, ascending: boolean = true): Query {
+        order(name: string, ascending: boolean = true): IQuery {
             this._root.addSort(name, ascending);
 
             return this;
         }
 
         // Ergänzt ein Feld für die Gruppierung.
-        group(name: string): Query {
+        group(name: string): IQuery {
             this._root.addGroup(name);
 
             return this;
         }
 
         // Ergänzt eine Aggregation.
-        aggregate(name: string, algorithm: AggregationAlgorithms): Query {
+        aggregate(name: string, algorithm: AggregationAlgorithms): IQuery {
             this._aggregations.addAggregation(name, algorithm);
 
             return this;
-        }
-
-        // Legt die Suchbedingung fest.
-        private setCondition(condition: Condition): Query {
-            this._root.where(condition);
-
-            return this;
-        }
-
-        // Legt als Suchbedingung den exakten Vergleich eines Feldes mit einer Konstanten fest.
-        equal(field: string, value: any, isLookup: boolean = false): Query {
-            return this.setCondition(new Equal(field, value, isLookup));
-        }
-
-        // Legt die Suchbedingung fest.
-        private setListCondition(factory: IFactory1<ConditionPair<Query>, Query>): IConditionPair<Query> {
-            var condition = new factory(this);
-
-            this._root.where(condition);
-
-            return condition;
-        }
-
-        // Legt ein logisches UND als Suchbedingung fest.
-        and(): IConditionPair<Query> {
-            return this.setListCondition(And);
-        }
-
-        // Legt ein logisches ODER als Suchbedingung fest.
-        or(): IConditionPair<Query> {
-            return this.setListCondition(Or);
         }
     }
 
