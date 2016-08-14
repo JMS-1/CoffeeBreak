@@ -3,18 +3,18 @@
 module JMS.SharePoint {
 
     // Interne Schnittstelle zum Aufbau der CAML View/Query XML.
-    interface IQueryXml {
+    interface ICondition {
         // Ergänzt einen XML Konten mit Kindknoten.
-        toXml(parent: Element): void;
+        createNode(parent: Element): void;
     }
 
     // Verwaltet die Sortierung.
-    class Order implements IQueryXml {
+    class Order {
         // Die Felder, nach denen aktuell sortiert werden soll.
         private _fields: { name: string, ascending: boolean }[] = [];
 
         // Erzeugt CAML.
-        toXml(parent: Element): void {
+        createNode(parent: Element): void {
             if (this._fields.length < 1)
                 return;
 
@@ -37,12 +37,12 @@ module JMS.SharePoint {
     }
 
     // Verwaltet die Gruppierung - in der Evaluation nicht wirklich benötigt, hier der Vollständigkeit halber.
-    class Grouping implements IQueryXml {
+    class Grouping {
         // Die Felder, nach denen gruppiert werden soll.
         private _fields: string[] = [];
 
         // Erzeugt CAML.
-        toXml(parent: Element): void {
+        createNode(parent: Element): void {
             if (this._fields.length < 1)
                 return;
 
@@ -66,12 +66,12 @@ module JMS.SharePoint {
     }
 
     // Verwaltet Aggregationen.
-    class Aggregations implements IQueryXml {
+    class Aggregations {
         // Die aggregierten Felder samt den zugehörigen Algorithmen.
         private _fields: { name: string, algorithm: AggregationAlgorithms }[] = [];
 
         // Erzeugt CAML.
-        toXml(parent: Element): void {
+        createNode(parent: Element): void {
             if (this._fields.length < 1)
                 return;
 
@@ -94,12 +94,12 @@ module JMS.SharePoint {
     }
 
     // Basisklasse für eine binäre Suchbedingung auf einem Feld mit einem konstanten Wert - da geht in CAML natürlich wesentlich mehr.
-    abstract class Binary implements IQueryXml {
+    abstract class Binary implements ICondition {
         constructor(private _field: string, private _value: any, private _operation: string, private _isLookup?: boolean) {
         }
 
         // Erzeugt XAML.
-        toXml(parent: Element): void {
+        createNode(parent: Element): void {
             // Der Knoten für die Operation.
             var self = <Element>parent.appendChild(parent.ownerDocument.createElement(this._operation));
 
@@ -140,7 +140,7 @@ module JMS.SharePoint {
     // Klasse zur Repräsentation einer Untersuchbedingung.
     class ConditionFactory<TParentType> implements IConditionFactory<TParentType> {
         // Die Untersuchbedingung.
-        condition: IQueryXml;
+        condition: ICondition;
 
         // Legt bei der Erzeugung die konkrete übergeordnete Suchbedingung fest.
         constructor(private _parent?: TParentType) {
@@ -152,7 +152,7 @@ module JMS.SharePoint {
         }
 
         // Legt die Untersuchbedingung einmalig fest und meldet die übergeordnete Suchbedingungen zur Nutzung als Fluent Interface.
-        protected setCondition(condition: IQueryXml): TParentType {
+        protected setCondition(condition: ICondition): TParentType {
             if (this.condition)
                 throw `Suchbedingung darf nur einmal gesetzt werden`;
 
@@ -186,14 +186,14 @@ module JMS.SharePoint {
         }
 
         // Erzeugt das CAML der Untersuchbedingung.
-        toXml(parent: Element): void {
+        createNode(parent: Element): void {
             if (this.condition)
-                this.condition.toXml(parent);
+                this.condition.createNode(parent);
         }
     }
 
     // Hilfsklasse zur Implementierung einer Suchbedingung mit genau zwei Untersuchbedingungen.
-    abstract class ConditionPair<TParentType> implements IQueryXml, IConditionPair<TParentType> {
+    abstract class ConditionPair<TParentType> implements ICondition, IConditionPair<TParentType> {
         // Die erste Untersuchbedingung.
         private _first: ConditionFactory<IConditionPair<TParentType>>;
 
@@ -207,12 +207,12 @@ module JMS.SharePoint {
         }
 
         // Erzeugt das CAML für die beiden Untersuchbedingungen.
-        toXml(parent: Element): void {
+        createNode(parent: Element): void {
             // Ein Knoten für die Suchbedingung selbst.
             var self = <Element>parent.appendChild(parent.ownerDocument.createElement(this._operation));
 
-            this._first.toXml(self);
-            this._second.toXml(self);
+            this._first.createNode(self);
+            this._second.createNode(self);
         }
 
         // Meldet die erste Untersuchbedingung.
@@ -246,24 +246,24 @@ module JMS.SharePoint {
     }
 
     // Verwaltet die eigentliche Suchbedingung.
-    class Where implements IQueryXml {
+    class Where {
         constructor(private _query: Query) {
         }
 
         // Erzeugt das CAML für die Suchbedingung.
-        toXml(parent: Element): void {
+        createNode(parent: Element): void {
             if (!this._query.condition)
                 return;
 
             // Erst einmal aber den Knoten für den WHERE Anteil der CAML Query.
             var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`Where`));
 
-            this._query.condition.toXml(self);
+            this._query.condition.createNode(self);
         }
     }
 
     // Repräsentiert eine CAML Query.
-    class QueryBody implements IQueryXml {
+    class QueryBody {
         // Optional die Suchbedingung.
         private _where: Where;
 
@@ -278,13 +278,13 @@ module JMS.SharePoint {
         }
 
         // Erzeugt das CAML der Query.
-        toXml(parent: Element): void {
+        createNode(parent: Element): void {
             // Nach der Erzeugung des Wurzelknotens sind alle weiteren Konfigurationen optional.
             var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`Query`));
 
-            this._where.toXml(self);
-            this._group.toXml(self);
-            this._order.toXml(self);
+            this._where.createNode(self);
+            this._group.createNode(self);
+            this._order.createNode(self);
         }
 
         // Ergänzt ein Feld zur Sortierung.
@@ -299,12 +299,12 @@ module JMS.SharePoint {
     }
 
     // Verwaltet die maximale Anzahl von Ergebniselementen.
-    class RowLimit implements IQueryXml {
+    class RowLimit {
         // Ohne weitere Konfiguration meldet die Evalualtion immer alle Ergebnisse.
         maxRows = 0;
 
         // Erzeugt CAML.
-        toXml(parent: Element): void {
+        createNode(parent: Element): void {
             var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`RowLimit`));
 
             self.setAttribute(`Paged`, `FALSE`);
@@ -333,7 +333,7 @@ module JMS.SharePoint {
         }
 
         // Erzeugt CAML.
-        toXml(joins: Element, fields: Element): void {
+        createNodes(joins: Element, fields: Element): void {
             // Der Knoten für die Konfiguration.
             var self = <Element>joins.appendChild(joins.ownerDocument.createElement(`Join`));
 
@@ -367,7 +367,7 @@ module JMS.SharePoint {
     // Repräsentiert eine CAML Suchbedingung.
     class Query extends ConditionFactory<IQuery> implements IQuery {
         // Die eigentliche Suchbedingung.
-        private _root;
+        private _root: QueryBody;
 
         // Die Konfiguration der maximalen Anzahl von Ergebnissen.
         private _rowLimit = new RowLimit();
@@ -399,16 +399,17 @@ module JMS.SharePoint {
             var joins = <Element>view.appendChild(xml.createElement(`Joins`));
             var projections = <Element>view.appendChild(xml.createElement(`ProjectedFields`));
 
-            this._joins.forEach(j => j.toXml(joins, projections));
-            this._root.toXml(view);
-            this._rowLimit.toXml(view);
-            this._aggregations.toXml(view);
+            this._joins.forEach(j => j.createNodes(joins, projections));
+            this._root.createNode(view);
+            this._rowLimit.createNode(view);
+            this._aggregations.createNode(view);
 
             // Schließlich wird das XML Dokument als CAML View Zeichenkette in die SharePoint Repräsentation gewandelt.
             var query = new SP.CamlQuery();
             var ser = new XMLSerializer();
 
             query.set_viewXml(ser.serializeToString(xml));
+
             return query;
         }
 
