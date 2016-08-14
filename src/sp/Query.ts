@@ -50,6 +50,7 @@ module JMS.SharePoint {
             var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`GroupBy`));
 
             self.setAttribute(`Collapse`, `TRUE`);
+            self.setAttribute(`GroupLimit`, `1000000`);
 
             // Alle Felder als Kindknoten eintragen.
             this._fields.forEach(f => {
