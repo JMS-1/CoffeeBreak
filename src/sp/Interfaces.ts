@@ -88,7 +88,7 @@ module JMS.SharePoint {
         order(name: string, ascending?: boolean): IQuery;
 
         // Ergänzt ein Feld für die Gruppierung.
-        group(name: string): IQuery;
+        group(name: string, ascending?: boolean): IQuery;
 
         // Ergänzt eine Aggregation.
         aggregate(name: string, algorithm: AggregationAlgorithms): IQuery;

@@ -39,7 +39,7 @@ module JMS.SharePoint {
     // Verwaltet die Gruppierung - in der Evaluation nicht wirklich benötigt, hier der Vollständigkeit halber.
     class Grouping {
         // Die Felder, nach denen gruppiert werden soll.
-        private _fields: string[] = [];
+        private _fields: { name: string, ascending: boolean }[] = [];
 
         // Erzeugt CAML.
         createNode(parent: Element): void {
@@ -56,13 +56,14 @@ module JMS.SharePoint {
             this._fields.forEach(f => {
                 var field = <Element>self.appendChild(parent.ownerDocument.createElement(`FieldRef`));
 
-                field.setAttribute(`Name`, f);
+                field.setAttribute(`Name`, f.name);
+                field.setAttribute(`Ascending`, f.ascending ? `TRUE` : `FALSE`);
             });
         }
 
         // Ergänzt ein Feld für die Gruppierung.
-        addField(name: string): void {
-            this._fields.push(name);
+        addField(name: string, ascending: boolean): void {
+            this._fields.push({ name: name, ascending: ascending });
         }
     }
 
@@ -294,8 +295,8 @@ module JMS.SharePoint {
         }
 
         // Ergänzt ein Feld für die Gruppierung.
-        addGroup(name: string): void {
-            this._group.addField(name);
+        addGroup(name: string, ascending: boolean): void {
+            this._group.addField(name, ascending);
         }
     }
 
@@ -429,8 +430,8 @@ module JMS.SharePoint {
         }
 
         // Ergänzt ein Feld für die Gruppierung.
-        group(name: string): IQuery {
-            this._root.addGroup(name);
+        group(name: string, ascending: boolean = true): IQuery {
+            this._root.addGroup(name, ascending);
 
             return this;
         }
