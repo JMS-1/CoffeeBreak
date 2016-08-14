@@ -31,6 +31,14 @@ module CoffeeBreak {
                 this.id = id;
         }
 
+        // Ermittelt eine Projektion eines Feldes - entweder direkt über ein Lookup oder über einen JOIN.
+        protected static getProjectedField(item: SP.ListItem, name: string): SP.FieldLookupValue {
+            try {
+                return item.get_item(name);
+            } catch (Exception) {
+                return undefined;
+            }
+        }
     }
 
 }

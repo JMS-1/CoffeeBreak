@@ -14,7 +14,7 @@
           ID="{db685820-a7f3-4919-ae33-4375acaaf6c8}"
           Name="WithCoffein"
           DisplayName="Mit Koffein"
-          Type="Boolean"
+          Type="Integer"
           Required="FALSE"
           Group="Custom Site Columns" />
     </Fields>

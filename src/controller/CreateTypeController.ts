@@ -41,6 +41,9 @@ module CoffeeBreak {
 
         constructor(view: ICreateType) {
             super(view, CoffeeType);
+
+            // Wir starten mal mit der Normaleinstellung.
+            this.model.coffein = 1;
         }
 
         // Wird aufgerufen, sobald der View zur Konfiguration bereit ist.
@@ -67,8 +70,8 @@ module CoffeeBreak {
             });
 
             // Legt den aktuellen Koffeingehalt und die Eingabe desselben fest.
-            this.presentationModel.setCoffein(this.model.coffein, withCoffein => {
-                this.model.coffein = withCoffein;
+            this.presentationModel.setCoffein(this.model.coffein === 1, withCoffein => {
+                this.model.coffein = withCoffein ? 1 : 0;
 
                 this.validate();
             });

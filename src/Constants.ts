@@ -38,7 +38,13 @@ module CoffeeBreak {
             cancelButton: `Abbrechen`,
 
             // Überschrift eines Auswahldialogs.
-            selectFromList: `Bitte auswählen`
+            selectFromList: `Bitte auswählen`,
+
+            // JA in Tabellenzellen.
+            yes: `ja`,
+
+            // NEIN in Tabellenzellen.
+            no: `nein`
         }
     }
 

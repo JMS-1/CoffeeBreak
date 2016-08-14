@@ -313,29 +313,54 @@ module JMS.SharePoint {
     }
 
     // Beschreibt die Verbindung zu einer anderen Liste.
-    class Join implements IQueryXml {
-        constructor(private _foreignKey: string, private _detailList, private _name: string) {
+    class Join implements IJoin {
+        // Alle zugehörigen Projektionen.
+        private _fields: string[] = [];
+
+        constructor(private _query: Query, private _foreignKey: string, private _detailList) {
+        }
+
+        // Meldet die zugehörige Suchbedingung:
+        query(): IQuery {
+            return this._query;
+        }
+
+        // Ergänzt ein aus der externen Liste auszulesendes Feld.
+        addProjection(fieldName: string): IJoin {
+            this._fields.push(fieldName);
+
+            return this;
         }
 
         // Erzeugt CAML.
-        toXml(parent: Element): void {
+        toXml(joins: Element, fields: Element): void {
             // Der Knoten für die Konfiguration.
-            var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`Join`));
+            var self = <Element>joins.appendChild(joins.ownerDocument.createElement(`Join`));
 
-            self.setAttribute(`Type`, `LEFT`);
-            self.setAttribute(`ListAlias`, this._name);
+            self.setAttribute(`Type`, `Left`);
+            self.setAttribute(`ListAlias`, this._detailList);
 
-            var match = <Element>self.appendChild(parent.ownerDocument.createElement(`Eq`));
+            var match = <Element>self.appendChild(joins.ownerDocument.createElement(`Eq`));
 
             // Der Fremdschlüssel.
-            var left = <Element>match.appendChild(parent.ownerDocument.createElement(`FieldRef`));
+            var left = <Element>match.appendChild(joins.ownerDocument.createElement(`FieldRef`));
             left.setAttribute(`Name`, this._foreignKey);
             left.setAttribute(`RefType`, `Id`);
 
             // Der Primärschlüssel.
-            var right = <Element>match.appendChild(parent.ownerDocument.createElement(`FieldRef`));
+            var right = <Element>match.appendChild(joins.ownerDocument.createElement(`FieldRef`));
             right.setAttribute(`Name`, `ID`);
             right.setAttribute(`List`, this._detailList);
+
+            // Und die optional projizierten Felder.
+            this._fields.forEach(f => {
+                var self = <Element>fields.appendChild(fields.ownerDocument.createElement(`Field`));
+
+                self.setAttribute(`Name`, `${this._detailList}${f}`);
+                self.setAttribute(`List`, this._detailList);
+                self.setAttribute(`Type`, `Lookup`);
+                self.setAttribute(`ShowField`, f);
+            });
         }
     }
 
@@ -371,14 +396,10 @@ module JMS.SharePoint {
 
             // Konfiguriere den CAM View.
             var view = <Element>xml.firstChild;
+            var joins = <Element>view.appendChild(xml.createElement(`Joins`));
+            var projections = <Element>view.appendChild(xml.createElement(`ProjectedFields`));
 
-            if (this._joins.length > 0) {
-                // Alle externen Listen melden.
-                var joins = <Element>view.appendChild(xml.createElement(`Joins`));
-
-                this._joins.forEach(j => j.toXml(joins));
-            }
-
+            this._joins.forEach(j => j.toXml(joins, projections));
             this._root.toXml(view);
             this._rowLimit.toXml(view);
             this._aggregations.toXml(view);
@@ -420,14 +441,15 @@ module JMS.SharePoint {
         }
 
         // Erstellt eine Verbindung mit einer anderen Liste.
-        join<TModelType extends ISerializable>(foreignKey: string, list: IModelFactory<TModelType>, name?: string): IQuery {
-            // Informationen zum Zielmodell ermitteln.
+        join<TModelType extends ISerializable>(foreignKey: string, list: IModelFactory<TModelType>): IJoin {
+            // Verknüfung anlegen.
             var modelStatic: ISerializableClass = <any>list;
 
-            // Verknüfung anlegen.
-            this._joins.push(new Join(foreignKey, modelStatic.listName, name || modelStatic.listName));
+            var join = new Join(this, foreignKey, modelStatic.listName);
 
-            return this;
+            this._joins.push(join);
+
+            return join;
         }
     }
 

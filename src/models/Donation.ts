@@ -30,6 +30,9 @@ module CoffeeBreak {
         // Die Sorte des Kaffees.
         typeName: string;
 
+        // Zusatzinformationen der Sorte.
+        hasCoffein: boolean;
+
         // Der Name des Spenders.
         author: string;
 
@@ -62,15 +65,23 @@ module CoffeeBreak {
             if (typeof weight === `number`)
                 this.weight = weight;
 
-            // Bei existierendem Fremdschlüssel wird auch der Nachschlagewert mit ausgelesen.
-            var typeId: SP.FieldLookupValue = item.get_item(Donation.TypeProperty);
-            if (typeId) {
-                this.typeName = typeId.get_lookupValue();
+            // Fremdschlüssel.
+            var typeId = Model.getProjectedField(item, Donation.TypeProperty);
+            if (typeId)
                 this.typeId = typeId.get_lookupId();
-            }
+
+            // Kaffeesorte zur Demonstration über den JOIN mit einer anderen Liste.
+            var typeName = Model.getProjectedField(item, `${CoffeeType.listName}${CoffeeType.FullNameProperty}`);
+            if (typeName)
+                this.typeName = typeName.get_lookupValue();
+
+            // Dito der Koffeingehalt.
+            var withCoffein = Model.getProjectedField(item, `${CoffeeType.listName}${CoffeeType.CoffeinProperty}`);
+            if (withCoffein)
+                this.hasCoffein = (withCoffein.get_lookupValue() === "1");
 
             // Auch der Name des Spenders wird über einen Fremdschlüssel aufgelöst, hier interessiert aber nur der Name des Anwenders.
-            var author: SP.FieldLookupValue = item.get_item(Donation.AuthorProperty);
+            var author = Model.getProjectedField(item, Donation.AuthorProperty);
             if (author)
                 this.author = author.get_lookupValue();
 

@@ -7,10 +7,10 @@ module CoffeeBreak {
     // Repräsentiert eine Art von Kaffee.
     export class CoffeeType extends Model {
         // Der Name des Feldes mit der Sort als Kombination aus Hersteller und Marke.
-        private static _FullNameProperty = `Title`;
+        static FullNameProperty = `Title`;
 
         // Der Name des Feldes mit dem Koffeingehalt.
-        private static _CoffeinProperty = `WithCoffein`;
+        static CoffeinProperty = `WithCoffein`;
 
         // Der Name der Liste, in der Arten von Kaffee gespeichert werden.
         static /* JMS.SharePoint.ISerializableClass. */ listName = Constants.listNames.coffeeTypes;
@@ -22,7 +22,7 @@ module CoffeeBreak {
         name: string;
 
         // Koffeingehalt.
-        coffein: boolean = true;
+        coffein: number;
 
         // Meldet den vollen Namen der Sorte.
         fullName(): string {
@@ -40,8 +40,8 @@ module CoffeeBreak {
         saveTo(item: SP.ListItem): void {
             super.saveTo(item);
 
-            item.set_item(CoffeeType._FullNameProperty, this.fullName());
-            item.set_item(CoffeeType._CoffeinProperty, this.coffein === true);
+            item.set_item(CoffeeType.FullNameProperty, this.fullName());
+            item.set_item(CoffeeType.CoffeinProperty, this.coffein);
         }
 
         // Überträgt die SharePoint Repräsentation in Modelldaten.
@@ -49,7 +49,7 @@ module CoffeeBreak {
             super.loadFrom(item);
 
             // Den Namen der Sorte müssen wir zerlegen - tatsächlich ist das auch unser eindeutiger Schlüssel.
-            var fullName: string = item.get_item(CoffeeType._FullNameProperty);
+            var fullName: string = item.get_item(CoffeeType.FullNameProperty);
             if (typeof fullName === `string`) {
                 var split = fullName.indexOf(`:`);
                 if (split >= 0) {
@@ -59,8 +59,8 @@ module CoffeeBreak {
             }
 
             // Auch beim Auslesen des Koffeingehalts sind wir lieber etwas vorsichtig.
-            var coffein: boolean = item.get_item(CoffeeType._CoffeinProperty);
-            if (typeof coffein === `boolean`)
+            var coffein: number = item.get_item(CoffeeType.CoffeinProperty);
+            if (typeof coffein === `number`)
                 this.coffein = coffein;
         }
 

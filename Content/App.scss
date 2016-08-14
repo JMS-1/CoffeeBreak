@@ -45,7 +45,7 @@
         }
     }
     // Bei Spalten mit Zahlen werden die Zellinhalte zentriert - sicher auch im Normalfall mit expliziten CSS Klassen eleganter zu lösen, e.g. .coffeeBreakNumericCell etc.
-    table.coffeeBreakDonationTable > tbody > tr > td:nth-child(2), table.coffeeBreakDonationTimeGroupTable > tbody > tr > td:not(:first-child) {
+    table.coffeeBreakDonationTable > tbody > tr > td:nth-child(2), table.coffeeBreakDonationTable > tbody > tr > td:nth-child(3), table.coffeeBreakDonationTimeGroupTable > tbody > tr > td:not(:first-child) {
         text-align: center;
     }
     // Der obere Bereich der Startseite ist in zwei horizontale nebeneinanderstehende Bereiche unterteilt - zumindest solange der Platz reicht.

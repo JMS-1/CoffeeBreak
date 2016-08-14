@@ -70,6 +70,15 @@ module JMS.SharePoint {
         parent(): TParentType;
     }
 
+    // Beschreibt eine Verbindung zu einer anderen Liste.
+    export interface IJoin {
+        // Meldet die zugehörige Suchbedingung zum Aufbau eines Fluent Interfaces.
+        query(): IQuery;
+
+        // Ergänzt ein aus der externen Liste auszulesendes Feld.
+        addProjection(fieldName: string): IJoin;
+    }
+
     // Beschreibt eine Suchbedingung.
     export interface IQuery extends IConditionFactory<IQuery> {
         // Legt die maximale Anzahl von Ergebnissen fest.
@@ -85,7 +94,7 @@ module JMS.SharePoint {
         aggregate(name: string, algorithm: AggregationAlgorithms): IQuery;
 
         // Erstellt eine Verbindung mit einer anderen Liste.
-        join<TModelType extends ISerializable>(foreignKey: string, list: IModelFactory<TModelType>, name?: string): IQuery;
+        join<TModelType extends ISerializable>(foreignKey: string, list: IModelFactory<TModelType>): IJoin;
 
         // Meldet den CAML View zur Suche.
         createQuery(): SP.CamlQuery;

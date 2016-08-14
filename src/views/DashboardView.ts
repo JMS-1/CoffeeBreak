@@ -49,6 +49,7 @@ module CoffeeBreak {
             donations.forEach(donation =>
                 $(`<tr />`)
                     .append($(`<td />`, { text: donation.typeName }))
+                    .append($(`<td />`, { text: donation.hasCoffein ? Constants.text.yes : Constants.text.no }))
                     .append($(`<td />`, { text: donation.weight.toString() }))
                     .append($(`<td />`, { text: donation.created.toLocaleString() }))
                     .append($(`<td />`, { text: donation.author }))
