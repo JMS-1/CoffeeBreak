@@ -99,7 +99,7 @@ module JMS.SharePoint {
         }
 
         // Ermittelt Einträge in einer Liste.
-        items<TModelType extends ISerializable>(factory: JMS.SharePoint.IModelFactory<TModelType>, query: Query = new Query(), ...refinements: string[]): IResult<TModelType[]> {
+        items<TModelType extends ISerializable>(factory: JMS.SharePoint.IModelFactory<TModelType>, query: IQuery = newQuery(), ...refinements: string[]): IResult<TModelType[]> {
             // Statische Konfiguration der Modelklasse ermitteln.
             var factoryStatic: ISerializableClass = <any>factory;
 
@@ -119,7 +119,7 @@ module JMS.SharePoint {
         }
 
         // Erstellt eine Analyse mit Aggegationen.
-        pivot<TAggregationType>(factory: IFactory1<TAggregationType, IPivotRow>, query?: Query): IResult<TAggregationType[]> {
+        pivot<TAggregationType>(factory: IFactory1<TAggregationType, IPivotRow>, query: IQuery = newQuery()): IResult<TAggregationType[]> {
             // Statische Konfiguration der Modelklasse ermitteln.
             var factoryStatic: ISerializableClass = <any>factory;
 

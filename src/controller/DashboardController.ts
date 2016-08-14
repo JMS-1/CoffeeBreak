@@ -54,7 +54,7 @@ module CoffeeBreak {
             var context = JMS.SharePoint.newExecutor();
 
             // Wir wollen die 20 neuesten Spenden sehen.
-            var query = new JMS.SharePoint.Query();
+            var query = JMS.SharePoint.newQuery();
 
             query.limit(20).order(Donation.CreatedProperty, false);
 
@@ -66,7 +66,7 @@ module CoffeeBreak {
             context.items(Donation, query).success(items => this.presentationModel.fillTable(items));
 
             // Aggregation über alle Spenden ermitteln.
-            query = new JMS.SharePoint.Query();
+            query = JMS.SharePoint.newQuery();
 
             query
                 .limit(0)

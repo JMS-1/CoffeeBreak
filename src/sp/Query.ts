@@ -150,27 +150,27 @@ module JMS.SharePoint {
         private _condition: Condition;
 
         // Legt bei der Erzeugung die konkrete übergeordnete Suchbedingung fest.
-        constructor(private _pair: IConditionPair<TParentType>) {
+        constructor(private _parent: TParentType) {
         }
 
         // Legt die Untersuchbedingung einmalig fest und meldet die übergeordnete Suchbedingungen zur Nutzung als Fluent Interface.
-        private setCondition(condition: Condition): IConditionPair<TParentType> {
+        private setCondition(condition: Condition): TParentType {
             if (this._condition)
                 throw `Suchbedingung darf nur einmal gesetzt werden`;
 
             this._condition = condition;
 
-            return this._pair;
+            return this._parent;
         }
 
         // Legt als Untersuchbedingungen eine Vergleich auf einen exakten Wert fest.
-        equal(field: string, value: any, isLookup: boolean = false): IConditionPair<TParentType> {
+        equal(field: string, value: any, isLookup: boolean = false): TParentType {
             return this.setCondition(new Equal(field, value, isLookup));
         }
 
         // Legt als Untersuchbedingung eine Suchbedingung mit Untersuchbedingungen fest - der Rückgabewert ist hier die neue Suchbedingung.
-        private setListCondition(factory: IFactory1<ConditionPair<IConditionPair<TParentType>>, IConditionPair<TParentType>>): IConditionPair<IConditionPair<TParentType>> {
-            var condition = new factory(this._pair);
+        private setListCondition(factory: IFactory1<ConditionPair<TParentType>, TParentType>): IConditionPair<TParentType> {
+            var condition = new factory(this._parent);
 
             this.setCondition(condition);
 
@@ -178,12 +178,12 @@ module JMS.SharePoint {
         }
 
         // Legt als Untersuchbedingung ein logisches UND fest.
-        and(): IConditionPair<IConditionPair<TParentType>> {
+        and(): IConditionPair<TParentType> {
             return this.setListCondition(And);
         }
 
         // Legt als Untersuchbedingung ein logisches ODER fest.
-        or(): IConditionPair<IConditionPair<TParentType>> {
+        or(): IConditionPair<TParentType> {
             return this.setListCondition(Or);
         }
 
@@ -197,17 +197,17 @@ module JMS.SharePoint {
     // Hilfsklasse zur Implementierung einer Suchbedingung mit genau zwei Untersuchbedingungen.
     abstract class ConditionPair<TParentType> extends Condition implements IConditionPair<TParentType> {
         // Die erste Untersuchbedingung.
-        private _first: ConditionFactory<TParentType>;
+        private _first: ConditionFactory<IConditionPair<TParentType>>;
 
         // Die zweite Untersuchbedingung.
-        private _second: ConditionFactory<TParentType>;
+        private _second: ConditionFactory<IConditionPair<TParentType>>;
 
         // Bei der Erzeugung wird bereits eine möglicherweise übergeordnete Suchbedingung festgelegt, mit der dann das Fluent Interface einfacher zu bedienen ist.
         constructor(private _operation: string, private _parent: TParentType) {
             super();
 
-            this._first = new ConditionFactory<TParentType>(this);
-            this._second = new ConditionFactory<TParentType>(this);
+            this._first = new ConditionFactory<IConditionPair<TParentType>>(this);
+            this._second = new ConditionFactory<IConditionPair<TParentType>>(this);
         }
 
         // Erzeugt das CAML für die beiden Untersuchbedingungen.
@@ -220,12 +220,12 @@ module JMS.SharePoint {
         }
 
         // Meldet die erste Untersuchbedingung.
-        first(): IConditionFactory<TParentType> {
+        first(): IConditionFactory<IConditionPair<TParentType>> {
             return this._first;
         }
 
         // Meldet die zweite Untersuchbedingung.
-        second(): IConditionFactory<TParentType> {
+        second(): IConditionFactory<IConditionPair<TParentType>> {
             return this._second;
         }
 
@@ -323,7 +323,7 @@ module JMS.SharePoint {
     }
 
     // Repräsentiert eine CAML Suchbedingung.
-    export class Query {
+    class Query implements IQuery {
         // Die eigentliche Suchbedingung.
         private _root = new QueryBody();
 
@@ -382,14 +382,14 @@ module JMS.SharePoint {
         }
 
         // Legt die Suchbedingung fest.
-        private setCondition(condition: Condition): ICondition {
+        private setCondition(condition: Condition): Query {
             this._root.where(condition);
 
             return this;
         }
 
         // Legt als Suchbedingung den exakten Vergleich eines Feldes mit einer Konstanten fest.
-        equal(field: string, value: any, isLookup: boolean = false): ICondition {
+        equal(field: string, value: any, isLookup: boolean = false): Query {
             return this.setCondition(new Equal(field, value, isLookup));
         }
 
@@ -413,4 +413,8 @@ module JMS.SharePoint {
         }
     }
 
+    // Erstellt eine neue Suchbedingung.
+    export function newQuery(): IQuery {
+        return new Query();
+    }
 }

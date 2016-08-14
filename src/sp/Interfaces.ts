@@ -53,25 +53,43 @@ module JMS.SharePoint {
     // Eine Schnittstelle zum Erzeugen von Suchbedingungen.
     export interface IConditionFactory<TParentType> {
         // Ergänzt einen Vergleich auf Gleichheit und meldet die übergeordnete Suchbedingung - als Fluent Interface.
-        equal(field: string, value: any, isLookup?: boolean): IConditionPair<TParentType>;
+        equal(field: string, value: any, isLookup?: boolean): TParentType;
 
         // Ergänzt ein logisches UND und meldet dieses zur weitern Konfiguration.
-        and(): IConditionPair<IConditionPair<TParentType>>;
+        and(): IConditionPair<TParentType>;
 
         // Ergänzt ein logisches ODER und meldet dieses zur weitern Konfiguration.
-        or(): IConditionPair<IConditionPair<TParentType>>;
+        or(): IConditionPair<TParentType>;
     }
 
     // Schnittstelle für logische Operationen - SharePoint kennt UND und ODER nur als binäre Operatoren.
     export interface IConditionPair<TParentType> {
         // Die erste untergeordnete Suchbedingung.
-        first(): IConditionFactory<TParentType>;
+        first(): IConditionFactory<IConditionPair<TParentType>>;
 
         // Die zweite untergeordnete Suchbedingung.
-        second(): IConditionFactory<TParentType>;
+        second(): IConditionFactory<IConditionPair<TParentType>>;
 
         // Die übergeordnete Suchbedingung - vereinfacht die Konfiguration über das Fluent Interface.
         parent(): TParentType;
+    }
+
+    // Beschreibt eine Suchbedingung.
+    export interface IQuery extends IConditionFactory<IQuery> {
+        // Legt die maximale Anzahl von Ergebnissen fest.
+        limit(maxRows: number): IQuery;
+
+        // Ergänzt ein Feld für die Sortierung.
+        order(name: string, ascending?: boolean): IQuery;
+
+        // Ergänzt ein Feld für die Gruppierung.
+        group(name: string): IQuery;
+
+        // Ergänzt eine Aggregation.
+        aggregate(name: string, algorithm: AggregationAlgorithms): IQuery;
+
+        // Meldet den CAML View zur Suche.
+        createQuery(): SP.CamlQuery;
     }
 
     // Alle unterstützen Aggregationsalgorithmen.
@@ -101,7 +119,7 @@ module JMS.SharePoint {
         list(listName: string): IExecutionResult<SP.List>;
 
         // Meldet den Inhalt einer Liste als Modellinstanzen - konfigurierbar mit Suchbedingung, Sortierung, Spaltenauswahl et al.
-        items<TModelType extends ISerializable>(factory: IModelFactory<TModelType>, query?: Query, ...refinements: string[]): IResult<TModelType[]>;
+        items<TModelType extends ISerializable>(factory: IModelFactory<TModelType>, query?: IQuery, ...refinements: string[]): IResult<TModelType[]>;
 
         // Aktualisiert ein einzelnes Modell - tatsächlich werden im Rahmen der Evaluation nur neue Modellinstanzen angelegt.
         update<TModelType extends ISerializable>(data: TModelType): IResult<TModelType>;
@@ -110,6 +128,6 @@ module JMS.SharePoint {
         startAsync(): void;
 
         // Erstellt eine Analyse mit Aggegationen.
-        pivot<TAggregationType>(factory: IFactory1<TAggregationType, IPivotRow>, query?: Query): IResult<TAggregationType[]>;
+        pivot<TAggregationType>(factory: IFactory1<TAggregationType, IPivotRow>, query?: IQuery): IResult<TAggregationType[]>;
     }
 }
