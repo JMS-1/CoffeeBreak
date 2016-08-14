@@ -46,10 +46,6 @@ module JMS.SharePoint {
     export interface IModelFactory<TModelType extends ISerializable> extends IFactory1<TModelType, SP.ListItem> {
     }
 
-    // Beschreibt irgendeine Suchbedingung.
-    export interface ICondition {
-    }
-
     // Eine Schnittstelle zum Erzeugen von Suchbedingungen.
     export interface IConditionFactory<TParentType> {
         // Ergänzt einen Vergleich auf Gleichheit und meldet die übergeordnete Suchbedingung - als Fluent Interface.

@@ -8,12 +8,6 @@ module JMS.SharePoint {
         toXml(parent: Element): void;
     }
 
-    // Ermittelt die aktuelle Suchbedingung,
-    interface IConditionProvider {
-        // Die gewünschte Suchbedingung.
-        condition(): Condition;
-    }
-
     // Verwaltet die Sortierung.
     class Order implements IQueryXml {
         // Die Felder, nach denen aktuell sortiert werden soll.
@@ -99,16 +93,9 @@ module JMS.SharePoint {
         }
     }
 
-    // Basisklasse zur Implementierung einer Suchbedingung.
-    abstract class Condition implements IQueryXml, ICondition {
-        // Erzeugt die XAML Repräsentation der Suchbedingung.
-        abstract toXml(parent: Element): void;
-    }
-
     // Basisklasse für eine binäre Suchbedingung auf einem Feld mit einem konstanten Wert - da geht in CAML natürlich wesentlich mehr.
-    abstract class Binary extends Condition {
+    abstract class Binary implements IQueryXml {
         constructor(private _field: string, private _value: any, private _operation: string, private _isLookup?: boolean) {
-            super();
         }
 
         // Erzeugt XAML.
@@ -151,17 +138,12 @@ module JMS.SharePoint {
     }
 
     // Klasse zur Repräsentation einer Untersuchbedingung.
-    class ConditionFactory<TParentType> implements IConditionFactory<TParentType>, IConditionProvider {
+    class ConditionFactory<TParentType> implements IConditionFactory<TParentType> {
         // Die Untersuchbedingung.
-        private _condition: Condition;
+        condition: IQueryXml;
 
         // Legt bei der Erzeugung die konkrete übergeordnete Suchbedingung fest.
         constructor(private _parent?: TParentType) {
-        }
-
-        // Ermittelt die aktuelle Suchbedingung,
-        condition(): Condition {
-            return this._condition;
         }
 
         // Meldet die übergeordnete Suchbedingung.
@@ -170,11 +152,11 @@ module JMS.SharePoint {
         }
 
         // Legt die Untersuchbedingung einmalig fest und meldet die übergeordnete Suchbedingungen zur Nutzung als Fluent Interface.
-        protected setCondition(condition: Condition): TParentType {
-            if (this._condition)
+        protected setCondition(condition: IQueryXml): TParentType {
+            if (this.condition)
                 throw `Suchbedingung darf nur einmal gesetzt werden`;
 
-            this._condition = condition;
+            this.condition = condition;
 
             return this.getParent();
         }
@@ -205,13 +187,13 @@ module JMS.SharePoint {
 
         // Erzeugt das CAML der Untersuchbedingung.
         toXml(parent: Element): void {
-            if (this._condition)
-                this._condition.toXml(parent);
+            if (this.condition)
+                this.condition.toXml(parent);
         }
     }
 
     // Hilfsklasse zur Implementierung einer Suchbedingung mit genau zwei Untersuchbedingungen.
-    abstract class ConditionPair<TParentType> extends Condition implements IConditionPair<TParentType> {
+    abstract class ConditionPair<TParentType> implements IQueryXml, IConditionPair<TParentType> {
         // Die erste Untersuchbedingung.
         private _first: ConditionFactory<IConditionPair<TParentType>>;
 
@@ -220,8 +202,6 @@ module JMS.SharePoint {
 
         // Bei der Erzeugung wird bereits eine möglicherweise übergeordnete Suchbedingung festgelegt, mit der dann das Fluent Interface einfacher zu bedienen ist.
         constructor(private _operation: string, private _parent: TParentType) {
-            super();
-
             this._first = new ConditionFactory<IConditionPair<TParentType>>(this);
             this._second = new ConditionFactory<IConditionPair<TParentType>>(this);
         }
@@ -267,19 +247,18 @@ module JMS.SharePoint {
 
     // Verwaltet die eigentliche Suchbedingung.
     class Where implements IQueryXml {
-        constructor(private _query: IConditionProvider) {
+        constructor(private _query: Query) {
         }
 
         // Erzeugt das CAML für die Suchbedingung.
         toXml(parent: Element): void {
-            var condition = this._query.condition();
-            if (!condition)
+            if (!this._query.condition)
                 return;
 
             // Erst einmal aber den Knoten für den WHERE Anteil der CAML Query.
             var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`Where`));
 
-            condition.toXml(self);
+            this._query.condition.toXml(self);
         }
     }
 
@@ -294,7 +273,7 @@ module JMS.SharePoint {
         // Optional die Gruppierung.
         private _group = new Grouping();
 
-        constructor(query: IConditionProvider) {
+        constructor(query: Query) {
             this._where = new Where(query);
         }
 
