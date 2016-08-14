@@ -76,6 +76,7 @@ module CoffeeBreak {
                 JMS.SharePoint
                     .newQuery()
                     .limit(0)
+                    .order(TimeGroupDonation.TimeGranularityProperty, false)
                     .group(TimeGroupDonation.TimeGranularityProperty)
                     .aggregate(Model.IDProperty, JMS.SharePoint.AggregationAlgorithms.Count)
                     .aggregate(Donation.WeightProperty, JMS.SharePoint.AggregationAlgorithms.Sum);
