@@ -84,6 +84,9 @@ module JMS.SharePoint {
         // Ergänzt eine Aggregation.
         aggregate(name: string, algorithm: AggregationAlgorithms): IQuery;
 
+        // Erstellt eine Verbindung mit einer anderen Liste.
+        join<TModelType extends ISerializable>(foreignKey: string, list: IModelFactory<TModelType>, name?: string): IQuery;
+
         // Meldet den CAML View zur Suche.
         createQuery(): SP.CamlQuery;
     }
@@ -115,7 +118,7 @@ module JMS.SharePoint {
         list(listName: string): IExecutionResult<SP.List>;
 
         // Meldet den Inhalt einer Liste als Modellinstanzen - konfigurierbar mit Suchbedingung, Sortierung, Spaltenauswahl et al.
-        items<TModelType extends ISerializable>(factory: IModelFactory<TModelType>, query?: IQuery, ...refinements: string[]): IResult<TModelType[]>;
+        items<TModelType extends ISerializable>(list: IModelFactory<TModelType>, query?: IQuery, ...refinements: string[]): IResult<TModelType[]>;
 
         // Aktualisiert ein einzelnes Modell - tatsächlich werden im Rahmen der Evaluation nur neue Modellinstanzen angelegt.
         update<TModelType extends ISerializable>(data: TModelType): IResult<TModelType>;
@@ -124,6 +127,6 @@ module JMS.SharePoint {
         startAsync(): void;
 
         // Erstellt eine Analyse mit Aggegationen.
-        pivot<TAggregationType>(factory: IFactory1<TAggregationType, IPivotRow>, query?: IQuery): IResult<TAggregationType[]>;
+        pivot<TAggregationType>(list: IFactory1<TAggregationType, IPivotRow>, query?: IQuery): IResult<TAggregationType[]>;
     }
 }

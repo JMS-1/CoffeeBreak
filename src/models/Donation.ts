@@ -16,7 +16,7 @@ module CoffeeBreak {
         static WeightProperty = `Weight`;
 
         // Der Name des Feldes zum Nachschlagen der Art des Kaffees.
-        private static _TypeProperty = `CoffeeTypeRelation`;
+        static TypeProperty = `CoffeeTypeRelation`;
 
         // Der Name der zugehörigen SharePoint Liste.
         static  /* JMS.SharePoint.ISerializableClass. */ listName = Constants.listNames.donations;
@@ -44,13 +44,13 @@ module CoffeeBreak {
 
             // Den Fremdschlüssel muss man auf eine besondere Art festlegen.
             if (this.typeId === undefined)
-                item.set_item(Donation._TypeProperty, null);
+                item.set_item(Donation.TypeProperty, null);
             else {
                 var typeId = new SP.FieldLookupValue();
 
                 typeId.set_lookupId(this.typeId);
 
-                item.set_item(Donation._TypeProperty, typeId);
+                item.set_item(Donation.TypeProperty, typeId);
             }
         }
 
@@ -63,7 +63,7 @@ module CoffeeBreak {
                 this.weight = weight;
 
             // Bei existierendem Fremdschlüssel wird auch der Nachschlagewert mit ausgelesen.
-            var typeId: SP.FieldLookupValue = item.get_item(Donation._TypeProperty);
+            var typeId: SP.FieldLookupValue = item.get_item(Donation.TypeProperty);
             if (typeId) {
                 this.typeName = typeId.get_lookupValue();
                 this.typeId = typeId.get_lookupId();

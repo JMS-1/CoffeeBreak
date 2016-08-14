@@ -54,9 +54,12 @@ module CoffeeBreak {
             var context = JMS.SharePoint.newExecutor();
 
             // Wir wollen die 20 neuesten Spenden sehen.
-            var query = JMS.SharePoint.newQuery();
-
-            query.limit(20).order(Donation.CreatedProperty, false);
+            var query =
+                JMS.SharePoint
+                    .newQuery()
+                    .limit(20)
+//                  .join(Donation.TypeProperty, CoffeeType, `types`)
+                    .order(Donation.CreatedProperty, false);
 
             // Eventuell sogar nur die des aktuellen Anwenders.
             if (this._model.selfOnly && this._me)
@@ -66,13 +69,13 @@ module CoffeeBreak {
             context.items(Donation, query).success(items => this.presentationModel.fillTable(items));
 
             // Aggregation über alle Spenden ermitteln.
-            query = JMS.SharePoint.newQuery();
-
-            query
-                .limit(0)
-                .group(TimeGroupDonation.TimeGranularityProperty)
-                .aggregate(Model.IDProperty, JMS.SharePoint.AggregationAlgorithms.Count)
-                .aggregate(Donation.WeightProperty, JMS.SharePoint.AggregationAlgorithms.Sum);
+            query =
+                JMS.SharePoint
+                    .newQuery()
+                    .limit(0)
+                    .group(TimeGroupDonation.TimeGranularityProperty)
+                    .aggregate(Model.IDProperty, JMS.SharePoint.AggregationAlgorithms.Count)
+                    .aggregate(Donation.WeightProperty, JMS.SharePoint.AggregationAlgorithms.Sum);
 
             // Aggregationen auswerten.
             context.pivot(TimeGroupDonation, query).success(data => {

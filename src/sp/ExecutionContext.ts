@@ -99,12 +99,12 @@ module JMS.SharePoint {
         }
 
         // Ermittelt Einträge in einer Liste.
-        items<TModelType extends ISerializable>(factory: JMS.SharePoint.IModelFactory<TModelType>, query: IQuery = newQuery(), ...refinements: string[]): IResult<TModelType[]> {
+        items<TModelType extends ISerializable>(list: JMS.SharePoint.IModelFactory<TModelType>, query: IQuery = newQuery(), ...refinements: string[]): IResult<TModelType[]> {
             // Statische Konfiguration der Modelklasse ermitteln.
-            var factoryStatic: ISerializableClass = <any>factory;
+            var modelStatic: ISerializableClass = <any>list;
 
             // Abfrage formulieren.
-            var promise = this.addPromise(this._web.get_lists().getByTitle(factoryStatic.listName).getItems(query.createQuery()), ...refinements);
+            var promise = this.addPromise(this._web.get_lists().getByTitle(modelStatic.listName).getItems(query.createQuery()), ...refinements);
 
             // Projektion auf Modellelemente einrichten.
             return new ResultProjector<TModelType[], SP.ListItemCollection>(promise, items => {
@@ -112,19 +112,19 @@ module JMS.SharePoint {
 
                 // SharePoint Informationen in Modellinstanzen wandeln und diese als Ergebnis melden.
                 for (var all = items.getEnumerator(); all.moveNext();)
-                    modelItems.push(new factory(all.get_current()));
+                    modelItems.push(new list(all.get_current()));
 
                 return modelItems;
             });
         }
 
         // Erstellt eine Analyse mit Aggegationen.
-        pivot<TAggregationType>(factory: IFactory1<TAggregationType, IPivotRow>, query: IQuery = newQuery()): IResult<TAggregationType[]> {
+        pivot<TAggregationType>(list: IFactory1<TAggregationType, IPivotRow>, query: IQuery = newQuery()): IResult<TAggregationType[]> {
             // Statische Konfiguration der Modelklasse ermitteln.
-            var factoryStatic: ISerializableClass = <any>factory;
+            var modelStatic: ISerializableClass = <any>list;
 
             // Abfrage formulieren.
-            var data = this._web.get_lists().getByTitle(factoryStatic.listName).renderListData(query.createQuery().get_viewXml());
+            var data = this._web.get_lists().getByTitle(modelStatic.listName).renderListData(query.createQuery().get_viewXml());
 
             // Projektion auf Modellelemente einrichten.
             return new ResultProjector<TAggregationType[], SP.ClientObject>(this.addPromise(null), () => {
@@ -132,7 +132,7 @@ module JMS.SharePoint {
                 var rows: IPivotRow[] = JSON.parse(data.get_value()).Row;
 
                 // Umwandeln.
-                return rows.map(row => new factory(row));
+                return rows.map(row => new list(row));
             });
         }
 

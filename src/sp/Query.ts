@@ -312,6 +312,33 @@ module JMS.SharePoint {
         }
     }
 
+    // Beschreibt die Verbindung zu einer anderen Liste.
+    class Join implements IQueryXml {
+        constructor(private _foreignKey: string, private _detailList, private _name: string) {
+        }
+
+        // Erzeugt CAML.
+        toXml(parent: Element): void {
+            // Der Knoten für die Konfiguration.
+            var self = <Element>parent.appendChild(parent.ownerDocument.createElement(`Join`));
+
+            self.setAttribute(`Type`, `LEFT`);
+            self.setAttribute(`ListAlias`, this._name);
+
+            var match = <Element>self.appendChild(parent.ownerDocument.createElement(`Eq`));
+
+            // Der Fremdschlüssel.
+            var left = <Element>match.appendChild(parent.ownerDocument.createElement(`FieldRef`));
+            left.setAttribute(`Name`, this._foreignKey);
+            left.setAttribute(`RefType`, `Id`);
+
+            // Der Primärschlüssel.
+            var right = <Element>match.appendChild(parent.ownerDocument.createElement(`FieldRef`));
+            right.setAttribute(`Name`, `ID`);
+            right.setAttribute(`List`, this._detailList);
+        }
+    }
+
     // Repräsentiert eine CAML Suchbedingung.
     class Query extends ConditionFactory<IQuery> implements IQuery {
         // Die eigentliche Suchbedingung.
@@ -322,6 +349,9 @@ module JMS.SharePoint {
 
         // Die Aggregationen zur Suche.
         private _aggregations = new Aggregations();
+
+        // Alle verbundenen Listen.
+        private _joins: Join[] = [];
 
         constructor() {
             super();
@@ -341,6 +371,13 @@ module JMS.SharePoint {
 
             // Konfiguriere den CAM View.
             var view = <Element>xml.firstChild;
+
+            if (this._joins.length > 0) {
+                // Alle externen Listen melden.
+                var joins = <Element>view.appendChild(xml.createElement(`Joins`));
+
+                this._joins.forEach(j => j.toXml(joins));
+            }
 
             this._root.toXml(view);
             this._rowLimit.toXml(view);
@@ -378,6 +415,17 @@ module JMS.SharePoint {
         // Ergänzt eine Aggregation.
         aggregate(name: string, algorithm: AggregationAlgorithms): IQuery {
             this._aggregations.addAggregation(name, algorithm);
+
+            return this;
+        }
+
+        // Erstellt eine Verbindung mit einer anderen Liste.
+        join<TModelType extends ISerializable>(foreignKey: string, list: IModelFactory<TModelType>, name?: string): IQuery {
+            // Informationen zum Zielmodell ermitteln.
+            var modelStatic: ISerializableClass = <any>list;
+
+            // Verknüfung anlegen.
+            this._joins.push(new Join(foreignKey, modelStatic.listName, name || modelStatic.listName));
 
             return this;
         }
