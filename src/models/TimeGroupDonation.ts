@@ -10,7 +10,7 @@ module CoffeeBreak {
         static TimeGranularityProperty = `TimeGranularity`;
 
         // Der Name der zugehörigen SharePoint Liste.
-        static /* JMS.SharePoint.ISerializableClass. */ listName = Constants.listNames.donations;
+        static listName = Constants.listNames.donations;
 
         // Der Schlüssel für die Gruppierung nach dem Zeitpunkt der Spende.
         segment: string;

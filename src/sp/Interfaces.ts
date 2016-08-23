@@ -30,20 +30,24 @@ module JMS.SharePoint {
         failure(callback: (message: string) => void): IExecutionResult<TResponseType>;
     }
 
-    // Schnittstelle für eine Modellklasse - leider ein Stückchen der "Magie" im Hintergrund, auf die man eigentlich verzichten sollte!
-    export interface ISerializableClass {
-        // Der Name der zugehörigen SharePoint Liste (als static Feld der Klasse).
-        listName: string;
-    }
-
     // Schnittstelle für ein Modell.
     export interface ISerializable {
         // Überführt das Modell aus der SharePoint Repräsentation.
         saveTo(item: SP.ListItem): void;
     }
 
+    // Statische Konfiguration einer jeden Modellklasse.
+    export interface IModelClass {
+        // Der Name der zugehörigen SharePoint Liste.
+        listName: string;
+    }
+
     // Schnittstelle zum Erzeugen eines Modells aus einer SharePoint Repräsenation.
-    export interface IModelFactory<TModelType extends ISerializable> extends IFactory1<TModelType, SP.ListItem> {
+    export interface IModelFactory<TModelType extends ISerializable> extends IFactory1<TModelType, SP.ListItem>, IModelClass {
+    }
+
+    // Schnittstelle zum Erzeugen eines Aggregationsmodells aus einer SharePoint Repräsenation.
+    export interface IPivotFactory<TAggregationType> extends IFactory1<TAggregationType, IPivotRow>, IModelClass {
     }
 
     // Eine Schnittstelle zum Erzeugen von Suchbedingungen.
@@ -136,6 +140,6 @@ module JMS.SharePoint {
         startAsync(): void;
 
         // Erstellt eine Analyse mit Aggegationen.
-        pivot<TAggregationType>(list: IFactory1<TAggregationType, IPivotRow>, query?: IQuery): IResult<TAggregationType[]>;
+        pivot<TAggregationType>(list: IPivotFactory<TAggregationType>, query?: IQuery): IResult<TAggregationType[]>;
     }
 }

@@ -13,7 +13,7 @@ module CoffeeBreak {
         static CoffeinProperty = `WithCoffein`;
 
         // Der Name der Liste, in der Arten von Kaffee gespeichert werden.
-        static /* JMS.SharePoint.ISerializableClass. */ listName = Constants.listNames.coffeeTypes;
+        static listName = Constants.listNames.coffeeTypes;
 
         // Name des Herstellers.
         company: string;

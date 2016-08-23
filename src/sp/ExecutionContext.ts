@@ -100,11 +100,8 @@ module JMS.SharePoint {
 
         // Ermittelt Einträge in einer Liste.
         items<TModelType extends ISerializable>(list: JMS.SharePoint.IModelFactory<TModelType>, query: IQuery = newQuery(), ...refinements: string[]): IResult<TModelType[]> {
-            // Statische Konfiguration der Modelklasse ermitteln.
-            var modelStatic: ISerializableClass = <any>list;
-
             // Abfrage formulieren.
-            var promise = this.addPromise(this._web.get_lists().getByTitle(modelStatic.listName).getItems(query.createQuery()), ...refinements);
+            var promise = this.addPromise(this._web.get_lists().getByTitle(list.listName).getItems(query.createQuery()), ...refinements);
 
             // Projektion auf Modellelemente einrichten.
             return new ResultProjector<TModelType[], SP.ListItemCollection>(promise, items => {
@@ -119,12 +116,9 @@ module JMS.SharePoint {
         }
 
         // Erstellt eine Analyse mit Aggegationen.
-        pivot<TAggregationType>(list: IFactory1<TAggregationType, IPivotRow>, query: IQuery = newQuery()): IResult<TAggregationType[]> {
-            // Statische Konfiguration der Modelklasse ermitteln.
-            var modelStatic: ISerializableClass = <any>list;
-
+        pivot<TAggregationType>(list: IPivotFactory<TAggregationType>, query: IQuery = newQuery()): IResult<TAggregationType[]> {
             // Abfrage formulieren.
-            var data = this._web.get_lists().getByTitle(modelStatic.listName).renderListData(query.createQuery().get_viewXml());
+            var data = this._web.get_lists().getByTitle(list.listName).renderListData(query.createQuery().get_viewXml());
 
             // Projektion auf Modellelemente einrichten.
             return new ResultProjector<TAggregationType[], SP.ClientObject>(this.addPromise(null), () => {
@@ -139,11 +133,10 @@ module JMS.SharePoint {
         // Ändert oder erzeugt eine Modellinstanz.
         update<TModelType extends ISerializable>(data: TModelType): IResult<TModelType> {
             // Statische Konfiguration der Modellklasse ermitteln.
-            var modelClass: ISerializableClass = Object.getPrototypeOf(data).constructor;
-            var factory: IModelFactory<TModelType> = <any>modelClass;
+            var factory: IModelFactory<TModelType> = Object.getPrototypeOf(data).constructor;
 
             // SharePoint Operation anmelden und Daten aus dem Modell übernehmen.
-            var newItem = this._web.get_lists().getByTitle(modelClass.listName).addItem(new SP.ListItemCreationInformation());
+            var newItem = this._web.get_lists().getByTitle(factory.listName).addItem(new SP.ListItemCreationInformation());
 
             data.saveTo(newItem);
 

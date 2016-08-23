@@ -22,7 +22,7 @@ module CoffeeBreak {
         static CoffeeTypeJoinAlias = `TypeLookup`;
 
         // Der Name der zugehörigen SharePoint Liste.
-        static  /* JMS.SharePoint.ISerializableClass. */ listName = Constants.listNames.donations;
+        static listName = Constants.listNames.donations;
 
         // Das Gewicht der Spende (in Gramm, aber das spielt im Code keine Rolle).
         weight: number;
